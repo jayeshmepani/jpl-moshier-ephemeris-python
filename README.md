@@ -12,6 +12,21 @@ Pure Python `ctypes` runtime-FFI binding for the Swiss Ephemeris C library.
 This project is the Python sibling of `Swiss-Ephemeris-PHP`: the wrapper loads
 the native Swiss Ephemeris shared library at runtime and exposes the C API as-is.
 
+**Zero abstraction. Runtime FFI. Direct Swiss Ephemeris C API access from Python.**
+
+> Swiss Ephemeris Python FFI provides a zero-abstraction, 1:1 `ctypes` mapping
+> of the native Swiss Ephemeris C library. All 106 public API functions are
+> configured with complete constant and signature parity against the sibling PHP
+> FFI package and upstream C declarations.
+>
+> The wrapper performs no additional calculations, transformations, output
+> reshaping, angle normalization, or rounding. Callers pass native `ctypes`
+> buffers and pointers directly to the C engine.
+>
+> The package ships prebuilt Swiss Ephemeris native libraries inside the wheel,
+> so users install with `pip install swisseph-ffi` and can call the C API
+> without compiling a CPython extension.
+
 ## Latest Upstream Status
 
 Checked against upstream on **April 25, 2026**.
@@ -99,9 +114,22 @@ This package is intentionally explicit about the gap it fills.
 | Python ABI coupling | Yes, wheel tags are CPython/version/platform-specific | Yes, wheel tags are CPython/version/platform-specific | No compiled Python extension ABI |
 | Latest PyPI release checked | `2.10.3.2`, uploaded June 4, 2023 | `2.10.3.6`, uploaded February 19, 2026 | `1.0.0`, uploaded May 2026 |
 | Python support metadata checked | `>=3.5`, but published wheels are still ABI-tagged | `>=3.8`, classifiers/wheels checked through CPython 3.13 | `>=3.10`, tested target 3.10 through 3.14 |
-| Install/build risk | May need source build when no matching wheel exists | May need source build when no matching wheel exists | Ships one pure Python wheel plus bundled native libs |
-| Raw C API contract | Python extension API | Python extension API with documented breaking changes | Direct `ctypes` signatures and caller-owned buffers |
-| Function coverage in this project | Not used as source of truth | Not used as source of truth | 106/106 public Swiss Ephemeris C functions configured |
+| Install/build model | Needs a matching CPython wheel or source build | Needs a matching CPython wheel or source build | One pure Python wheel with bundled native libs |
+| Future Python version pressure | New Python versions require compatible extension wheels/builds | New Python versions require compatible extension wheels/builds | Python layer is not compiled against CPython internals |
+| Raw C API contract | Extension wrapper API | Extension wrapper API with documented migration changes | Direct `ctypes` signatures and caller-owned buffers |
+| Function coverage verified here | Not used as this project's source of truth | Not used as this project's source of truth | 106/106 public Swiss Ephemeris C functions configured and tested |
+| Output handling goal | Python binding behavior | Python binding behavior | No reshaping, no hidden return flags, no dropped `serr` buffers |
+
+## What This Package Covers
+
+| Verification Area | Status |
+| --- | --- |
+| Function coverage | 106/106 public Swiss Ephemeris C functions configured |
+| Constant parity | 348 constants generated from the sibling PHP FFI package |
+| Signature parity | Return and argument `ctypes` checked against the shared C declaration source |
+| Native binaries | Linux x64, Linux arm64, macOS x64, macOS arm64, Windows x64 |
+| Python ABI | No CPython extension module; pure Python `ctypes` loader |
+| Runtime validation | Planet, Moon, house, ayanamsa, eclipse, and `swetest` parity tests |
 
 Known public context:
 
