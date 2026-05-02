@@ -15,7 +15,7 @@ import statistics
 import sys
 import time
 from collections.abc import Callable
-from ctypes import c_double, c_int, create_string_buffer
+from ctypes import c_char, c_char_p, c_double, c_int, create_string_buffer
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -24,6 +24,7 @@ from pathlib import Path
 class BenchResult:
     name: str
     iterations: int
+    warmup: int
     repeats: int
     mean_ns: float
     median_ns: float
@@ -31,9 +32,17 @@ class BenchResult:
     max_ns: float
 
 
-def measure(name: str, fn: Callable[[], object], iterations: int, repeats: int) -> BenchResult:
+def measure(
+    name: str,
+    fn: Callable[[], object],
+    iterations: int,
+    warmup: int,
+    repeats: int,
+) -> BenchResult:
     samples: list[float] = []
     for _ in range(repeats):
+        for _ in range(warmup):
+            fn()
         gc.disable()
         try:
             start = time.perf_counter_ns()
@@ -46,6 +55,7 @@ def measure(name: str, fn: Callable[[], object], iterations: int, repeats: int) 
     return BenchResult(
         name=name,
         iterations=iterations,
+        warmup=warmup,
         repeats=repeats,
         mean_ns=statistics.mean(samples),
         median_ns=statistics.median(samples),
@@ -79,6 +89,7 @@ def system_metadata(library: str, distribution: str) -> dict[str, object]:
 def ffi_cases() -> tuple[dict[str, Callable[[], object]], dict[str, object]]:
     import swisseph_ffi as swec
     from swisseph_ffi import SwissEph
+    from swisseph_ffi.bindings import _SIGNATURES
 
     swe = SwissEph()
     jd = swe.swe_julday(2026, 5, 2, 12.0, swec.SE_GREG_CAL)
@@ -108,7 +119,7 @@ def ffi_cases() -> tuple[dict[str, Callable[[], object]], dict[str, object]]:
     swe.swe_version(version_buffer)
     metadata["swiss_ephemeris_version"] = version_buffer.value.decode(errors="replace")
 
-    return {
+    curated_cases = {
         "julday": lambda: swe.swe_julday(2026, 5, 2, 12.0, swec.SE_GREG_CAL),
         "revjul": lambda: swe.swe_revjul(
             jd,
@@ -153,7 +164,49 @@ def ffi_cases() -> tuple[dict[str, Callable[[], object]], dict[str, object]]:
             0,
             serr,
         ),
-    }, metadata
+    }
+
+    generic_double = (c_double * 64)(*([1.0] * 64))
+    generic_int = (c_int * 64)(*([1] * 64))
+    generic_char = create_string_buffer(b"Sirius", 1024)
+    generic_char_out = create_string_buffer(1024)
+
+    def value_for_arg(argtype: object) -> object:
+        if argtype is c_double:
+            return jd
+        if argtype is c_int:
+            return flags
+        if argtype is c_char:
+            return c_char(b"P")
+        if argtype is c_char_p:
+            return generic_char
+        name = getattr(argtype, "__name__", "")
+        if name == "LP_c_double":
+            return generic_double
+        if name in {"LP_c_int", "LP_c_long"}:
+            return generic_int
+        if name == "LP_c_char":
+            return generic_char_out
+        return generic_double
+
+    def make_generic_case(function_name: str) -> Callable[[], object]:
+        func = getattr(swe, function_name)
+        argtypes = _SIGNATURES[function_name][1]
+        args = [value_for_arg(argtype) for argtype in argtypes]
+
+        def call() -> object:
+            return func(*args)
+
+        return call
+
+    all_cases: dict[str, Callable[[], object]] = {}
+    for function_name in sorted(_SIGNATURES):
+        all_cases[function_name] = curated_cases.get(
+            function_name.removeprefix("swe_"),
+            make_generic_case(function_name),
+        )
+
+    return all_cases, metadata
 
 
 def swisseph_cases(distribution: str) -> tuple[dict[str, Callable[[], object]], dict[str, object]]:
@@ -190,6 +243,7 @@ def main() -> None:
     parser.add_argument("--library", choices=["ffi", "swisseph"], required=True)
     parser.add_argument("--distribution", default="")
     parser.add_argument("--iterations", type=int, default=5_000)
+    parser.add_argument("--warmup", type=int, default=100)
     parser.add_argument("--repeats", type=int, default=5)
     parser.add_argument("--output", default="")
     args = parser.parse_args()
@@ -201,7 +255,8 @@ def main() -> None:
         cases, metadata = swisseph_cases(distribution)
 
     results = [
-        asdict(measure(name, fn, args.iterations, args.repeats)) for name, fn in cases.items()
+        asdict(measure(name, fn, args.iterations, args.warmup, args.repeats))
+        for name, fn in cases.items()
     ]
     payload = {"system": metadata, "results": results}
     output = json.dumps(payload, indent=2)

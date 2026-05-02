@@ -52,15 +52,17 @@ jobs:
             if ($library -eq "ffi") {
               & $py docs/benchmark/benchmark_runtime.py `
                 --library ffi `
-                --iterations 5000 `
-                --repeats 5 `
+                --warmup 100 `
+                --iterations 1000 `
+                --repeats 1 `
                 --output $output
             } else {
               & $py docs/benchmark/benchmark_runtime.py `
                 --library swisseph `
                 --distribution $distribution `
-                --iterations 5000 `
-                --repeats 5 `
+                --warmup 100 `
+                --iterations 1000 `
+                --repeats 1 `
                 --output $output
             }
           }
@@ -88,8 +90,9 @@ jobs:
           & $py docs/benchmark/benchmark_runtime.py `
             --library swisseph `
             --distribution pyswisseph `
-            --iterations 5000 `
-            --repeats 5 `
+            --warmup 100 `
+            --iterations 1000 `
+            --repeats 1 `
             --output "docs/benchmark/${{ matrix.os }}-pyswisseph.json"
 
       - name: Upload benchmark JSON

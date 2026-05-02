@@ -58,7 +58,7 @@ def render_payload(payload: dict[str, object]) -> str:
             f"<td>{fmt_ns(item['mean_ns'])}</td>"
             f"<td>{fmt_ns(item['min_ns'])}</td>"
             f"<td>{fmt_ns(item['max_ns'])}</td>"
-            f"<td>{item['iterations']} x {item['repeats']}</td>"
+            f"<td>{item.get('warmup', 0)} warmup + {item['iterations']} measured</td>"
             "</tr>"
         )
     return f"""
