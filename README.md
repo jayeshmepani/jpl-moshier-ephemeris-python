@@ -1,9 +1,11 @@
 # Swiss Ephemeris Python FFI
 
-[![Python Version](https://img.shields.io/pypi/pyversions/swisseph-ffi)](https://pypi.org/project/swisseph-ffi/)
-[![License](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)](LICENSE)
-[![Latest Version on PyPI](https://img.shields.io/pypi/v/swisseph-ffi.svg?style=flat-square)](https://pypi.org/project/swisseph-ffi/)
-[![Total Downloads](https://img.shields.io/pepy/dt/swisseph-ffi.svg?style=flat-square)](https://pepy.tech/project/swisseph-ffi)
+[![PyPI version](https://img.shields.io/pypi/v/swisseph-ffi.svg?style=flat-square)](https://pypi.org/project/swisseph-ffi/)
+[![Downloads](https://static.pepy.tech/badge/swisseph-ffi)](https://pepy.tech/projects/swisseph-ffi)
+[![Python Versions](https://img.shields.io/pypi/pyversions/swisseph-ffi.svg?style=flat-square)](https://pypi.org/project/swisseph-ffi/)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue.svg?style=flat-square)](https://www.gnu.org/licenses/agpl-3.0.en.html)
+[![Wheel](https://img.shields.io/pypi/wheel/swisseph-ffi?style=flat-square)](https://pypi.org/project/swisseph-ffi/)
+[![Status](https://img.shields.io/pypi/status/swisseph-ffi?style=flat-square)](https://pypi.org/project/swisseph-ffi/)
 
 Pure Python `ctypes` runtime-FFI binding for the Swiss Ephemeris C library.
 
