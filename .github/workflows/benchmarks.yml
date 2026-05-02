@@ -69,29 +69,6 @@ jobs:
           Run-Benchmark ".venv-bench-ffi" "." "ffi" "swisseph-ffi" "docs/benchmark/${{ matrix.os }}-swisseph-ffi.json"
           Run-Benchmark ".venv-bench-pysweph" "pysweph" "swisseph" "pysweph" "docs/benchmark/${{ matrix.os }}-pysweph.json"
 
-      - name: Run pyswisseph comparison
-        shell: pwsh
-        continue-on-error: true
-        run: |
-          $ErrorActionPreference = "Stop"
-
-          function PythonPath($venv) {
-            if ($IsWindows) {
-              return Join-Path $venv "Scripts/python.exe"
-            }
-            return Join-Path $venv "bin/python"
-          }
-
-          python -m venv ".venv-bench-pyswisseph"
-          $py = PythonPath ".venv-bench-pyswisseph"
-          & $py -m pip install --upgrade pip
-          & $py -m pip install pyswisseph
-          & $py docs/benchmark/benchmark_runtime.py `
-            --library swisseph `
-            --distribution pyswisseph `
-            --warmup 100 `
-            --iterations 1000 `
-            --output "docs/benchmark/${{ matrix.os }}-pyswisseph.json"
 
       - name: Upload benchmark JSON
         uses: actions/upload-artifact@v4
