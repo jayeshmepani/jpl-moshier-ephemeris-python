@@ -645,8 +645,8 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_houses_armc": lambda: swe.houses_armc(120.0, 23.1, 23.4, b"P"),
         "swe_houses_armc_ex2": lambda: swe.houses_armc_ex2(120.0, 23.1, 23.4, b"P"),
         "swe_houses_ex2": lambda: swe.houses_ex2(jd, 23.1, 72.6, b"P", flags),
-        # gauquelin_sector: (tjdut, body_int_or_str, starname, iflag, imeth, geopos_seq, atpress, attemp)
-        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(jd, ipl, "", flags, 0, geopos, 1013.25, 15.0),
+        # gauquelin_sector pysweph API: (tjdut, ipl, iflag, imeth, geopos_seq, atpress, attemp) — 7 args, no starname
+        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(jd, ipl, flags, 0, geopos, 1013.25, 15.0),
         "swe_sol_eclipse_where": lambda: swe.sol_eclipse_where(jd, flags),
         "swe_lun_occult_where": lambda: swe.lun_occult_where(jd, ipl, flags),
         "swe_sol_eclipse_how": lambda: swe.sol_eclipse_how(jd, geopos, flags),
@@ -693,10 +693,64 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     return safe_cases, metadata
 
 
+def _safe_probe(name: str, fn: "Callable[[], Any]") -> "str | None":
+    """Run fn once in an isolated process to detect segfaults before full benchmark.
+
+    On Unix: uses os.fork() so the child inherits all closures/lambdas without pickling.
+    On Windows: runs inline (pysweph doesn't segfault on Windows).
+    Returns None on success, an error string on failure/crash.
+    """
+    import os
+    import sys
+
+    if sys.platform == "win32":
+        try:
+            fn()
+            return None
+        except Exception as exc:
+            return f"{type(exc).__name__}: {exc}"
+
+    r_fd, w_fd = os.pipe()
+    pid = os.fork()
+    if pid == 0:  # child
+        os.close(r_fd)
+        try:
+            fn()
+            os.write(w_fd, b"OK")
+        except Exception as exc:
+            os.write(w_fd, f"{type(exc).__name__}: {exc}".encode()[:4096])
+        finally:
+            os.close(w_fd)
+        os._exit(0)
+    else:  # parent
+        os.close(w_fd)
+        _, status = os.waitpid(pid, 0)
+        chunks = []
+        while True:
+            chunk = os.read(r_fd, 4096)
+            if not chunk:
+                break
+            chunks.append(chunk)
+        os.close(r_fd)
+        exit_code = os.waitstatus_to_exitcode(status)
+        if exit_code != 0:
+            return f"Process exited with code {exit_code} (segfault/crash)"
+        msg = b"".join(chunks).decode(errors="replace").strip()
+        return None if msg == "OK" else (msg or None)
+
+
 def run_cases(cases: CaseMap, iterations: int, warmup: int, slot: str) -> dict[str, dict[str, Any]]:
     import sys
     results: dict[str, dict[str, Any]] = {}
     for name, fn in cases.items():
+        # For C-extension benchmarks, pre-probe in an isolated process to catch segfaults
+        if slot == "ext":
+            probe_err = _safe_probe(name, fn)
+            if probe_err:
+                results[name] = {slot: None, "error": probe_err}
+                print(f"{name}: ERR {probe_err}")
+                sys.stdout.flush()
+                continue
         try:
             stats, _last_result = measure(fn, iterations, warmup)
         except Exception as exc:
