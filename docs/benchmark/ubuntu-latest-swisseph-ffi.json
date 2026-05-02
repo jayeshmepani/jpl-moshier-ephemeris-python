@@ -1,146 +1,1253 @@
 {
   "system": {
-    "library": "swisseph-ffi",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "cores": "4 Threads",
+    "freq": "Unavailable on runner",
+    "l3": "32 MiB (1 instance)",
+    "arch": "x86_64",
+    "instr": "AVX2, BMI2, SSE4.2",
+    "ram": "15.6 GB",
+    "ram_bytes": 16766431232,
+    "system": "Virtual Machine",
+    "python": "3.12.13",
+    "python_runtime": "3.12.13 (main, Mar  4 2026, 02:26:36) [GCC 13.3.0]",
+    "python_implementation": "CPython",
+    "python_compiler": "GCC 13.3.0",
+    "os": "Linux 6.17.0-1010-azure (x86_64)",
+    "date": "2026-05-02T18:35:19.366003+00:00",
+    "library": "Swiss Ephemeris 2.10.03",
     "distribution": "swisseph-ffi",
     "distribution_version": "1.0.0",
-    "generated_at_utc": "2026-05-02T18:17:17.962492+00:00",
-    "python": "3.12.13 (main, Mar  4 2026, 02:26:36) [GCC 13.3.0]",
-    "python_version": "3.12.13",
-    "implementation": "CPython",
-    "compiler": "GCC 13.3.0",
-    "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
-    "system": "Linux",
-    "release": "6.17.0-1010-azure",
-    "version": "#10~24.04.1-Ubuntu SMP Fri Mar  6 22:00:57 UTC 2026",
-    "machine": "x86_64",
-    "processor": "x86_64",
-    "cpu_count": 4,
-    "ram_bytes": 16766431232,
+    "benchmark_library": "swisseph-ffi",
+    "protocol": "100 warmup + 1000 measurement samples",
     "native_library": "/home/runner/work/Swiss-Ephemeris-Python/Swiss-Ephemeris-Python/.venv-bench-ffi/lib/python3.12/site-packages/swisseph_ffi/libs/linux-x64/libswe.so",
-    "swiss_ephemeris_version": "2.10.03",
     "configured_function_count": 106,
-    "benchmarked_function_count": 12
+    "benchmarked_function_count": 106
   },
-  "results": [
-    {
-      "name": "julday",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 1547.052,
-      "median_ns": 1547.052,
-      "min_ns": 1547.052,
-      "max_ns": 1547.052
+  "results": {
+    "swe_heliacal_ut": {
+      "ffi": {
+        "mean": 15.107863,
+        "median": 14.795,
+        "p95": 15.507,
+        "stddev": 2.0573326041821725,
+        "min": 14.304,
+        "max": 43.544,
+        "count": 1000,
+        "mem": 31736
+      }
     },
-    {
-      "name": "revjul",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 1369.197,
-      "median_ns": 1369.197,
-      "min_ns": 1369.197,
-      "max_ns": 1369.197
+    "swe_heliacal_pheno_ut": {
+      "ffi": {
+        "mean": 24.619676,
+        "median": 24.071,
+        "p95": 26.385,
+        "stddev": 2.536718286098005,
+        "min": 23.484,
+        "max": 42.213,
+        "count": 1000,
+        "mem": 31232
+      }
     },
-    {
-      "name": "calc_ut_sun",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 12861.726,
-      "median_ns": 12861.726,
-      "min_ns": 12861.726,
-      "max_ns": 12861.726
+    "swe_vis_limit_mag": {
+      "ffi": {
+        "mean": 12.009055,
+        "median": 11.898,
+        "p95": 12.279,
+        "stddev": 0.8024540298204004,
+        "min": 11.627,
+        "max": 21.582,
+        "count": 1000,
+        "mem": 31152
+      }
     },
-    {
-      "name": "calc_ut_moon",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 12777.671,
-      "median_ns": 12777.671,
-      "min_ns": 12777.671,
-      "max_ns": 12777.671
+    "swe_heliacal_angle": {
+      "ffi": {
+        "mean": 76.543404,
+        "median": 75.131,
+        "p95": 82.993,
+        "stddev": 6.013133887980875,
+        "min": 74.53,
+        "max": 150.162,
+        "count": 1000,
+        "mem": 31472
+      }
     },
-    {
-      "name": "houses",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 10159.155,
-      "median_ns": 10159.155,
-      "min_ns": 10159.155,
-      "max_ns": 10159.155
+    "swe_topo_arcus_visionis": {
+      "ffi": {
+        "mean": 14.786712,
+        "median": 13.911,
+        "p95": 20.41,
+        "stddev": 3.99984611667199,
+        "min": 13.63,
+        "max": 55.442,
+        "count": 1000,
+        "mem": 31552
+      }
     },
-    {
-      "name": "ayanamsa_ut",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 2398.258,
-      "median_ns": 2398.258,
-      "min_ns": 2398.258,
-      "max_ns": 2398.258
+    "swe_set_astro_models": {
+      "ffi": {
+        "mean": 2.13936,
+        "median": 2.003,
+        "p95": 2.233,
+        "stddev": 0.8193006105209492,
+        "min": 1.902,
+        "max": 15.573,
+        "count": 1000,
+        "mem": 30672
+      }
     },
-    {
-      "name": "deltat",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 854.582,
-      "median_ns": 854.582,
-      "min_ns": 854.582,
-      "max_ns": 854.582
+    "swe_get_astro_models": {
+      "ffi": {
+        "mean": 4.478486,
+        "median": 4.306,
+        "p95": 4.557,
+        "stddev": 1.003858523799046,
+        "min": 4.186,
+        "max": 13.51,
+        "count": 1000,
+        "mem": 30752
+      }
     },
-    {
-      "name": "sidtime",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 5148.761,
-      "median_ns": 5148.761,
-      "min_ns": 5148.761,
-      "max_ns": 5148.761
+    "swe_version": {
+      "ffi": {
+        "mean": 2.047414,
+        "median": 1.962,
+        "p95": 2.163,
+        "stddev": 0.5698946750093389,
+        "min": 1.812,
+        "max": 12.749,
+        "count": 1000,
+        "mem": 30672
+      }
     },
-    {
-      "name": "split_deg",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 1371.321,
-      "median_ns": 1371.321,
-      "min_ns": 1371.321,
-      "max_ns": 1371.321
+    "swe_get_library_path": {
+      "ffi": {
+        "mean": 2.539646,
+        "median": 2.484,
+        "p95": 2.654,
+        "stddev": 0.6585905865437192,
+        "min": 2.363,
+        "max": 18.107,
+        "count": 1000,
+        "mem": 30950
+      }
     },
-    {
-      "name": "azalt",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 8986.841,
-      "median_ns": 8986.841,
-      "min_ns": 8986.841,
-      "max_ns": 8986.841
+    "swe_calc": {
+      "ffi": {
+        "mean": 7.257068,
+        "median": 7.01,
+        "p95": 7.481,
+        "stddev": 1.1473483034266447,
+        "min": 6.84,
+        "max": 19.789,
+        "count": 1000,
+        "mem": 30912
+      }
     },
-    {
-      "name": "utc_to_jd",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 3349.093,
-      "median_ns": 3349.093,
-      "min_ns": 3349.093,
-      "max_ns": 3349.093
+    "swe_calc_ut": {
+      "ffi": {
+        "mean": 9.076153,
+        "median": 8.933,
+        "p95": 9.223,
+        "stddev": 1.2489507226432113,
+        "min": 8.783,
+        "max": 36.644,
+        "count": 1000,
+        "mem": 30912
+      }
     },
-    {
-      "name": "sol_eclipse_when_glob",
-      "iterations": 1000,
-      "warmup": 100,
-      "repeats": 1,
-      "mean_ns": 5069260.112,
-      "median_ns": 5069260.112,
-      "min_ns": 5069260.112,
-      "max_ns": 5069260.112
+    "swe_calc_pctr": {
+      "ffi": {
+        "mean": 9.798213,
+        "median": 9.644,
+        "p95": 9.995,
+        "stddev": 1.159317185946538,
+        "min": 9.424,
+        "max": 24.046,
+        "count": 1000,
+        "mem": 30992
+      }
+    },
+    "swe_solcross": {
+      "ffi": {
+        "mean": 52.997152,
+        "median": 51.506,
+        "p95": 62.423,
+        "stddev": 4.957573961011172,
+        "min": 50.955,
+        "max": 90.434,
+        "count": 1000,
+        "mem": 30880
+      }
+    },
+    "swe_solcross_ut": {
+      "ffi": {
+        "mean": 62.354742,
+        "median": 60.41,
+        "p95": 77.304,
+        "stddev": 6.195079887090722,
+        "min": 59.689,
+        "max": 101.85,
+        "count": 1000,
+        "mem": 30880
+      }
+    },
+    "swe_mooncross": {
+      "ffi": {
+        "mean": 120.69355,
+        "median": 116.833,
+        "p95": 138.044,
+        "stddev": 11.212170373638639,
+        "min": 115.822,
+        "max": 185.624,
+        "count": 1000,
+        "mem": 30880
+      }
+    },
+    "swe_mooncross_ut": {
+      "ffi": {
+        "mean": 133.774256,
+        "median": 128.35,
+        "p95": 185.605,
+        "stddev": 15.184001495207513,
+        "min": 127.128,
+        "max": 204.473,
+        "count": 1000,
+        "mem": 30880
+      }
+    },
+    "swe_mooncross_node": {
+      "ffi": {
+        "mean": 235.410573,
+        "median": 230.932,
+        "p95": 243.371,
+        "stddev": 16.613407362870237,
+        "min": 229.47,
+        "max": 405.941,
+        "count": 1000,
+        "mem": 30960
+      }
+    },
+    "swe_mooncross_node_ut": {
+      "ffi": {
+        "mean": 258.468148,
+        "median": 253.326,
+        "p95": 269.669,
+        "stddev": 19.088792006884457,
+        "min": 251.102,
+        "max": 420.162,
+        "count": 1000,
+        "mem": 30960
+      }
+    },
+    "swe_helio_cross": {
+      "ffi": {
+        "mean": 6.436447,
+        "median": 6.34,
+        "p95": 6.69,
+        "stddev": 0.6076647588851932,
+        "min": 6.169,
+        "max": 15.303,
+        "count": 1000,
+        "mem": 31072
+      }
+    },
+    "swe_helio_cross_ut": {
+      "ffi": {
+        "mean": 6.632751,
+        "median": 6.549,
+        "p95": 6.86,
+        "stddev": 0.6276681217004731,
+        "min": 6.229,
+        "max": 15.523,
+        "count": 1000,
+        "mem": 31072
+      }
+    },
+    "swe_fixstar": {
+      "ffi": {
+        "mean": 8.282367,
+        "median": 8.192,
+        "p95": 8.472,
+        "stddev": 0.6079106170408607,
+        "min": 8.012,
+        "max": 15.192,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_fixstar_ut": {
+      "ffi": {
+        "mean": 8.536008,
+        "median": 8.423,
+        "p95": 8.772,
+        "stddev": 0.8660635692234144,
+        "min": 8.223,
+        "max": 23.024,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_fixstar_mag": {
+      "ffi": {
+        "mean": 6.848205,
+        "median": 6.77,
+        "p95": 7.0,
+        "stddev": 0.6470586997908304,
+        "min": 6.549,
+        "max": 14.682,
+        "count": 1000,
+        "mem": 30752
+      }
+    },
+    "swe_fixstar2": {
+      "ffi": {
+        "mean": 8.424348,
+        "median": 8.332,
+        "p95": 8.643,
+        "stddev": 0.7112437211645527,
+        "min": 8.102,
+        "max": 17.636,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_fixstar2_ut": {
+      "ffi": {
+        "mean": 8.689622,
+        "median": 8.503,
+        "p95": 8.833,
+        "stddev": 1.158962942080548,
+        "min": 8.233,
+        "max": 25.137,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_fixstar2_mag": {
+      "ffi": {
+        "mean": 6.888591,
+        "median": 6.8,
+        "p95": 6.991,
+        "stddev": 0.6708309725400282,
+        "min": 6.599,
+        "max": 14.922,
+        "count": 1000,
+        "mem": 30752
+      }
+    },
+    "swe_close": {
+      "ffi": {
+        "mean": 1.573186,
+        "median": 1.543,
+        "p95": 1.602,
+        "stddev": 0.3755086036351231,
+        "min": 1.482,
+        "max": 10.295,
+        "count": 1000,
+        "mem": 30564
+      }
+    },
+    "swe_set_ephe_path": {
+      "ffi": {
+        "mean": 19.399411,
+        "median": 19.188,
+        "p95": 19.489,
+        "stddev": 1.8157204146230776,
+        "min": 18.998,
+        "max": 65.787,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_set_jpl_file": {
+      "ffi": {
+        "mean": 4.265566,
+        "median": 4.216,
+        "p95": 4.336,
+        "stddev": 0.5296840488857485,
+        "min": 4.096,
+        "max": 13.6,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_get_planet_name": {
+      "ffi": {
+        "mean": 2.736373,
+        "median": 2.674,
+        "p95": 2.854,
+        "stddev": 0.4784687470159362,
+        "min": 2.554,
+        "max": 11.087,
+        "count": 1000,
+        "mem": 30744
+      }
+    },
+    "swe_set_topo": {
+      "ffi": {
+        "mean": 4.404342,
+        "median": 4.947,
+        "p95": 5.528,
+        "stddev": 1.3408100749308234,
+        "min": 2.874,
+        "max": 18.808,
+        "count": 1000,
+        "mem": 30752
+      }
+    },
+    "swe_set_sid_mode": {
+      "ffi": {
+        "mean": 3.231253,
+        "median": 3.175,
+        "p95": 3.355,
+        "stddev": 0.4520474123264063,
+        "min": 3.044,
+        "max": 11.507,
+        "count": 1000,
+        "mem": 30752
+      }
+    },
+    "swe_get_ayanamsa_ex": {
+      "ffi": {
+        "mean": 7.382057,
+        "median": 7.25,
+        "p95": 7.551,
+        "stddev": 0.8116933532751146,
+        "min": 7.06,
+        "max": 15.683,
+        "count": 1000,
+        "mem": 30832
+      }
+    },
+    "swe_get_ayanamsa_ex_ut": {
+      "ffi": {
+        "mean": 7.638814,
+        "median": 7.571,
+        "p95": 7.821,
+        "stddev": 0.5446116262108256,
+        "min": 7.401,
+        "max": 14.742,
+        "count": 1000,
+        "mem": 30832
+      }
+    },
+    "swe_get_ayanamsa": {
+      "ffi": {
+        "mean": 2.915137,
+        "median": 2.874,
+        "p95": 3.014,
+        "stddev": 0.5817765311792836,
+        "min": 2.593,
+        "max": 12.038,
+        "count": 1000,
+        "mem": 30640
+      }
+    },
+    "swe_get_ayanamsa_ut": {
+      "ffi": {
+        "mean": 3.25244,
+        "median": 3.175,
+        "p95": 3.365,
+        "stddev": 0.6263959246355295,
+        "min": 2.854,
+        "max": 13.781,
+        "count": 1000,
+        "mem": 30640
+      }
+    },
+    "swe_get_ayanamsa_name": {
+      "ffi": {
+        "mean": 2.002037,
+        "median": 1.973,
+        "p95": 2.103,
+        "stddev": 0.2880265571627033,
+        "min": 1.883,
+        "max": 9.635,
+        "count": 1000,
+        "mem": 30670
+      }
+    },
+    "swe_get_current_file_data": {
+      "ffi": null,
+      "error": "ArgumentError: argument 4: TypeError: expected LP_c_int instance instead of c_long_Array_20"
+    },
+    "swe_date_conversion": {
+      "ffi": {
+        "mean": 5.912381,
+        "median": 5.699,
+        "p95": 6.139,
+        "stddev": 1.121749011962569,
+        "min": 5.438,
+        "max": 21.172,
+        "count": 1000,
+        "mem": 30992
+      }
+    },
+    "swe_julday": {
+      "ffi": {
+        "mean": 4.644466,
+        "median": 4.606,
+        "p95": 4.777,
+        "stddev": 0.4748557347700457,
+        "min": 4.296,
+        "max": 12.048,
+        "count": 1000,
+        "mem": 30960
+      }
+    },
+    "swe_revjul": {
+      "ffi": null,
+      "error": "ArgumentError: argument 3: TypeError: expected LP_c_int instance instead of c_long_Array_20"
+    },
+    "swe_utc_to_jd": {
+      "ffi": {
+        "mean": 8.306628,
+        "median": 8.212,
+        "p95": 8.583,
+        "stddev": 0.6340055816915179,
+        "min": 8.032,
+        "max": 18.037,
+        "count": 1000,
+        "mem": 31232
+      }
+    },
+    "swe_jdet_to_utc": {
+      "ffi": null,
+      "error": "ArgumentError: argument 3: TypeError: expected LP_c_int instance instead of c_long_Array_20"
+    },
+    "swe_jdut1_to_utc": {
+      "ffi": null,
+      "error": "ArgumentError: argument 3: TypeError: expected LP_c_int instance instead of c_long_Array_20"
+    },
+    "swe_utc_time_zone": {
+      "ffi": null,
+      "error": "ArgumentError: argument 8: TypeError: expected LP_c_int instance instead of c_long_Array_20"
+    },
+    "swe_houses": {
+      "ffi": {
+        "mean": 12.111673,
+        "median": 11.967,
+        "p95": 12.308,
+        "stddev": 0.9663541390561744,
+        "min": 11.747,
+        "max": 27.081,
+        "count": 1000,
+        "mem": 30992
+      }
+    },
+    "swe_houses_ex": {
+      "ffi": {
+        "mean": 13.056917,
+        "median": 12.929,
+        "p95": 13.29,
+        "stddev": 1.2820781372876615,
+        "min": 12.589,
+        "max": 45.067,
+        "count": 1000,
+        "mem": 31072
+      }
+    },
+    "swe_houses_ex2": {
+      "ffi": {
+        "mean": 16.530251,
+        "median": 16.264,
+        "p95": 16.845,
+        "stddev": 1.3784397665473092,
+        "min": 15.924,
+        "max": 31.236,
+        "count": 1000,
+        "mem": 31312
+      }
+    },
+    "swe_houses_armc": {
+      "ffi": {
+        "mean": 8.399757,
+        "median": 8.292,
+        "p95": 8.653,
+        "stddev": 0.7943234038796791,
+        "min": 8.022,
+        "max": 17.325,
+        "count": 1000,
+        "mem": 30992
+      }
+    },
+    "swe_houses_armc_ex2": {
+      "ffi": {
+        "mean": 11.706244,
+        "median": 11.567,
+        "p95": 11.978,
+        "stddev": 1.13061222639064,
+        "min": 11.247,
+        "max": 30.986,
+        "count": 1000,
+        "mem": 31232
+      }
+    },
+    "swe_house_pos": {
+      "ffi": {
+        "mean": 8.537957,
+        "median": 8.462,
+        "p95": 8.713,
+        "stddev": 0.6786010515398573,
+        "min": 8.022,
+        "max": 16.234,
+        "count": 1000,
+        "mem": 31040
+      }
+    },
+    "swe_house_name": {
+      "ffi": {
+        "mean": 1.9935690000000001,
+        "median": 1.963,
+        "p95": 2.103,
+        "stddev": 0.2895972396950634,
+        "min": 1.882,
+        "max": 9.374,
+        "count": 1000,
+        "mem": 30674
+      }
+    },
+    "swe_gauquelin_sector": {
+      "ffi": {
+        "mean": 17.86362,
+        "median": 16.154,
+        "p95": 25.488,
+        "stddev": 3.7359229159071257,
+        "min": 15.743,
+        "max": 39.288,
+        "count": 1000,
+        "mem": 31312
+      }
+    },
+    "swe_sol_eclipse_where": {
+      "ffi": {
+        "mean": 35.305752,
+        "median": 35.002,
+        "p95": 36.334,
+        "stddev": 1.3389026672973656,
+        "min": 34.551,
+        "max": 45.327,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_lun_occult_where": {
+      "ffi": {
+        "mean": 16.058635,
+        "median": 15.823,
+        "p95": 16.324,
+        "stddev": 1.7992627150516403,
+        "min": 15.383,
+        "max": 54.851,
+        "count": 1000,
+        "mem": 31072
+      }
+    },
+    "swe_sol_eclipse_how": {
+      "ffi": {
+        "mean": 42.679818,
+        "median": 42.233,
+        "p95": 45.287,
+        "stddev": 1.984383414281625,
+        "min": 41.832,
+        "max": 72.818,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_sol_eclipse_when_loc": {
+      "ffi": {
+        "mean": 9193.85508,
+        "median": 9176.973,
+        "p95": 9283.888,
+        "stddev": 88.70297943308105,
+        "min": 9141.2,
+        "max": 11449.608,
+        "count": 1000,
+        "mem": 31136
+      }
+    },
+    "swe_lun_occult_when_loc": {
+      "ffi": {
+        "mean": 12.330701,
+        "median": 12.239,
+        "p95": 12.719,
+        "stddev": 0.8808280420144445,
+        "min": 11.838,
+        "max": 24.026,
+        "count": 1000,
+        "mem": 31232
+      }
+    },
+    "swe_sol_eclipse_when_glob": {
+      "ffi": {
+        "mean": 1870.303676,
+        "median": 1865.168,
+        "p95": 1899.099,
+        "stddev": 22.988737025879082,
+        "min": 1852.329,
+        "max": 2149.464,
+        "count": 1000,
+        "mem": 30992
+      }
+    },
+    "swe_lun_occult_when_glob": {
+      "ffi": {
+        "mean": 10.836727,
+        "median": 10.706,
+        "p95": 11.177,
+        "stddev": 0.9148230323242851,
+        "min": 10.396,
+        "max": 21.362,
+        "count": 1000,
+        "mem": 31152
+      }
+    },
+    "swe_lun_eclipse_how": {
+      "ffi": {
+        "mean": 21.279655,
+        "median": 20.911,
+        "p95": 22.473,
+        "stddev": 1.637126131968762,
+        "min": 20.601,
+        "max": 35.753,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_lun_eclipse_when": {
+      "ffi": {
+        "mean": 1485.495902,
+        "median": 1481.583,
+        "p95": 1504.507,
+        "stddev": 30.28989767365344,
+        "min": 1469.875,
+        "max": 2073.792,
+        "count": 1000,
+        "mem": 30992
+      }
+    },
+    "swe_lun_eclipse_when_loc": {
+      "ffi": {
+        "mean": 2126.042614,
+        "median": 2117.359,
+        "p95": 2151.08,
+        "stddev": 59.63596586204506,
+        "min": 2104.979,
+        "max": 3193.548,
+        "count": 1000,
+        "mem": 31136
+      }
+    },
+    "swe_pheno": {
+      "ffi": {
+        "mean": 17.634243,
+        "median": 17.336,
+        "p95": 17.957,
+        "stddev": 1.484705194289762,
+        "min": 17.065,
+        "max": 34.311,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_pheno_ut": {
+      "ffi": {
+        "mean": 31.745942,
+        "median": 31.397,
+        "p95": 32.279,
+        "stddev": 1.775277185296989,
+        "min": 30.927,
+        "max": 56.295,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_refrac": {
+      "ffi": {
+        "mean": 3.942963,
+        "median": 3.876,
+        "p95": 4.067,
+        "stddev": 0.6711178775975202,
+        "min": 3.565,
+        "max": 17.226,
+        "count": 1000,
+        "mem": 30880
+      }
+    },
+    "swe_refrac_extended": {
+      "ffi": {
+        "mean": 6.778894,
+        "median": 6.69,
+        "p95": 7.01,
+        "stddev": 0.6036618281488403,
+        "min": 6.299,
+        "max": 14.482,
+        "count": 1000,
+        "mem": 31120
+      }
+    },
+    "swe_set_lapse_rate": {
+      "ffi": {
+        "mean": 1.639286,
+        "median": 1.622,
+        "p95": 1.682,
+        "stddev": 0.3857405711148362,
+        "min": 1.532,
+        "max": 10.576,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_azalt": {
+      "ffi": {
+        "mean": 11.447067,
+        "median": 11.347,
+        "p95": 11.727,
+        "stddev": 0.7687565040446812,
+        "min": 11.076,
+        "max": 19.76,
+        "count": 1000,
+        "mem": 31072
+      }
+    },
+    "swe_azalt_rev": {
+      "ffi": {
+        "mean": 9.915833,
+        "median": 9.824,
+        "p95": 10.095,
+        "stddev": 0.7760502220288323,
+        "min": 9.604,
+        "max": 19.93,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_rise_trans_true_hor": {
+      "ffi": {
+        "mean": 13.742494,
+        "median": 13.541,
+        "p95": 14.091,
+        "stddev": 0.9522505132390321,
+        "min": 13.33,
+        "max": 23.035,
+        "count": 1000,
+        "mem": 31392
+      }
+    },
+    "swe_rise_trans": {
+      "ffi": {
+        "mean": 12.980264,
+        "median": 12.799,
+        "p95": 13.26,
+        "stddev": 1.0428198043305468,
+        "min": 12.539,
+        "max": 27.752,
+        "count": 1000,
+        "mem": 31312
+      }
+    },
+    "swe_nod_aps": {
+      "ffi": {
+        "mean": 12.96619,
+        "median": 12.72,
+        "p95": 13.19,
+        "stddev": 1.28070429526101,
+        "min": 12.549,
+        "max": 31.898,
+        "count": 1000,
+        "mem": 31232
+      }
+    },
+    "swe_nod_aps_ut": {
+      "ffi": {
+        "mean": 14.24977,
+        "median": 14.031,
+        "p95": 14.491,
+        "stddev": 1.2158348379200195,
+        "min": 13.6,
+        "max": 27.782,
+        "count": 1000,
+        "mem": 31232
+      }
+    },
+    "swe_get_orbital_elements": {
+      "ffi": {
+        "mean": 5.065251,
+        "median": 4.978,
+        "p95": 5.208,
+        "stddev": 0.6600936539605573,
+        "min": 4.857,
+        "max": 13.54,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_orbit_max_min_true_distance": {
+      "ffi": {
+        "mean": 11.846093,
+        "median": 11.688,
+        "p95": 12.038,
+        "stddev": 1.0931183514839553,
+        "min": 11.337,
+        "max": 31.557,
+        "count": 1000,
+        "mem": 31072
+      }
+    },
+    "swe_deltat": {
+      "ffi": {
+        "mean": 2.035341,
+        "median": 2.023,
+        "p95": 2.124,
+        "stddev": 0.36428668479509374,
+        "min": 1.752,
+        "max": 9.084,
+        "count": 1000,
+        "mem": 30640
+      }
+    },
+    "swe_deltat_ex": {
+      "ffi": {
+        "mean": 3.448954,
+        "median": 3.415,
+        "p95": 3.565,
+        "stddev": 0.4584349221907075,
+        "min": 3.125,
+        "max": 12.218,
+        "count": 1000,
+        "mem": 30800
+      }
+    },
+    "swe_time_equ": {
+      "ffi": {
+        "mean": 11.094481,
+        "median": 10.967,
+        "p95": 11.257,
+        "stddev": 0.8686563737399271,
+        "min": 10.767,
+        "max": 25.669,
+        "count": 1000,
+        "mem": 30752
+      }
+    },
+    "swe_lmt_to_lat": {
+      "ffi": {
+        "mean": 11.826337,
+        "median": 11.688,
+        "p95": 11.979,
+        "stddev": 1.0670738237961794,
+        "min": 11.487,
+        "max": 34.803,
+        "count": 1000,
+        "mem": 30832
+      }
+    },
+    "swe_lat_to_lmt": {
+      "ffi": {
+        "mean": 49.402701,
+        "median": 48.933,
+        "p95": 55.164,
+        "stddev": 2.0091492735979077,
+        "min": 48.513,
+        "max": 77.157,
+        "count": 1000,
+        "mem": 30832
+      }
+    },
+    "swe_sidtime0": {
+      "ffi": {
+        "mean": 4.31571,
+        "median": 4.266,
+        "p95": 4.417,
+        "stddev": 0.5774147607223078,
+        "min": 3.996,
+        "max": 12.609,
+        "count": 1000,
+        "mem": 30800
+      }
+    },
+    "swe_sidtime": {
+      "ffi": {
+        "mean": 5.32396,
+        "median": 5.298,
+        "p95": 5.418,
+        "stddev": 0.45372598162327005,
+        "min": 5.007,
+        "max": 12.088,
+        "count": 1000,
+        "mem": 30640
+      }
+    },
+    "swe_set_interpolate_nut": {
+      "ffi": {
+        "mean": 1.61373,
+        "median": 1.602,
+        "p95": 1.673,
+        "stddev": 0.2767241136944881,
+        "min": 1.522,
+        "max": 10.215,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_cotrans": {
+      "ffi": {
+        "mean": 3.78168,
+        "median": 3.716,
+        "p95": 3.926,
+        "stddev": 0.49269030800290764,
+        "min": 3.586,
+        "max": 11.427,
+        "count": 1000,
+        "mem": 30752
+      }
+    },
+    "swe_cotrans_sp": {
+      "ffi": {
+        "mean": 3.815547,
+        "median": 3.766,
+        "p95": 3.965,
+        "stddev": 0.4203962675750107,
+        "min": 3.616,
+        "max": 12.389,
+        "count": 1000,
+        "mem": 30752
+      }
+    },
+    "swe_get_tid_acc": {
+      "ffi": {
+        "mean": 1.046324,
+        "median": 1.061,
+        "p95": 1.122,
+        "stddev": 0.07053523250121177,
+        "min": 0.791,
+        "max": 1.442,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_set_tid_acc": {
+      "ffi": {
+        "mean": 1.6271550000000001,
+        "median": 1.613,
+        "p95": 1.673,
+        "stddev": 0.22429175413955815,
+        "min": 1.522,
+        "max": 8.583,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_set_delta_t_userdef": {
+      "ffi": {
+        "mean": 1.697113,
+        "median": 1.632,
+        "p95": 1.723,
+        "stddev": 0.5041329469802583,
+        "min": 1.543,
+        "max": 9.524,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_degnorm": {
+      "ffi": {
+        "mean": 1.90092,
+        "median": 1.883,
+        "p95": 1.993,
+        "stddev": 0.3678068482233576,
+        "min": 1.652,
+        "max": 9.995,
+        "count": 1000,
+        "mem": 30640
+      }
+    },
+    "swe_radnorm": {
+      "ffi": {
+        "mean": 1.913587,
+        "median": 1.883,
+        "p95": 2.023,
+        "stddev": 0.4595591849054918,
+        "min": 1.603,
+        "max": 10.836,
+        "count": 1000,
+        "mem": 30640
+      }
+    },
+    "swe_rad_midp": {
+      "ffi": {
+        "mean": 2.648907,
+        "median": 2.624,
+        "p95": 2.775,
+        "stddev": 0.35969059530518727,
+        "min": 2.344,
+        "max": 10.396,
+        "count": 1000,
+        "mem": 30720
+      }
+    },
+    "swe_deg_midp": {
+      "ffi": {
+        "mean": 2.591043,
+        "median": 2.574,
+        "p95": 2.714,
+        "stddev": 0.3263026342998168,
+        "min": 2.273,
+        "max": 10.546,
+        "count": 1000,
+        "mem": 30720
+      }
+    },
+    "swe_split_deg": {
+      "ffi": null,
+      "error": "ArgumentError: argument 3: TypeError: expected LP_c_int instance instead of c_long_Array_20"
+    },
+    "swe_csnorm": {
+      "ffi": {
+        "mean": 2.006669,
+        "median": 1.963,
+        "p95": 2.093,
+        "stddev": 0.4607010955478617,
+        "min": 1.853,
+        "max": 10.887,
+        "count": 1000,
+        "mem": 30656
+      }
+    },
+    "swe_difcsn": {
+      "ffi": {
+        "mean": 2.648044,
+        "median": 2.614,
+        "p95": 2.754,
+        "stddev": 0.3680758781338435,
+        "min": 2.484,
+        "max": 9.685,
+        "count": 1000,
+        "mem": 30736
+      }
+    },
+    "swe_difdegn": {
+      "ffi": {
+        "mean": 2.577666,
+        "median": 2.554,
+        "p95": 2.694,
+        "stddev": 0.3588694950034065,
+        "min": 2.294,
+        "max": 9.805,
+        "count": 1000,
+        "mem": 30720
+      }
+    },
+    "swe_difcs2n": {
+      "ffi": {
+        "mean": 2.617082,
+        "median": 2.584,
+        "p95": 2.705,
+        "stddev": 0.34523072759532863,
+        "min": 2.484,
+        "max": 9.565,
+        "count": 1000,
+        "mem": 30736
+      }
+    },
+    "swe_difdeg2n": {
+      "ffi": {
+        "mean": 2.613777,
+        "median": 2.594,
+        "p95": 2.724,
+        "stddev": 0.3703518371373362,
+        "min": 2.263,
+        "max": 9.655,
+        "count": 1000,
+        "mem": 30720
+      }
+    },
+    "swe_difrad2n": {
+      "ffi": {
+        "mean": 2.6072319999999998,
+        "median": 2.594,
+        "p95": 2.735,
+        "stddev": 0.3163585721550785,
+        "min": 2.264,
+        "max": 9.435,
+        "count": 1000,
+        "mem": 30720
+      }
+    },
+    "swe_csroundsec": {
+      "ffi": {
+        "mean": 1.993892,
+        "median": 1.963,
+        "p95": 2.073,
+        "stddev": 0.2990636760557858,
+        "min": 1.873,
+        "max": 10.015,
+        "count": 1000,
+        "mem": 30656
+      }
+    },
+    "swe_d2l": {
+      "ffi": {
+        "mean": 1.662882,
+        "median": 1.652,
+        "p95": 1.703,
+        "stddev": 0.25148741136685154,
+        "min": 1.562,
+        "max": 9.404,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_day_of_week": {
+      "ffi": {
+        "mean": 1.64652,
+        "median": 1.642,
+        "p95": 1.702,
+        "stddev": 0.045808619276289035,
+        "min": 1.553,
+        "max": 2.333,
+        "count": 1000,
+        "mem": 30592
+      }
+    },
+    "swe_cs2timestr": {
+      "ffi": {
+        "mean": 4.168061,
+        "median": 4.097,
+        "p95": 4.306,
+        "stddev": 0.993384461967772,
+        "min": 3.896,
+        "max": 32.068,
+        "count": 1000,
+        "mem": 30914
+      }
+    },
+    "swe_cs2lonlatstr": {
+      "ffi": {
+        "mean": 4.277146,
+        "median": 4.216,
+        "p95": 4.417,
+        "stddev": 0.5255460975823149,
+        "min": 4.036,
+        "max": 12.509,
+        "count": 1000,
+        "mem": 30912
+      }
+    },
+    "swe_cs2degstr": {
+      "ffi": {
+        "mean": 2.909693,
+        "median": 2.855,
+        "p95": 3.014,
+        "stddev": 0.46652978977874504,
+        "min": 2.734,
+        "max": 9.935,
+        "count": 1000,
+        "mem": 30756
+      }
     }
-  ]
+  }
 }
