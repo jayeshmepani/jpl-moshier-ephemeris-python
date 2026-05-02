@@ -108,7 +108,7 @@ Python extension module.
 
 This package is intentionally explicit about the gap it fills.
 
-| Area | `pyswisseph` | `pysweph` | `swisseph-ffi` |
+| Area | [`pyswisseph`](https://github.com/astrorigin/pyswisseph) | [`pysweph`](https://github.com/sailorfe/pysweph) | `swisseph-ffi` |
 | --- | --- | --- | --- |
 | Binding model | CPython C extension | CPython C extension fork | Pure Python `ctypes` runtime FFI |
 | Python ABI coupling | Yes, wheel tags are CPython/version/platform-specific | Yes, wheel tags are CPython/version/platform-specific | No compiled Python extension ABI |
