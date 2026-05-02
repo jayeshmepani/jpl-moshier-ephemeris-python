@@ -114,11 +114,14 @@ This package is intentionally explicit about the gap it fills.
 | Python ABI coupling | Yes, wheel tags are CPython/version/platform-specific | Yes, wheel tags are CPython/version/platform-specific | No compiled Python extension ABI |
 | Latest PyPI release checked | `2.10.3.2`, uploaded June 4, 2023 | `2.10.3.6`, uploaded February 19, 2026 | `1.0.0`, uploaded May 2026 |
 | Python support metadata checked | `>=3.5`, but published wheels are still ABI-tagged | `>=3.8`, classifiers/wheels checked through CPython 3.13 | `>=3.10`, tested target 3.10 through 3.14 |
-| Install/build model | Needs a matching CPython wheel or source build | Needs a matching CPython wheel or source build | One pure Python wheel with bundled native libs |
+| Install/build model verified | On Python 3.12 Windows, pip built a local `cp312` wheel from source | On Python 3.12 Windows, pip installed a prebuilt `cp312-win_amd64` wheel | One pure Python wheel with bundled native libs |
 | Future Python version pressure | New Python versions require compatible extension wheels/builds | New Python versions require compatible extension wheels/builds | Python layer is not compiled against CPython internals |
 | Raw C API contract | Extension wrapper API | Extension wrapper API with documented migration changes | Direct `ctypes` signatures and caller-owned buffers |
-| Function coverage verified here | Not used as this project's source of truth | Not used as this project's source of truth | 106/106 public Swiss Ephemeris C functions configured and tested |
-| Output handling goal | Python binding behavior | Python binding behavior | No reshaping, no hidden return flags, no dropped `serr` buffers |
+| C API function coverage verified from source | 100 `pyswe_*` extension methods | 100 `pyswe_*` extension methods | 106 `swe_*` C functions configured |
+| C functions missing vs this raw map | 6: `swe_version`, `swe_get_astro_models`, `swe_set_astro_models`, `swe_set_interpolate_nut`, `swe_heliacal_angle`, `swe_topo_arcus_visionis` | Same 6 functions | None |
+| House cusp indexing verified | `swe.houses(...)[0]` returns 12 cusps | `swe.houses(...)[0]` returns 13 cusps; index 0 is empty | Caller-owned C array; indexing is exactly what the C API receives |
+| Error/output handling verified | `swe.calc_ut()` returns `(coordinates, flags)` | `swe.calc_ut()` returns `(coordinates, flags, serr)` | C return flag and caller-provided `serr` buffer are passed directly |
+| Output handling goal | Python binding behavior | Python binding behavior with migration changes | No reshaping, no hidden return flags, no dropped `serr` buffers |
 
 ## What This Package Covers
 
@@ -141,6 +144,9 @@ Known public context:
   house cusp return behavior.
 - `pysweph` also states that its test suite was deprecated as of February 6,
   2026 due to `calc` and `houses` function patches.
+- `pysweph` 2.10.3.6 source distribution was directly downloadable, but
+  `pip download --no-binary` rejected it during verification because the sdist
+  metadata reported version `0.0.0` while the requested release was `2.10.3.6`.
 
 That is the motivation for `swisseph-ffi`: keep the Python layer runtime-only,
 avoid CPython extension ABI churn, ship the native libraries directly, and make
