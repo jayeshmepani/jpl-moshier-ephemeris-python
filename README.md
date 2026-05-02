@@ -74,9 +74,20 @@ Library search order:
 Python already has mature Swiss Ephemeris bindings such as `pyswisseph` and
 `pysweph`. They are useful and work well for many CPython users.
 
-This package takes a different approach: the Python layer is pure Python and
-uses runtime FFI through `ctypes`. It does not compile a CPython extension
-module and does not reshape the raw C API into a Pythonic convenience API.
+Those packages use the compiled CPython extension model. That is a valid and
+fast approach, but it couples distribution to Python ABI tags, wheel coverage,
+and platform-specific builds.
+
+`swisseph-ffi` was created to fill a different gap: a pure Python `ctypes`
+runtime-FFI binding that loads the native Swiss Ephemeris shared library and
+keeps the public C API exposed as directly as possible. The package ships
+prebuilt native libraries for common platforms, while the Python layer remains
+independent of CPython extension ABI changes.
+
+This project is intentionally focused on the raw 1:1 C API layer. It is not a
+replacement for higher-level astrology libraries; it is a low-level foundation
+for users who want direct Swiss Ephemeris calls from Python without a compiled
+Python extension module.
 
 ## Quick Start
 
