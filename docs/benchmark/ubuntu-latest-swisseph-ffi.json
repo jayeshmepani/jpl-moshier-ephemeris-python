@@ -1,0 +1,146 @@
+{
+  "system": {
+    "library": "swisseph-ffi",
+    "distribution": "swisseph-ffi",
+    "distribution_version": "1.0.0",
+    "generated_at_utc": "2026-05-02T18:13:35.650973+00:00",
+    "python": "3.12.13 (main, Mar  4 2026, 02:26:36) [GCC 13.3.0]",
+    "python_version": "3.12.13",
+    "implementation": "CPython",
+    "compiler": "GCC 13.3.0",
+    "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
+    "system": "Linux",
+    "release": "6.17.0-1010-azure",
+    "version": "#10~24.04.1-Ubuntu SMP Fri Mar  6 22:00:57 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64",
+    "cpu_count": 4,
+    "ram_bytes": 16766431232,
+    "native_library": "/home/runner/work/Swiss-Ephemeris-Python/Swiss-Ephemeris-Python/.venv-bench-ffi/lib/python3.12/site-packages/swisseph_ffi/libs/linux-x64/libswe.so",
+    "swiss_ephemeris_version": "2.10.03",
+    "configured_function_count": 106,
+    "benchmarked_function_count": 12
+  },
+  "results": [
+    {
+      "name": "julday",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 1653.144,
+      "median_ns": 1653.144,
+      "min_ns": 1653.144,
+      "max_ns": 1653.144
+    },
+    {
+      "name": "revjul",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 1387.92,
+      "median_ns": 1387.92,
+      "min_ns": 1387.92,
+      "max_ns": 1387.92
+    },
+    {
+      "name": "calc_ut_sun",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 12069.128,
+      "median_ns": 12069.128,
+      "min_ns": 12069.128,
+      "max_ns": 12069.128
+    },
+    {
+      "name": "calc_ut_moon",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 12050.212,
+      "median_ns": 12050.212,
+      "min_ns": 12050.212,
+      "max_ns": 12050.212
+    },
+    {
+      "name": "houses",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 9248.594,
+      "median_ns": 9248.594,
+      "min_ns": 9248.594,
+      "max_ns": 9248.594
+    },
+    {
+      "name": "ayanamsa_ut",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 2335.242,
+      "median_ns": 2335.242,
+      "min_ns": 2335.242,
+      "max_ns": 2335.242
+    },
+    {
+      "name": "deltat",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 913.188,
+      "median_ns": 913.188,
+      "min_ns": 913.188,
+      "max_ns": 913.188
+    },
+    {
+      "name": "sidtime",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 4767.554,
+      "median_ns": 4767.554,
+      "min_ns": 4767.554,
+      "max_ns": 4767.554
+    },
+    {
+      "name": "split_deg",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 1438.144,
+      "median_ns": 1438.144,
+      "min_ns": 1438.144,
+      "max_ns": 1438.144
+    },
+    {
+      "name": "azalt",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 6505.084,
+      "median_ns": 6505.084,
+      "min_ns": 6505.084,
+      "max_ns": 6505.084
+    },
+    {
+      "name": "utc_to_jd",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 3217.822,
+      "median_ns": 3217.822,
+      "min_ns": 3217.822,
+      "max_ns": 3217.822
+    },
+    {
+      "name": "sol_eclipse_when_glob",
+      "iterations": 1000,
+      "warmup": 100,
+      "repeats": 1,
+      "mean_ns": 4777607.058,
+      "median_ns": 4777607.058,
+      "min_ns": 4777607.058,
+      "max_ns": 4777607.058
+    }
+  ]
+}
