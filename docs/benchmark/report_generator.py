@@ -1,10 +1,9 @@
-"""Generate the static Python benchmark dashboard from JSON artifacts."""
+"""Generate a static benchmark dashboard from JSON artifacts."""
 
 # ruff: noqa: E501
 
 from __future__ import annotations
 
-import html
 import json
 from pathlib import Path
 
@@ -14,217 +13,84 @@ ROOT = Path(__file__).resolve().parent
 def load_results() -> list[dict[str, object]]:
     payloads: list[dict[str, object]] = []
     for path in sorted(ROOT.glob("*.json")):
-        try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            continue
-        if isinstance(data, dict) and isinstance(data.get("system"), dict):
-            data["_file"] = path.name
-            payloads.append(data)
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict) or not isinstance(data.get("system"), dict):
+            raise SystemExit(f"Invalid benchmark JSON payload: {path}")
+        data["_file"] = path.name
+        payloads.append(data)
     if not payloads:
         raise SystemExit("No benchmark JSON files found in docs/benchmark.")
     return payloads
 
 
-def fmt_ns(value: object) -> str:
-    number = float(value)
-    if number >= 1_000_000:
-        return f"{number / 1_000_000:.3f} ms"
-    if number >= 1_000:
-        return f"{number / 1_000:.3f} us"
-    return f"{number:.1f} ns"
-
-
-def fmt_bytes(value: object) -> str:
-    number = float(value)
-    for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
-        if number < 1024 or unit == "TiB":
-            return f"{number:.1f} {unit}"
-        number /= 1024
-    return f"{number:.1f} TiB"
-
-
-def result_map(payload: dict[str, object]) -> dict[str, dict[str, object]]:
-    return {str(item["name"]): item for item in payload["results"]}  # type: ignore[index]
-
-
-def ratio_cell(base: dict[str, object] | None, other: dict[str, object] | None) -> str:
-    if not base or not other:
-        raise ValueError("comparison rows require both benchmark results")
-    ratio = float(base["median_ns"]) / float(other["median_ns"])
-    cls = "win" if ratio <= 1.0 else "loss"
-    return f'<span class="{cls}">{ratio:.2f}x</span>'
-
-
-def render_payload(payload: dict[str, object]) -> str:
-    system = payload["system"]  # type: ignore[index]
-    specs = [
-        ("Operating System", system.get("os", "")),
-        ("Kernel/Release", system.get("release", "")),
-        ("Architecture", system.get("machine", "")),
-        ("Processor", system["processor"]),
-        ("CPU Threads", system.get("cpu_count", "")),
-        ("Runner RAM", fmt_bytes(system["ram_bytes"])),
-        ("Python Runtime", f"{system['implementation']} {system['python_version']}"),
-        ("Python Compiler", system["compiler"]),
-        ("Distribution", f"{system['distribution']} {system['distribution_version']}"),
-        ("Swiss Ephemeris", system["swiss_ephemeris_version"]),
-        ("Configured Functions", system.get("configured_function_count", "")),
-        (
-            "Benchmarked Functions",
-            system.get("benchmarked_function_count", len(payload["results"])),
-        ),
-        ("Native/Module Path", system.get("native_library") or system["module_file"]),
-        ("Generated At UTC", system.get("generated_at_utc", "")),
-    ]
-    spec_rows = "".join(
-        f"<tr><th>{html.escape(str(label))}</th><td>{html.escape(str(value))}</td></tr>"
-        for label, value in specs
-    )
-    rows = []
-    for item in payload["results"]:  # type: ignore[index]
-        rows.append(
-            "<tr>"
-            f"<td><code>{html.escape(str(item['name']))}</code></td>"
-            f"<td>{fmt_ns(item['median_ns'])}</td>"
-            f"<td>{fmt_ns(item['mean_ns'])}</td>"
-            f"<td>{fmt_ns(item['min_ns'])}</td>"
-            f"<td>{fmt_ns(item['max_ns'])}</td>"
-            f"<td>{item.get('warmup', 0)} warmup + {item['iterations']} measured</td>"
-            "</tr>"
-        )
-    return f"""
-    <section class="card">
-      <h2>{html.escape(str(system["library"]))}</h2>
-      <div class="meta">
-        <span>{html.escape(str(system["distribution"]))} {html.escape(str(system["distribution_version"]))}</span>
-        <span>{html.escape(str(system["system"]))} {html.escape(str(system["machine"]))}</span>
-        <span>Python {html.escape(str(system["python_version"]))}</span>
-      </div>
-      <table class="specs">
-        <tbody>{spec_rows}</tbody>
-      </table>
-      <table>
-        <thead>
-          <tr><th>Operation</th><th>Median</th><th>Mean</th><th>Min</th><th>Max</th><th>Samples</th></tr>
-        </thead>
-        <tbody>{"".join(rows)}</tbody>
-      </table>
-    </section>
-    """
-
-
-def render_comparison(payloads: list[dict[str, object]]) -> str:
-    groups: dict[str, list[dict[str, object]]] = {}
-    for payload in payloads:
-        system = payload["system"]  # type: ignore[index]
-        key = f"{system.get('system')} {system.get('machine')}"
-        groups.setdefault(key, []).append(payload)
-
-    sections = []
-    for group, items in sorted(groups.items()):
-        ffi = next((p for p in items if p["system"].get("library") == "swisseph-ffi"), None)  # type: ignore[index]
-        if not ffi:
-            continue
-        ffi_results = result_map(ffi)
-        rows = []
-        for name, ffi_result in ffi_results.items():
-            cells = [
-                f"<td><code>{html.escape(name)}</code></td>",
-                f"<td>{fmt_ns(ffi_result['median_ns'])}</td>",
-            ]
-            for label in ("pysweph", "pyswisseph"):
-                other_payload = next(
-                    (p for p in items if p["system"].get("distribution") == label),  # type: ignore[index]
-                    None,
-                )
-                other_result = result_map(other_payload).get(name) if other_payload else None
-                if other_result is None:
-                    cells.append("<td></td><td></td>")
-                    continue
-                cells.append(f"<td>{fmt_ns(other_result['median_ns'])}</td>")
-                cells.append(f"<td>{ratio_cell(ffi_result, other_result)}</td>")
-            rows.append(f"<tr>{''.join(cells)}</tr>")
-        sections.append(
-            f"""
-            <section class="card">
-              <h2>{html.escape(group)} Comparison</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Operation</th>
-                    <th>swisseph-ffi</th>
-                    <th>pysweph</th>
-                    <th>FFI / pysweph</th>
-                    <th>pyswisseph</th>
-                    <th>FFI / pyswisseph</th>
-                  </tr>
-                </thead>
-                <tbody>{"".join(rows)}</tbody>
-              </table>
-            </section>
-            """
-        )
-    return "\n".join(sections)
-
-
 def main() -> None:
     payloads = load_results()
-    json_payload = json.dumps(payloads, separators=(",", ":"))
-    rendered = "\n".join(render_payload(payload) for payload in payloads)
-    comparison = render_comparison(payloads)
+    payload_json = json.dumps(payloads, separators=(",", ":"))
     page = f"""<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Swiss Ephemeris Python FFI Benchmark</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {{ color-scheme: light; --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; --line: #cbd5e1; --accent: #0369a1; --win: #15803d; --loss: #c2410c; }}
-    [data-theme="dark"] {{ color-scheme: dark; --bg: #0f172a; --card: #111827; --text: #f8fafc; --muted: #cbd5e1; --line: #334155; --accent: #38bdf8; --win: #22c55e; --loss: #f97316; }}
-    body {{ margin: 0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); }}
-    main {{ max-width: 1440px; margin: 0 auto; padding: 32px 18px; }}
-    header {{ margin-bottom: 24px; }}
-    .topbar {{ display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }}
-    .theme-toggle {{ border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 8px; padding: 10px 14px; cursor: pointer; font-weight: 700; }}
-    h1 {{ margin: 0 0 8px; font-size: clamp(28px, 5vw, 48px); }}
-    h2 {{ margin: 0 0 12px; font-size: 20px; }}
-    p {{ color: var(--muted); max-width: 980px; line-height: 1.6; }}
-    .card {{ background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 18px; margin: 18px 0; overflow-x: auto; }}
-    .meta {{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; color: var(--muted); }}
-    .meta span {{ border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }}
-    table {{ width: 100%; border-collapse: collapse; min-width: 760px; }}
-    .specs {{ min-width: 0; margin-bottom: 18px; }}
-    .specs th {{ width: 220px; }}
-    .specs td {{ word-break: break-word; }}
-    th, td {{ border-bottom: 1px solid var(--line); padding: 10px; text-align: left; vertical-align: top; }}
-    th {{ color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }}
-    code {{ font-family: "JetBrains Mono", Consolas, monospace; }}
-    .win {{ color: var(--win); font-weight: 700; }}
-    .loss {{ color: var(--loss); font-weight: 700; }}
+    :root {{ color-scheme: light; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --line:#cbd5e1; --accent:#0369a1; --ffi:#2563eb; --pysweph:#dc2626; --pyswisseph:#9333ea; --win:#15803d; --loss:#c2410c; }}
+    [data-theme="dark"] {{ color-scheme: dark; --bg:#0f172a; --card:#111827; --text:#f8fafc; --muted:#cbd5e1; --line:#334155; --accent:#38bdf8; --ffi:#60a5fa; --pysweph:#f87171; --pyswisseph:#c084fc; --win:#22c55e; --loss:#f97316; }}
+    * {{ box-sizing: border-box; }}
+    body {{ margin:0; font-family:Inter, ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--text); }}
+    main {{ max-width:1440px; margin:0 auto; padding:32px 18px; }}
+    header {{ display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:24px; }}
+    h1 {{ margin:0 0 8px; font-size:clamp(28px,5vw,48px); }}
+    h2 {{ margin:0 0 12px; font-size:20px; }}
+    p {{ color:var(--muted); max-width:980px; line-height:1.6; }}
+    button {{ border:1px solid var(--line); background:var(--card); color:var(--text); border-radius:8px; padding:10px 14px; cursor:pointer; font-weight:700; }}
+    .tabs {{ display:flex; flex-wrap:wrap; gap:8px; margin:22px 0; }}
+    .tabs button.active {{ outline:2px solid var(--accent); color:var(--accent); }}
+    .grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:18px 0; }}
+    .card {{ background:var(--card); border:1px solid var(--line); border-radius:8px; padding:18px; margin:18px 0; overflow-x:auto; }}
+    .metric .label {{ color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; font-weight:800; }}
+    .metric .value {{ font-size:28px; line-height:1.15; font-weight:900; margin-top:8px; color:var(--accent); overflow-wrap:anywhere; }}
+    .meta {{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; color:var(--muted); }}
+    .meta span {{ border:1px solid var(--line); border-radius:999px; padding:4px 10px; }}
+    table {{ width:100%; border-collapse:collapse; min-width:900px; }}
+    th, td {{ border-bottom:1px solid var(--line); padding:10px; text-align:left; vertical-align:top; }}
+    th {{ color:var(--accent); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }}
+    code {{ font-family:"JetBrains Mono", Consolas, monospace; }}
+    input {{ width:100%; padding:12px 14px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--text); margin:12px 0; }}
+    .chart-wrap {{ height:460px; }}
+    .win {{ color:var(--win); font-weight:800; }}
+    .loss {{ color:var(--loss); font-weight:800; }}
+    .pill {{ display:inline-block; border:1px solid var(--line); border-radius:999px; padding:3px 9px; color:var(--muted); }}
   </style>
 </head>
 <body>
   <main>
     <header>
-      <div class="topbar">
-        <div>
-          <h1>Swiss Ephemeris Python FFI Benchmark</h1>
-        </div>
-        <button class="theme-toggle" type="button" id="themeToggle">Theme</button>
+      <div>
+        <h1>Swiss Ephemeris Python FFI Benchmark</h1>
+        <p>Data-driven benchmark dashboard generated from GitHub Actions artifacts. Every metric and system value is read from JSON output produced by the benchmark jobs.</p>
       </div>
-      <p>
-        Multi-system benchmark generated from GitHub Actions JSON artifacts.
-        The comparison installs <code>swisseph-ffi</code>, <code>pysweph</code>,
-        and <code>pyswisseph</code> in separate virtual environments because the
-        extension packages share the <code>swisseph</code> import name.
-      </p>
+      <button type="button" id="themeToggle">Theme</button>
     </header>
-    {comparison}
-    {rendered}
+    <section class="tabs" id="tabs"></section>
+    <section class="grid" id="cards"></section>
+    <section class="card">
+      <h2 id="chartTitle">Latency Chart</h2>
+      <div class="chart-wrap"><canvas id="latencyChart"></canvas></div>
+    </section>
+    <section class="card">
+      <h2>Comparison Table</h2>
+      <input id="search" type="search" aria-label="Search benchmark operations" placeholder="Search operation">
+      <div id="comparison"></div>
+    </section>
+    <section class="card">
+      <h2>System Specifications</h2>
+      <div id="specs"></div>
+    </section>
   </main>
-  <script type="application/json" id="benchmark-data">{html.escape(json_payload)}</script>
+  <script type="application/json" id="benchmark-data">{payload_json}</script>
   <script>
+    const payloads = JSON.parse(document.getElementById("benchmark-data").textContent);
     const root = document.documentElement;
     const savedTheme = localStorage.getItem("theme");
     const preferredDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -234,6 +100,143 @@ def main() -> None:
       root.dataset.theme = next;
       localStorage.setItem("theme", next);
     }});
+
+    const fmtNs = (value) => {{
+      const n = Number(value);
+      if (n >= 1_000_000) return `${{(n / 1_000_000).toFixed(3)}} ms`;
+      if (n >= 1_000) return `${{(n / 1_000).toFixed(3)}} us`;
+      return `${{n.toFixed(1)}} ns`;
+    }};
+    const fmtBytes = (value) => {{
+      let n = Number(value);
+      for (const unit of ["B", "KiB", "MiB", "GiB", "TiB"]) {{
+        if (n < 1024 || unit === "TiB") return `${{n.toFixed(1)}} ${{unit}}`;
+        n /= 1024;
+      }}
+    }};
+    const esc = (s) => String(s).replace(/[&<>"']/g, c => ({{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}}[c]));
+    const systems = [...new Set(payloads.map(p => `${{p.system.system}} ${{p.system.machine}}`))].sort();
+    let activeSystem = systems[0];
+    let chart;
+
+    function bySystem(systemKey) {{
+      return payloads.filter(p => `${{p.system.system}} ${{p.system.machine}}` === systemKey);
+    }}
+    function byDist(items, dist) {{
+      return items.find(p => p.system.distribution === dist);
+    }}
+    function resultMap(payload) {{
+      return Object.fromEntries(payload.results.map(r => [r.name, r]));
+    }}
+    function median(values) {{
+      const sorted = values.slice().sort((a,b) => a-b);
+      return sorted[Math.floor(sorted.length / 2)];
+    }}
+    function ratio(a, b) {{
+      return a && b ? a.median_ns / b.median_ns : null;
+    }}
+    function ratioHtml(value) {{
+      if (value === null) return "";
+      const cls = value <= 1 ? "win" : "loss";
+      return `<span class="${{cls}}">${{value.toFixed(2)}}x</span>`;
+    }}
+
+    function renderTabs() {{
+      document.getElementById("tabs").innerHTML = systems.map(s =>
+        `<button type="button" class="${{s === activeSystem ? "active" : ""}}" data-system="${{esc(s)}}">${{esc(s)}}</button>`
+      ).join("");
+      document.querySelectorAll("#tabs button").forEach(btn => btn.addEventListener("click", () => {{
+        activeSystem = btn.dataset.system;
+        render();
+      }}));
+    }}
+
+    function renderCards(items) {{
+      const ffi = byDist(items, "swisseph-ffi");
+      const pysweph = byDist(items, "pysweph");
+      const pyswisseph = byDist(items, "pyswisseph");
+      const ffiMap = resultMap(ffi);
+      const pyswephMap = pysweph ? resultMap(pysweph) : {{}};
+      const ratios = Object.keys(ffiMap).map(k => ratio(ffiMap[k], pyswephMap[k])).filter(v => v !== null);
+      const medianRatio = ratios.length ? median(ratios) : 0;
+      document.getElementById("cards").innerHTML = [
+        ["Runner", activeSystem],
+        ["CPU", ffi.system.processor],
+        ["Threads", ffi.system.cpu_count],
+        ["RAM", fmtBytes(ffi.system.ram_bytes)],
+        ["Protocol", `${{ffi.results[0].warmup}} warmup + ${{ffi.results[0].iterations}} measured`],
+        ["Configured", `${{ffi.system.configured_function_count}} functions`],
+        ["Benchmarked", `${{ffi.system.benchmarked_function_count}} FFI ops`],
+        ["Median FFI/pysweph", ratios.length ? `${{medianRatio.toFixed(2)}}x` : ""],
+        ["pysweph", pysweph ? pysweph.system.distribution_version : ""],
+        ["pyswisseph", pyswisseph ? pyswisseph.system.distribution_version : ""],
+      ].map(([label, value]) => `<div class="card metric"><div class="label">${{esc(label)}}</div><div class="value">${{esc(value)}}</div></div>`).join("");
+    }}
+
+    function renderChart(items) {{
+      const labels = byDist(items, "swisseph-ffi").results.map(r => r.name);
+      const datasets = [
+        ["swisseph-ffi", "swisseph-ffi", getComputedStyle(root).getPropertyValue("--ffi")],
+        ["pysweph", "pysweph", getComputedStyle(root).getPropertyValue("--pysweph")],
+        ["pyswisseph", "pyswisseph", getComputedStyle(root).getPropertyValue("--pyswisseph")],
+      ].map(([label, dist, color]) => {{
+        const payload = byDist(items, dist);
+        const map = payload ? resultMap(payload) : {{}};
+        return {{ label, data: labels.map(name => map[name] ? map[name].median_ns / 1000 : null), backgroundColor: color, borderColor: color }};
+      }});
+      if (chart) chart.destroy();
+      chart = new Chart(document.getElementById("latencyChart"), {{
+        type: "bar",
+        data: {{ labels, datasets }},
+        options: {{
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {{ y: {{ title: {{ display: true, text: "Median latency (microseconds)" }} }} }},
+          plugins: {{ legend: {{ position: "top" }} }}
+        }}
+      }});
+    }}
+
+    function renderComparison(items) {{
+      const query = document.getElementById("search").value.toLowerCase();
+      const ffi = byDist(items, "swisseph-ffi");
+      const rows = ffi.results.filter(r => r.name.toLowerCase().includes(query)).map(r => {{
+        const py = byDist(items, "pysweph");
+        const pys = byDist(items, "pyswisseph");
+        const pyR = py ? resultMap(py)[r.name] : null;
+        const pysR = pys ? resultMap(pys)[r.name] : null;
+        return `<tr>
+          <td><code>${{esc(r.name)}}</code></td>
+          <td>${{fmtNs(r.median_ns)}}</td>
+          <td>${{pyR ? fmtNs(pyR.median_ns) : ""}}</td>
+          <td>${{ratioHtml(ratio(r, pyR))}}</td>
+          <td>${{pysR ? fmtNs(pysR.median_ns) : ""}}</td>
+          <td>${{ratioHtml(ratio(r, pysR))}}</td>
+        </tr>`;
+      }}).join("");
+      document.getElementById("comparison").innerHTML = `<table>
+        <thead><tr><th>Operation</th><th>swisseph-ffi</th><th>pysweph</th><th>FFI / pysweph</th><th>pyswisseph</th><th>FFI / pyswisseph</th></tr></thead>
+        <tbody>${{rows}}</tbody>
+      </table>`;
+    }}
+
+    function renderSpecs(items) {{
+      const rows = items.flatMap(p => Object.entries(p.system).map(([k, v]) =>
+        `<tr><td><span class="pill">${{esc(p.system.distribution)}}</span></td><th>${{esc(k)}}</th><td>${{esc(typeof v === "number" && k === "ram_bytes" ? fmtBytes(v) : v)}}</td></tr>`
+      )).join("");
+      document.getElementById("specs").innerHTML = `<table><tbody>${{rows}}</tbody></table>`;
+    }}
+
+    function render() {{
+      renderTabs();
+      const items = bySystem(activeSystem);
+      renderCards(items);
+      renderChart(items);
+      renderComparison(items);
+      renderSpecs(items);
+    }}
+    document.getElementById("search").addEventListener("input", () => renderComparison(bySystem(activeSystem)));
+    render();
   </script>
 </body>
 </html>
