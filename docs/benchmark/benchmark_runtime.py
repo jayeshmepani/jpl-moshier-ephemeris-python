@@ -347,7 +347,7 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
 
     # Also set ephe path for fixstar (uses sefstars.txt) — same logic as EXT side
     import os as _os, tempfile as _tmp, urllib.request as _ul
-    _sefstars_url = "https://www.astro.com/ftp/swisseph/ephe/sefstars.txt"
+    _sefstars_url = "https://raw.githubusercontent.com/aloistr/swisseph/master/ephe/sefstars.txt"
     def _ffi_ephe_path() -> str:
         for candidate in ("/usr/share/swisseph", "/usr/local/share/swisseph", "."):
             if _os.path.isfile(_os.path.join(candidate, "sefstars.txt")):
@@ -541,7 +541,7 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     import tempfile
     import urllib.request
 
-    SEFSTARS_URL = "https://www.astro.com/ftp/swisseph/ephe/sefstars.txt"
+    SEFSTARS_URL = "https://raw.githubusercontent.com/aloistr/swisseph/master/ephe/sefstars.txt"
 
     def _resolve_ephe_path() -> str:
         # 1. Check bundled ephe dir inside the pysweph package
