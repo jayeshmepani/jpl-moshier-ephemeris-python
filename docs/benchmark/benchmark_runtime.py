@@ -639,6 +639,7 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
 
 
 def run_cases(cases: CaseMap, iterations: int, warmup: int, slot: str) -> dict[str, dict[str, Any]]:
+    import sys
     results: dict[str, dict[str, Any]] = {}
     for name, fn in cases.items():
         try:
@@ -646,9 +647,11 @@ def run_cases(cases: CaseMap, iterations: int, warmup: int, slot: str) -> dict[s
         except Exception as exc:
             results[name] = {slot: None, "error": f"{type(exc).__name__}: {exc}"}
             print(f"{name}: ERR {type(exc).__name__}: {exc}")
+            sys.stdout.flush()
             continue
         results[name] = {slot: stats}
         print(f"{name}: {slot.upper()} {stats['mean']:.2f} us")
+        sys.stdout.flush()
     return results
 
 
