@@ -6,6 +6,7 @@ on:
     branches:
       - main
     paths:
+      - "src/**"
       - "docs/benchmark/**"
       - ".github/workflows/benchmarks.yml"
 
@@ -54,7 +55,6 @@ jobs:
                 --library ffi `
                 --warmup 100 `
                 --iterations 1000 `
-                --repeats 1 `
                 --output $output
             } else {
               & $py docs/benchmark/benchmark_runtime.py `
@@ -62,7 +62,6 @@ jobs:
                 --distribution $distribution `
                 --warmup 100 `
                 --iterations 1000 `
-                --repeats 1 `
                 --output $output
             }
           }
@@ -92,7 +91,6 @@ jobs:
             --distribution pyswisseph `
             --warmup 100 `
             --iterations 1000 `
-            --repeats 1 `
             --output "docs/benchmark/${{ matrix.os }}-pyswisseph.json"
 
       - name: Upload benchmark JSON
