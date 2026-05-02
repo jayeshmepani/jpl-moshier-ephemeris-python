@@ -89,6 +89,41 @@ replacement for higher-level astrology libraries; it is a low-level foundation
 for users who want direct Swiss Ephemeris calls from Python without a compiled
 Python extension module.
 
+## Transparency Against Existing Python Bindings
+
+This package is intentionally explicit about the gap it fills.
+
+| Area | `pyswisseph` | `pysweph` | `swisseph-ffi` |
+| --- | --- | --- | --- |
+| Binding model | CPython C extension | CPython C extension fork | Pure Python `ctypes` runtime FFI |
+| Python ABI coupling | Yes, wheel tags are CPython/version/platform-specific | Yes, wheel tags are CPython/version/platform-specific | No compiled Python extension ABI |
+| Latest PyPI release checked | `2.10.3.2`, uploaded June 4, 2023 | `2.10.3.6`, uploaded February 19, 2026 | `1.0.0`, uploaded May 2026 |
+| Python support metadata checked | `>=3.5`, but published wheels are still ABI-tagged | `>=3.8`, classifiers/wheels checked through CPython 3.13 | `>=3.10`, tested target 3.10 through 3.14 |
+| Install/build risk | May need source build when no matching wheel exists | May need source build when no matching wheel exists | Ships one pure Python wheel plus bundled native libs |
+| Raw C API contract | Python extension API | Python extension API with documented breaking changes | Direct `ctypes` signatures and caller-owned buffers |
+| Function coverage in this project | Not used as source of truth | Not used as source of truth | 106/106 public Swiss Ephemeris C functions configured |
+
+Known public context:
+
+- `pyswisseph` has a public open issue titled "Error when installing
+  pyswisseph using pip on python 3.12".
+- `pysweph` was created as a maintained community fork after the original
+  project showed maintenance/documentation gaps.
+- `pysweph` documents breaking changes from `pyswisseph`, including changed
+  house cusp return behavior.
+- `pysweph` also states that its test suite was deprecated as of February 6,
+  2026 due to `calc` and `houses` function patches.
+
+That is the motivation for `swisseph-ffi`: keep the Python layer runtime-only,
+avoid CPython extension ABI churn, ship the native libraries directly, and make
+the raw Swiss Ephemeris C surface visible without Pythonic reshaping.
+
+References:
+
+- `pyswisseph` PyPI: <https://pypi.org/project/pyswisseph/2.10.3.2/>
+- `pyswisseph` Python 3.12 issue: <https://github.com/astrorigin/pyswisseph/issues/71>
+- `pysweph` PyPI: <https://pypi.org/project/pysweph/>
+
 ## Quick Start
 
 ```python
