@@ -10,6 +10,7 @@ import argparse
 import gc
 import importlib.metadata
 import json
+import os
 import platform
 import statistics
 import sys
@@ -17,6 +18,7 @@ import time
 from collections.abc import Callable
 from ctypes import c_char, c_char_p, c_double, c_int, create_string_buffer
 from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -72,17 +74,53 @@ def package_version(distribution: str) -> str:
 
 
 def system_metadata(library: str, distribution: str) -> dict[str, object]:
+    memory_bytes = None
+    if hasattr(os, "sysconf"):
+        try:
+            memory_bytes = os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES")
+        except (OSError, ValueError):
+            memory_bytes = None
+    if memory_bytes is None and platform.system() == "Windows":
+        try:
+            import ctypes
+
+            class MemoryStatus(ctypes.Structure):
+                _fields_ = [
+                    ("dwLength", ctypes.c_ulong),
+                    ("dwMemoryLoad", ctypes.c_ulong),
+                    ("ullTotalPhys", ctypes.c_ulonglong),
+                    ("ullAvailPhys", ctypes.c_ulonglong),
+                    ("ullTotalPageFile", ctypes.c_ulonglong),
+                    ("ullAvailPageFile", ctypes.c_ulonglong),
+                    ("ullTotalVirtual", ctypes.c_ulonglong),
+                    ("ullAvailVirtual", ctypes.c_ulonglong),
+                    ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
+                ]
+
+            status = MemoryStatus()
+            status.dwLength = ctypes.sizeof(status)
+            ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status))
+            memory_bytes = int(status.ullTotalPhys)
+        except (AttributeError, OSError):
+            memory_bytes = None
+
     return {
         "library": library,
         "distribution": distribution,
         "distribution_version": package_version(distribution),
+        "generated_at_utc": datetime.now(UTC).isoformat(),
         "python": sys.version,
         "python_version": platform.python_version(),
         "implementation": platform.python_implementation(),
+        "compiler": platform.python_compiler(),
         "os": platform.platform(),
         "system": platform.system(),
+        "release": platform.release(),
+        "version": platform.version(),
         "machine": platform.machine(),
         "processor": platform.processor(),
+        "cpu_count": os.cpu_count(),
+        "ram_bytes": memory_bytes,
     }
 
 

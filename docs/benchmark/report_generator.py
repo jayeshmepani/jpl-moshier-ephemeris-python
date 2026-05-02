@@ -35,6 +35,17 @@ def fmt_ns(value: object) -> str:
     return f"{number:.1f} ns"
 
 
+def fmt_bytes(value: object) -> str:
+    if value in (None, ""):
+        return "unknown"
+    number = float(value)
+    for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
+        if number < 1024 or unit == "TiB":
+            return f"{number:.1f} {unit}"
+        number /= 1024
+    return f"{number:.1f} TiB"
+
+
 def result_map(payload: dict[str, object]) -> dict[str, dict[str, object]]:
     return {str(item["name"]): item for item in payload["results"]}  # type: ignore[index]
 
@@ -49,6 +60,24 @@ def ratio_cell(base: dict[str, object] | None, other: dict[str, object] | None) 
 
 def render_payload(payload: dict[str, object]) -> str:
     system = payload["system"]  # type: ignore[index]
+    specs = [
+        ("Operating System", system.get("os", "")),
+        ("Kernel/Release", system.get("release", "")),
+        ("Architecture", system.get("machine", "")),
+        ("Processor", system.get("processor", "") or "reported by runner as empty"),
+        ("CPU Threads", system.get("cpu_count", "")),
+        ("Runner RAM", fmt_bytes(system.get("ram_bytes"))),
+        ("Python Runtime", f"{system.get('implementation')} {system.get('python_version')}"),
+        ("Python Compiler", system.get("compiler", "")),
+        ("Distribution", f"{system.get('distribution')} {system.get('distribution_version')}"),
+        ("Swiss Ephemeris", system.get("swiss_ephemeris_version", "")),
+        ("Native/Module Path", system.get("native_library") or system.get("module_file") or ""),
+        ("Generated At UTC", system.get("generated_at_utc", "")),
+    ]
+    spec_rows = "".join(
+        f"<tr><th>{html.escape(str(label))}</th><td>{html.escape(str(value))}</td></tr>"
+        for label, value in specs
+    )
     rows = []
     for item in payload["results"]:  # type: ignore[index]
         rows.append(
@@ -69,6 +98,9 @@ def render_payload(payload: dict[str, object]) -> str:
         <span>{html.escape(str(system.get("system", "")))} {html.escape(str(system.get("machine", "")))}</span>
         <span>Python {html.escape(str(system.get("python_version", "")))}</span>
       </div>
+      <table class="specs">
+        <tbody>{spec_rows}</tbody>
+      </table>
       <table>
         <thead>
           <tr><th>Operation</th><th>Median</th><th>Mean</th><th>Min</th><th>Max</th><th>Samples</th></tr>
@@ -154,6 +186,9 @@ def main() -> None:
     .meta {{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; color: var(--muted); }}
     .meta span {{ border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }}
     table {{ width: 100%; border-collapse: collapse; min-width: 760px; }}
+    .specs {{ min-width: 0; margin-bottom: 18px; }}
+    .specs th {{ width: 220px; }}
+    .specs td {{ word-break: break-word; }}
     th, td {{ border-bottom: 1px solid var(--line); padding: 10px; text-align: left; vertical-align: top; }}
     th {{ color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }}
     code {{ font-family: "JetBrains Mono", Consolas, monospace; }}
