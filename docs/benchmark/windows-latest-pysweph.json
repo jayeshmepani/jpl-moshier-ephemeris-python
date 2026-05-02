@@ -1,8 +1,8 @@
 {
   "system": {
-    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
     "cores": "2C / 4T",
-    "freq": "2.6 GHz",
+    "freq": "2.44 GHz",
     "l3": "32 MB",
     "arch": "AMD64",
     "instr": "Unavailable on runner",
@@ -14,7 +14,7 @@
     "python_implementation": "CPython",
     "python_compiler": "MSC v.1943 64 bit (AMD64)",
     "os": "Windows 2025Server (AMD64)",
-    "date": "2026-05-02T20:00:49.770461+00:00",
+    "date": "2026-05-02T20:05:26.933759+00:00",
     "library": "Swiss Ephemeris 2.10.03",
     "distribution": "pysweph",
     "distribution_version": "2.10.3.6",
@@ -28,1075 +28,1099 @@
   "results": {
     "swe_calc_ut": {
       "ext": {
-        "mean": 15.193999999999999,
-        "median": 14.7,
-        "p95": 16.2,
-        "stddev": 2.8842094237416256,
-        "min": 14.2,
-        "max": 64.1,
+        "mean": 16.1012,
+        "median": 15.2,
+        "p95": 19.0,
+        "stddev": 4.630274134433079,
+        "min": 14.8,
+        "max": 78.3,
         "count": 1000,
         "mem": 33018
       }
     },
     "swe_julday": {
       "ext": {
-        "mean": 1.198,
-        "median": 1.2,
-        "p95": 1.3,
-        "stddev": 0.6322467872595321,
-        "min": 0.8,
-        "max": 20.5,
+        "mean": 1.3331,
+        "median": 1.3,
+        "p95": 1.5,
+        "stddev": 0.6208336250558598,
+        "min": 0.9,
+        "max": 19.2,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_revjul": {
       "ext": {
-        "mean": 1.7056,
-        "median": 1.6,
-        "p95": 1.9,
-        "stddev": 0.49748230119271575,
-        "min": 1.2,
-        "max": 12.7,
+        "mean": 1.8385,
+        "median": 1.8,
+        "p95": 2.1,
+        "stddev": 0.7262559810424971,
+        "min": 1.4,
+        "max": 18.7,
         "count": 1000,
         "mem": 30688
       }
     },
     "swe_get_ayanamsa": {
       "ext": {
-        "mean": 2.1072,
-        "median": 2.1,
-        "p95": 2.2,
-        "stddev": 0.7457936443816078,
-        "min": 1.7,
-        "max": 24.5,
+        "mean": 2.2284,
+        "median": 2.2,
+        "p95": 2.3,
+        "stddev": 0.5843572879668739,
+        "min": 1.8,
+        "max": 17.3,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_get_ayanamsa_ut": {
       "ext": {
-        "mean": 2.2067,
-        "median": 2.2,
-        "p95": 2.3,
-        "stddev": 1.2154361809655,
-        "min": 1.8,
-        "max": 36.6,
+        "mean": 2.3047999999999997,
+        "median": 2.3,
+        "p95": 2.4,
+        "stddev": 0.32452574628217096,
+        "min": 1.9,
+        "max": 8.0,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_deltat": {
       "ext": {
-        "mean": 1.2012,
+        "mean": 1.2264,
         "median": 1.2,
-        "p95": 1.3,
-        "stddev": 0.6209175146506982,
-        "min": 0.8,
-        "max": 20.1,
+        "p95": 1.4,
+        "stddev": 0.22005235740614096,
+        "min": 0.9,
+        "max": 5.7,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_sidtime": {
       "ext": {
-        "mean": 4.3372,
-        "median": 4.3,
+        "mean": 4.3158,
+        "median": 4.2,
         "p95": 4.4,
-        "stddev": 0.9073015816144046,
+        "stddev": 1.1798942155973138,
         "min": 3.9,
-        "max": 23.7,
+        "max": 26.1,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_sidtime0": {
       "ext": {
-        "mean": 2.1253,
-        "median": 2.1,
-        "p95": 2.2,
-        "stddev": 0.5649689460492496,
-        "min": 1.7,
-        "max": 18.7,
+        "mean": 2.2631,
+        "median": 2.2,
+        "p95": 2.3,
+        "stddev": 1.3524157607777276,
+        "min": 1.8,
+        "max": 36.8,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_degnorm": {
       "ext": {
-        "mean": 1.0879,
-        "median": 1.1,
-        "p95": 1.2,
-        "stddev": 0.6048831209415584,
-        "min": 0.7,
-        "max": 18.9,
+        "mean": 1.1679,
+        "median": 1.2,
+        "p95": 1.3,
+        "stddev": 0.16929143510526454,
+        "min": 0.8,
+        "max": 2.8,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_radnorm": {
       "ext": {
-        "mean": 1.1186,
-        "median": 1.1,
-        "p95": 1.2,
-        "stddev": 1.0860267215865362,
-        "min": 0.7,
-        "max": 29.5,
+        "mean": 1.1747,
+        "median": 1.2,
+        "p95": 1.3,
+        "stddev": 0.5583636001746531,
+        "min": 0.8,
+        "max": 17.7,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_rad_midp": {
       "ext": {
-        "mean": 1.1996,
-        "median": 1.1,
-        "p95": 1.3,
-        "stddev": 1.3282017316657888,
+        "mean": 1.2442,
+        "median": 1.2,
+        "p95": 1.4,
+        "stddev": 0.7362787243972218,
         "min": 0.8,
-        "max": 33.9,
+        "max": 22.7,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_deg_midp": {
       "ext": {
-        "mean": 1.1149,
-        "median": 1.1,
-        "p95": 1.2,
-        "stddev": 0.13441722359876354,
-        "min": 0.7,
-        "max": 2.6,
+        "mean": 1.2196,
+        "median": 1.2,
+        "p95": 1.3,
+        "stddev": 0.5399220684506236,
+        "min": 0.8,
+        "max": 16.9,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_difdegn": {
       "ext": {
-        "mean": 1.1176000000000001,
-        "median": 1.1,
-        "p95": 1.2,
-        "stddev": 0.6169037526227248,
-        "min": 0.7,
-        "max": 19.6,
+        "mean": 1.1773,
+        "median": 1.2,
+        "p95": 1.3,
+        "stddev": 0.20802574359919976,
+        "min": 0.8,
+        "max": 5.9,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_difdeg2n": {
       "ext": {
-        "mean": 1.1347,
-        "median": 1.1,
-        "p95": 1.2,
-        "stddev": 0.6909601363320463,
-        "min": 0.7,
-        "max": 22.3,
+        "mean": 1.1856,
+        "median": 1.2,
+        "p95": 1.3,
+        "stddev": 0.16796618707347022,
+        "min": 0.8,
+        "max": 3.0,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_difrad2n": {
       "ext": {
-        "mean": 1.1133,
-        "median": 1.1,
-        "p95": 1.2,
-        "stddev": 0.20806996419473905,
-        "min": 0.7,
-        "max": 5.3,
+        "mean": 1.2252,
+        "median": 1.2,
+        "p95": 1.3,
+        "stddev": 0.8063652770302056,
+        "min": 0.8,
+        "max": 25.1,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_csroundsec": {
       "ext": {
-        "mean": 1.1601000000000001,
-        "median": 1.1,
-        "p95": 1.3,
-        "stddev": 0.622943007023917,
-        "min": 1.0,
-        "max": 19.5,
+        "mean": 1.2931,
+        "median": 1.2,
+        "p95": 1.4,
+        "stddev": 0.8757981445515857,
+        "min": 1.2,
+        "max": 28.6,
         "count": 1000,
         "mem": 30588
       }
     },
     "swe_d2l": {
       "ext": {
-        "mean": 0.7978999999999999,
-        "median": 0.7,
-        "p95": 0.8,
-        "stddev": 0.8060183558703858,
+        "mean": 0.878,
+        "median": 0.8,
+        "p95": 0.9,
+        "stddev": 0.8353657881431343,
         "min": 0.7,
-        "max": 19.5,
+        "max": 26.6,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_day_of_week": {
       "ext": {
-        "mean": 0.7826,
-        "median": 0.7,
-        "p95": 0.8,
-        "stddev": 0.6952965122881029,
+        "mean": 0.8949,
+        "median": 0.8,
+        "p95": 1.1,
+        "stddev": 0.25215866037080703,
         "min": 0.7,
-        "max": 22.3,
+        "max": 5.7,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_houses": {
       "ext": {
-        "mean": 9.6393,
-        "median": 9.6,
+        "mean": 9.6904,
+        "median": 9.5,
         "p95": 9.8,
-        "stddev": 1.603684978416896,
-        "min": 7.7,
-        "max": 46.0,
+        "stddev": 2.588433472198967,
+        "min": 7.4,
+        "max": 49.1,
         "count": 1000,
         "mem": 31544
       }
     },
     "swe_houses_ex": {
       "ext": {
-        "mean": 9.8745,
-        "median": 9.8,
-        "p95": 10.0,
-        "stddev": 1.86912807212347,
-        "min": 7.8,
-        "max": 40.3,
+        "mean": 9.7334,
+        "median": 9.7,
+        "p95": 9.9,
+        "stddev": 1.8903715084607047,
+        "min": 7.6,
+        "max": 41.9,
         "count": 1000,
         "mem": 31688
       }
     },
     "swe_house_pos": {
       "ext": {
-        "mean": 3.6011,
-        "median": 3.5,
+        "mean": 3.6782,
+        "median": 3.6,
         "p95": 3.7,
-        "stddev": 1.07321423304017,
-        "min": 3.1,
-        "max": 27.6,
+        "stddev": 1.4472127556099,
+        "min": 3.2,
+        "max": 39.2,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_house_name": {
       "ext": {
-        "mean": 1.2184,
-        "median": 1.2,
-        "p95": 1.3,
-        "stddev": 0.6797215900646382,
-        "min": 1.1,
-        "max": 21.6,
+        "mean": 1.3288,
+        "median": 1.3,
+        "p95": 1.4,
+        "stddev": 0.16772167421058018,
+        "min": 1.2,
+        "max": 3.4,
         "count": 1000,
         "mem": 30605
       }
     },
     "swe_azalt": {
       "ext": {
-        "mean": 5.1248,
-        "median": 5.0,
-        "p95": 5.2,
-        "stddev": 1.455405428050892,
-        "min": 4.4,
-        "max": 35.8,
+        "mean": 5.3938,
+        "median": 5.1,
+        "p95": 6.3,
+        "stddev": 2.577235255074709,
+        "min": 4.3,
+        "max": 52.7,
         "count": 1000,
         "mem": 30680
       }
     },
     "swe_azalt_rev": {
       "ext": {
-        "mean": 4.8958,
+        "mean": 4.8828,
         "median": 4.8,
-        "p95": 5.0,
-        "stddev": 1.2035374360608813,
-        "min": 4.3,
-        "max": 30.5,
+        "p95": 4.9,
+        "stddev": 1.5285235228808225,
+        "min": 4.2,
+        "max": 29.7,
         "count": 1000,
         "mem": 30632
       }
     },
     "swe_refrac": {
       "ext": {
-        "mean": 1.1544,
-        "median": 1.1,
-        "p95": 1.3,
-        "stddev": 0.20356974234890604,
-        "min": 0.8,
-        "max": 4.5,
+        "mean": 1.473,
+        "median": 1.3,
+        "p95": 2.3,
+        "stddev": 1.4315764038290097,
+        "min": 0.9,
+        "max": 31.9,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_split_deg": {
       "ext": {
-        "mean": 1.3013,
-        "median": 1.3,
+        "mean": 1.4608999999999999,
+        "median": 1.4,
         "p95": 1.5,
-        "stddev": 0.2500566135898029,
-        "min": 0.9,
-        "max": 5.6,
+        "stddev": 1.2111652199431753,
+        "min": 1.0,
+        "max": 30.1,
         "count": 1000,
         "mem": 30664
       }
     },
     "swe_utc_to_jd": {
       "ext": {
-        "mean": 1.7429,
-        "median": 1.7,
-        "p95": 1.9,
-        "stddev": 0.237085617446525,
-        "min": 1.3,
-        "max": 5.7,
+        "mean": 1.9111,
+        "median": 1.9,
+        "p95": 2.0,
+        "stddev": 0.9476638591821469,
+        "min": 1.4,
+        "max": 31.3,
         "count": 1000,
         "mem": 30632
       }
     },
     "swe_calc": {
       "ext": {
-        "mean": 8.8469,
-        "median": 8.5,
-        "p95": 9.4,
-        "stddev": 2.2722434706694616,
-        "min": 7.7,
-        "max": 47.4,
+        "mean": 9.4454,
+        "median": 9.0,
+        "p95": 9.9,
+        "stddev": 3.488042264652193,
+        "min": 8.3,
+        "max": 66.8,
         "count": 1000,
         "mem": 31106
       }
     },
     "swe_calc_pctr": {
       "ext": {
-        "mean": 42.4057,
-        "median": 41.3,
-        "p95": 50.0,
-        "stddev": 4.338681540514353,
-        "min": 40.3,
-        "max": 76.8,
+        "mean": 45.0573,
+        "median": 43.1,
+        "p95": 49.5,
+        "stddev": 8.740963717462737,
+        "min": 41.6,
+        "max": 149.1,
         "count": 1000,
         "mem": 31106
       }
     },
     "swe_solcross": {
       "ext": {
-        "mean": 62.3403,
-        "median": 60.9,
-        "p95": 76.9,
-        "stddev": 4.851219012784313,
-        "min": 59.7,
-        "max": 93.4,
+        "mean": 65.2739,
+        "median": 62.4,
+        "p95": 82.4,
+        "stddev": 11.135267791571067,
+        "min": 61.0,
+        "max": 192.6,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_solcross_ut": {
       "ext": {
-        "mean": 88.1573,
-        "median": 85.4,
-        "p95": 103.5,
-        "stddev": 13.651435335157984,
-        "min": 84.1,
-        "max": 430.7,
+        "mean": 91.0352,
+        "median": 87.3,
+        "p95": 118.4,
+        "stddev": 12.633909963269486,
+        "min": 85.6,
+        "max": 212.0,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_mooncross": {
       "ext": {
-        "mean": 94.05,
-        "median": 91.4,
-        "p95": 111.8,
-        "stddev": 11.01916421512993,
-        "min": 90.3,
-        "max": 281.1,
+        "mean": 97.762,
+        "median": 93.7,
+        "p95": 128.2,
+        "stddev": 15.680125509701764,
+        "min": 91.9,
+        "max": 348.8,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_mooncross_ut": {
       "ext": {
-        "mean": 119.7679,
-        "median": 116.5,
-        "p95": 137.9,
-        "stddev": 9.467115695395298,
-        "min": 115.2,
-        "max": 239.2,
+        "mean": 122.1917,
+        "median": 118.1,
+        "p95": 163.0,
+        "stddev": 13.284825219399764,
+        "min": 116.7,
+        "max": 248.6,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_mooncross_node": {
       "ext": {
-        "mean": 209.3292,
-        "median": 205.0,
-        "p95": 235.5,
-        "stddev": 11.597858740302023,
-        "min": 202.6,
-        "max": 366.8,
+        "mean": 219.5003,
+        "median": 210.0,
+        "p95": 258.8,
+        "stddev": 28.203819775165208,
+        "min": 205.9,
+        "max": 773.3,
         "count": 1000,
         "mem": 30680
       }
     },
     "swe_mooncross_node_ut": {
       "ext": {
-        "mean": 209.7608,
-        "median": 205.2,
-        "p95": 236.7,
-        "stddev": 14.205116098082408,
-        "min": 202.1,
-        "max": 374.2,
+        "mean": 218.1868,
+        "median": 209.4,
+        "p95": 262.5,
+        "stddev": 24.243627322659453,
+        "min": 206.1,
+        "max": 579.0,
         "count": 1000,
         "mem": 30680
       }
     },
     "swe_helio_cross": {
       "ext": {
-        "mean": 73.5974,
-        "median": 71.7,
-        "p95": 89.9,
-        "stddev": 7.907769169620469,
-        "min": 70.2,
-        "max": 181.3,
+        "mean": 77.6495,
+        "median": 73.9,
+        "p95": 103.7,
+        "stddev": 12.44652078895946,
+        "min": 72.3,
+        "max": 237.9,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_helio_cross_ut": {
       "ext": {
-        "mean": 99.8901,
-        "median": 97.1,
-        "p95": 116.6,
-        "stddev": 7.98324069473043,
-        "min": 95.7,
-        "max": 183.3,
+        "mean": 101.5331,
+        "median": 98.2,
+        "p95": 140.6,
+        "stddev": 11.709717946645855,
+        "min": 96.8,
+        "max": 189.9,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_fixstar": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: fixstar"
+      "error": "TypeError: argument 1 must be str, not bytes"
     },
     "swe_fixstar_ut": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: fixstar_ut"
+      "error": "TypeError: argument 1 must be str, not bytes"
     },
     "swe_fixstar_mag": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: fixstar_mag"
+      "error": "TypeError: argument 1 must be str, not bytes"
     },
     "swe_fixstar2": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: fixstar2"
+      "error": "TypeError: argument 1 must be str, not bytes"
     },
     "swe_fixstar2_ut": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: fixstar2_ut"
+      "error": "TypeError: argument 1 must be str, not bytes"
     },
     "swe_fixstar2_mag": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: fixstar2_mag"
+      "error": "TypeError: argument 1 must be str, not bytes"
     },
     "swe_close": {
       "ext": {
-        "mean": 1.0253,
-        "median": 0.9,
-        "p95": 1.5,
-        "stddev": 0.24201221043575466,
+        "mean": 1.0992,
+        "median": 1.0,
+        "p95": 1.6,
+        "stddev": 0.8534397225346381,
         "min": 0.9,
-        "max": 4.2,
+        "max": 27.3,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_set_ephe_path": {
       "ext": {
-        "mean": 23.9432,
-        "median": 23.2,
-        "p95": 25.9,
-        "stddev": 3.7957020114861493,
-        "min": 22.8,
-        "max": 62.6,
+        "mean": 27.5518,
+        "median": 26.0,
+        "p95": 31.8,
+        "stddev": 6.55316387403825,
+        "min": 24.9,
+        "max": 100.2,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_get_library_path": {
       "ext": {
-        "mean": 1.2643,
-        "median": 1.2,
-        "p95": 1.4,
-        "stddev": 0.7083329090194808,
-        "min": 1.1,
-        "max": 22.6,
+        "mean": 1.4067,
+        "median": 1.4,
+        "p95": 1.5,
+        "stddev": 0.9641914280888417,
+        "min": 1.3,
+        "max": 31.2,
         "count": 1000,
         "mem": 30698
       }
     },
     "swe_set_jpl_file": {
       "ext": {
-        "mean": 8.3521,
-        "median": 8.0,
-        "p95": 8.8,
-        "stddev": 2.3017071034343184,
-        "min": 7.7,
-        "max": 55.7,
+        "mean": 9.8226,
+        "median": 9.3,
+        "p95": 10.5,
+        "stddev": 3.57790570585643,
+        "min": 8.9,
+        "max": 58.8,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_get_planet_name": {
       "ext": {
-        "mean": 1.2883,
-        "median": 1.3,
-        "p95": 1.4,
-        "stddev": 0.23420740808095716,
-        "min": 1.1,
-        "max": 6.3,
+        "mean": 1.4453,
+        "median": 1.4,
+        "p95": 1.6,
+        "stddev": 0.2727598027569312,
+        "min": 1.3,
+        "max": 5.1,
         "count": 1000,
         "mem": 30604
       }
     },
     "swe_set_topo": {
       "ext": {
-        "mean": 0.7874,
-        "median": 0.8,
+        "mean": 0.886,
+        "median": 0.9,
         "p95": 0.9,
-        "stddev": 0.5324483449124431,
-        "min": 0.7,
-        "max": 16.9,
+        "stddev": 0.1903260360539251,
+        "min": 0.8,
+        "max": 5.5,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_set_sid_mode": {
       "ext": {
-        "mean": 0.8677,
-        "median": 0.8,
-        "p95": 0.9,
-        "stddev": 0.5795745939911445,
-        "min": 0.7,
-        "max": 18.6,
+        "mean": 0.9559,
+        "median": 0.9,
+        "p95": 1.0,
+        "stddev": 0.14995062520709942,
+        "min": 0.9,
+        "max": 3.0,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_get_ayanamsa_ex": {
       "ext": {
-        "mean": 4.3269,
-        "median": 4.2,
-        "p95": 4.4,
-        "stddev": 1.2861673258172903,
+        "mean": 4.4883,
+        "median": 4.3,
+        "p95": 5.4,
+        "stddev": 1.7558738878404678,
         "min": 3.8,
-        "max": 34.0,
+        "max": 42.9,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_get_ayanamsa_ex_ut": {
       "ext": {
-        "mean": 4.3927000000000005,
-        "median": 4.4,
+        "mean": 4.3922,
+        "median": 4.3,
         "p95": 4.5,
-        "stddev": 1.1509373180151905,
+        "stddev": 1.3264536026563463,
         "min": 3.9,
-        "max": 30.4,
+        "max": 34.0,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_get_ayanamsa_name": {
       "ext": {
-        "mean": 1.147,
-        "median": 1.1,
-        "p95": 1.3,
-        "stddev": 0.1411063428765695,
-        "min": 1.0,
-        "max": 3.0,
+        "mean": 1.2673,
+        "median": 1.2,
+        "p95": 1.4,
+        "stddev": 0.1909468774292997,
+        "min": 1.1,
+        "max": 5.5,
         "count": 1000,
         "mem": 30603
       }
     },
     "swe_get_current_file_data": {
       "ext": {
-        "mean": 1.299,
-        "median": 1.3,
-        "p95": 1.4,
-        "stddev": 0.6846743751594622,
-        "min": 0.8,
-        "max": 22.5,
+        "mean": 1.6006,
+        "median": 1.4,
+        "p95": 2.3,
+        "stddev": 2.334112173825414,
+        "min": 0.9,
+        "max": 61.8,
         "count": 1000,
         "mem": 30632
       }
     },
     "swe_date_conversion": {
       "ext": {
-        "mean": 1.9075,
-        "median": 1.9,
-        "p95": 2.1,
-        "stddev": 0.8614138088050365,
-        "min": 1.4,
-        "max": 27.5,
+        "mean": 2.3669000000000002,
+        "median": 2.1,
+        "p95": 4.3,
+        "stddev": 1.068875292071063,
+        "min": 1.5,
+        "max": 23.2,
         "count": 1000,
         "mem": 30736
       }
     },
     "swe_jdet_to_utc": {
       "ext": {
-        "mean": 2.109,
-        "median": 2.1,
-        "p95": 2.3,
-        "stddev": 0.9396270536760849,
-        "min": 1.7,
-        "max": 30.8,
+        "mean": 2.3546,
+        "median": 2.2,
+        "p95": 2.9,
+        "stddev": 3.219943918766288,
+        "min": 1.8,
+        "max": 102.7,
         "count": 1000,
         "mem": 30616
       }
     },
     "swe_jdut1_to_utc": {
       "ext": {
-        "mean": 2.1591,
-        "median": 2.1,
-        "p95": 2.3,
-        "stddev": 0.8608816353018572,
-        "min": 1.7,
-        "max": 27.7,
+        "mean": 2.3204,
+        "median": 2.2,
+        "p95": 2.4,
+        "stddev": 0.9831601293787294,
+        "min": 1.9,
+        "max": 21.4,
         "count": 1000,
         "mem": 30616
       }
     },
     "swe_utc_time_zone": {
       "ext": {
-        "mean": 1.7147999999999999,
-        "median": 1.7,
-        "p95": 1.9,
-        "stddev": 0.2791790823109783,
-        "min": 1.3,
-        "max": 6.4,
+        "mean": 1.9471,
+        "median": 1.9,
+        "p95": 2.1,
+        "stddev": 0.6964995262022796,
+        "min": 1.5,
+        "max": 20.8,
         "count": 1000,
         "mem": 30616
       }
     },
     "swe_houses_armc": {
       "ext": {
-        "mean": 5.9313,
-        "median": 5.9,
-        "p95": 6.1,
-        "stddev": 1.821996243135534,
+        "mean": 6.0702,
+        "median": 6.1,
+        "p95": 6.2,
+        "stddev": 1.3487594151663966,
         "min": 4.0,
-        "max": 38.2,
+        "max": 26.3,
         "count": 1000,
         "mem": 31544
       }
     },
     "swe_houses_armc_ex2": {
       "ext": {
-        "mean": 8.734,
-        "median": 8.7,
-        "p95": 9.1,
-        "stddev": 2.122504181385752,
-        "min": 5.4,
-        "max": 46.2,
+        "mean": 9.2152,
+        "median": 9.2,
+        "p95": 9.6,
+        "stddev": 1.724763450447626,
+        "min": 5.3,
+        "max": 30.1,
         "count": 1000,
         "mem": 33048
       }
     },
     "swe_houses_ex2": {
       "ext": {
-        "mean": 12.703,
-        "median": 12.5,
-        "p95": 12.9,
-        "stddev": 2.6411874223538168,
-        "min": 9.1,
-        "max": 54.8,
+        "mean": 12.9061,
+        "median": 12.8,
+        "p95": 13.2,
+        "stddev": 2.399619301055899,
+        "min": 8.8,
+        "max": 54.0,
         "count": 1000,
         "mem": 32800
       }
     },
     "swe_gauquelin_sector": {
       "ext": null,
-      "error": "TypeError: must be real number, not tuple"
+      "error": "TypeError: function takes at most 7 arguments (9 given)"
     },
     "swe_sol_eclipse_where": {
       "ext": {
-        "mean": 76.6908,
-        "median": 74.5,
-        "p95": 87.7,
-        "stddev": 8.051424430496755,
-        "min": 71.2,
-        "max": 182.4,
+        "mean": 85.0243,
+        "median": 81.9,
+        "p95": 97.6,
+        "stddev": 11.234310815977988,
+        "min": 78.4,
+        "max": 185.8,
         "count": 1000,
         "mem": 32296
       }
     },
     "swe_lun_occult_where": {
-      "ext": null,
-      "error": "TypeError: function takes at most 3 arguments (4 given)"
+      "ext": {
+        "mean": 103.263,
+        "median": 98.0,
+        "p95": 135.1,
+        "stddev": 14.71286957054945,
+        "min": 92.6,
+        "max": 237.1,
+        "count": 1000,
+        "mem": 32360
+      }
     },
     "swe_sol_eclipse_how": {
-      "ext": null,
-      "error": "TypeError: 'tuple' object cannot be interpreted as an integer"
+      "ext": {
+        "mean": 104.9052,
+        "median": 99.1,
+        "p95": 136.9,
+        "stddev": 21.29751940860719,
+        "min": 95.5,
+        "max": 526.5,
+        "count": 1000,
+        "mem": 31496
+      }
     },
     "swe_sol_eclipse_when_loc": {
       "ext": {
-        "mean": 20940.2449,
-        "median": 20841.9,
-        "p95": 21325.6,
-        "stddev": 526.0790572851099,
-        "min": 20503.0,
-        "max": 27397.2,
+        "mean": 22214.3374,
+        "median": 22061.5,
+        "p95": 23003.0,
+        "stddev": 763.3866575734999,
+        "min": 21651.7,
+        "max": 34220.5,
         "count": 1000,
-        "mem": 32328
+        "mem": 32008
       }
     },
     "swe_lun_occult_when_loc": {
       "ext": {
-        "mean": 62624.8624,
-        "median": 62407.4,
-        "p95": 63651.4,
-        "stddev": 1252.0286866546787,
-        "min": 61579.4,
-        "max": 83848.4,
+        "mean": 67576.9881,
+        "median": 66471.8,
+        "p95": 75595.2,
+        "stddev": 3540.025652193553,
+        "min": 64609.5,
+        "max": 93926.7,
         "count": 1000,
         "mem": 32008
       }
     },
     "swe_sol_eclipse_when_glob": {
       "ext": {
-        "mean": 4535.3715,
-        "median": 4492.3,
-        "p95": 4762.6,
-        "stddev": 192.68019472107142,
-        "min": 4409.4,
-        "max": 6837.4,
+        "mean": 4822.6487,
+        "median": 4782.9,
+        "p95": 5005.5,
+        "stddev": 199.95402276100873,
+        "min": 4679.5,
+        "max": 7296.0,
         "count": 1000,
         "mem": 31016
       }
     },
     "swe_lun_occult_when_glob": {
       "ext": {
-        "mean": 12034.0028,
-        "median": 11960.2,
-        "p95": 12297.1,
-        "stddev": 373.8074225482421,
-        "min": 11798.8,
-        "max": 19335.2,
+        "mean": 13673.5077,
+        "median": 12857.8,
+        "p95": 18654.2,
+        "stddev": 2160.1609149159954,
+        "min": 12499.5,
+        "max": 30503.9,
         "count": 1000,
         "mem": 31016
       }
     },
     "swe_lun_eclipse_how": {
-      "ext": null,
-      "error": "TypeError: 'tuple' object cannot be interpreted as an integer"
+      "ext": {
+        "mean": 48.1347,
+        "median": 43.5,
+        "p95": 79.4,
+        "stddev": 15.82933687524528,
+        "min": 40.2,
+        "max": 253.6,
+        "count": 1000,
+        "mem": 31496
+      }
     },
     "swe_lun_eclipse_when": {
       "ext": {
-        "mean": 2110.4634,
-        "median": 2100.3,
-        "p95": 2164.8,
-        "stddev": 44.94545272260587,
-        "min": 2042.9,
-        "max": 2593.1,
+        "mean": 2320.1329,
+        "median": 2247.8,
+        "p95": 2555.0,
+        "stddev": 335.0348896870145,
+        "min": 2162.4,
+        "max": 4909.6,
         "count": 1000,
         "mem": 31016
       }
     },
     "swe_lun_eclipse_when_loc": {
       "ext": {
-        "mean": 2815.3687,
-        "median": 2808.3,
-        "p95": 2889.7,
-        "stddev": 47.943065090897136,
-        "min": 2753.1,
-        "max": 3346.4,
+        "mean": 3030.6824,
+        "median": 2996.6,
+        "p95": 3157.6,
+        "stddev": 205.69472134753482,
+        "min": 2902.2,
+        "max": 6731.0,
         "count": 1000,
         "mem": 32008
       }
     },
     "swe_pheno": {
       "ext": {
-        "mean": 41.2677,
-        "median": 40.4,
-        "p95": 49.7,
-        "stddev": 4.74447117284951,
-        "min": 37.4,
-        "max": 115.6,
+        "mean": 45.6622,
+        "median": 42.5,
+        "p95": 64.9,
+        "stddev": 15.622192904966958,
+        "min": 39.8,
+        "max": 407.7,
         "count": 1000,
         "mem": 31496
       }
     },
     "swe_pheno_ut": {
       "ext": {
-        "mean": 78.6612,
-        "median": 76.8,
-        "p95": 87.5,
-        "stddev": 8.54885808514798,
-        "min": 73.6,
-        "max": 203.0,
+        "mean": 84.7534,
+        "median": 80.5,
+        "p95": 113.1,
+        "stddev": 10.787919560323019,
+        "min": 77.4,
+        "max": 146.5,
         "count": 1000,
         "mem": 31496
       }
     },
     "swe_refrac_extended": {
       "ext": {
-        "mean": 2.1297,
-        "median": 2.1,
-        "p95": 2.3,
-        "stddev": 1.1539964947953698,
-        "min": 1.4,
-        "max": 29.2,
+        "mean": 2.2428,
+        "median": 2.2,
+        "p95": 2.4,
+        "stddev": 0.6090222984423477,
+        "min": 1.5,
+        "max": 18.0,
         "count": 1000,
         "mem": 30776
       }
     },
     "swe_set_lapse_rate": {
       "ext": {
-        "mean": 0.7847999999999999,
-        "median": 0.7,
-        "p95": 0.8,
-        "stddev": 1.0565457680573995,
-        "min": 0.6,
-        "max": 25.5,
+        "mean": 0.8734000000000001,
+        "median": 0.8,
+        "p95": 0.9,
+        "stddev": 0.6357613074102575,
+        "min": 0.8,
+        "max": 20.5,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_rise_trans_true_hor": {
       "ext": null,
-      "error": "TypeError: must be real number, not tuple"
+      "error": "TypeError: function takes at most 8 arguments (10 given)"
     },
     "swe_rise_trans": {
       "ext": null,
-      "error": "TypeError: must be real number, not tuple"
+      "error": "TypeError: function takes at most 7 arguments (9 given)"
     },
     "swe_nod_aps": {
       "ext": {
-        "mean": 30.3124,
-        "median": 29.6,
-        "p95": 31.6,
-        "stddev": 4.4388811923726905,
-        "min": 27.4,
-        "max": 74.3,
+        "mean": 35.3408,
+        "median": 33.4,
+        "p95": 49.4,
+        "stddev": 7.284355521252378,
+        "min": 30.2,
+        "max": 105.3,
         "count": 1000,
         "mem": 32040
       }
     },
     "swe_nod_aps_ut": {
       "ext": {
-        "mean": 30.813,
-        "median": 30.0,
-        "p95": 32.3,
-        "stddev": 5.108795454899325,
-        "min": 27.4,
-        "max": 92.7,
+        "mean": 35.6665,
+        "median": 33.5,
+        "p95": 53.8,
+        "stddev": 7.639949459911367,
+        "min": 30.5,
+        "max": 104.6,
         "count": 1000,
         "mem": 32112
       }
     },
     "swe_get_orbital_elements": {
       "ext": {
-        "mean": 21.4056,
-        "median": 21.0,
-        "p95": 22.5,
-        "stddev": 3.290636509856414,
-        "min": 17.8,
-        "max": 62.2,
+        "mean": 24.7451,
+        "median": 23.3,
+        "p95": 33.8,
+        "stddev": 5.915098983956228,
+        "min": 19.8,
+        "max": 76.3,
         "count": 1000,
         "mem": 33784
       }
     },
     "swe_orbit_max_min_true_distance": {
       "ext": {
-        "mean": 945.9117,
-        "median": 942.2,
-        "p95": 983.4,
-        "stddev": 37.94885601846253,
-        "min": 920.5,
-        "max": 1550.1,
+        "mean": 1016.5417,
+        "median": 1015.5,
+        "p95": 1052.5,
+        "stddev": 40.05501280876091,
+        "min": 981.2,
+        "max": 1721.4,
         "count": 1000,
         "mem": 30680
       }
     },
     "swe_deltat_ex": {
       "ext": {
-        "mean": 1.2173,
-        "median": 1.2,
-        "p95": 1.3,
-        "stddev": 0.12276282010445996,
-        "min": 0.9,
-        "max": 2.5,
+        "mean": 1.4092,
+        "median": 1.4,
+        "p95": 1.5,
+        "stddev": 0.6250402867015853,
+        "min": 1.0,
+        "max": 18.0,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_time_equ": {
       "ext": {
-        "mean": 18.4971,
-        "median": 17.9,
-        "p95": 18.9,
-        "stddev": 3.9472828109979656,
-        "min": 17.0,
-        "max": 66.8,
+        "mean": 20.8645,
+        "median": 19.6,
+        "p95": 26.6,
+        "stddev": 5.8122448116024845,
+        "min": 18.7,
+        "max": 115.5,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_lmt_to_lat": {
       "ext": {
-        "mean": 18.422,
-        "median": 17.9,
-        "p95": 18.9,
-        "stddev": 3.1922211702825356,
-        "min": 17.2,
-        "max": 55.0,
+        "mean": 23.598300000000002,
+        "median": 19.7,
+        "p95": 44.7,
+        "stddev": 10.368023298102681,
+        "min": 18.8,
+        "max": 138.8,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_lat_to_lmt": {
       "ext": {
-        "mean": 71.785,
-        "median": 69.4,
-        "p95": 94.0,
-        "stddev": 9.656340663004801,
-        "min": 68.2,
-        "max": 255.7,
+        "mean": 88.6993,
+        "median": 75.3,
+        "p95": 151.2,
+        "stddev": 32.25585542982855,
+        "min": 73.0,
+        "max": 457.1,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_cotrans": {
       "ext": {
-        "mean": 1.4482,
-        "median": 1.4,
-        "p95": 1.6,
-        "stddev": 0.9664971598509745,
-        "min": 1.0,
-        "max": 31.6,
+        "mean": 2.8889,
+        "median": 2.0,
+        "p95": 3.7,
+        "stddev": 6.626562215055405,
+        "min": 1.1,
+        "max": 168.2,
         "count": 1000,
         "mem": 30680
       }
     },
     "swe_cotrans_sp": {
       "ext": {
-        "mean": 1.8055,
-        "median": 1.8,
-        "p95": 1.9,
-        "stddev": 1.1216861191973448,
-        "min": 1.1,
-        "max": 26.5,
+        "mean": 4.0503,
+        "median": 3.9,
+        "p95": 4.4,
+        "stddev": 7.168253616467543,
+        "min": 1.9,
+        "max": 218.5,
         "count": 1000,
         "mem": 30824
       }
     },
     "swe_get_tid_acc": {
       "ext": {
-        "mean": 0.9228000000000001,
-        "median": 0.9,
-        "p95": 1.0,
-        "stddev": 0.10344157771418609,
-        "min": 0.6,
-        "max": 2.3,
+        "mean": 2.5185,
+        "median": 2.0,
+        "p95": 2.3,
+        "stddev": 9.946537475423295,
+        "min": 0.7,
+        "max": 285.8,
         "count": 1000,
         "mem": 30584
       }
     },
     "swe_set_tid_acc": {
       "ext": {
-        "mean": 0.7453,
-        "median": 0.7,
-        "p95": 0.8,
-        "stddev": 0.07744617485712257,
+        "mean": 1.0795000000000001,
+        "median": 0.9,
+        "p95": 1.7,
+        "stddev": 0.4122738774164572,
         "min": 0.7,
-        "max": 1.6,
+        "max": 5.3,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_set_delta_t_userdef": {
       "ext": {
-        "mean": 0.7364999999999999,
-        "median": 0.7,
-        "p95": 0.8,
-        "stddev": 0.08853106799310627,
+        "mean": 1.7163,
+        "median": 1.6,
+        "p95": 1.9,
+        "stddev": 2.278570672592799,
         "min": 0.7,
-        "max": 1.9,
+        "max": 40.3,
         "count": 1000,
         "mem": 30556
       }
     },
     "swe_csnorm": {
       "ext": {
-        "mean": 1.1384,
-        "median": 1.1,
-        "p95": 1.2,
-        "stddev": 0.6731459277155288,
-        "min": 1.0,
-        "max": 22.0,
+        "mean": 1.3598,
+        "median": 1.2,
+        "p95": 2.3,
+        "stddev": 1.393694356736799,
+        "min": 1.2,
+        "max": 44.1,
         "count": 1000,
         "mem": 30588
       }
     },
     "swe_difcsn": {
       "ext": {
-        "mean": 1.2052,
-        "median": 1.1,
-        "p95": 1.3,
-        "stddev": 1.3619298660356927,
-        "min": 1.0,
-        "max": 32.8,
+        "mean": 2.5221,
+        "median": 2.5,
+        "p95": 2.9,
+        "stddev": 1.4188733523468542,
+        "min": 1.2,
+        "max": 34.5,
         "count": 1000,
         "mem": 30588
       }
     },
     "swe_difcs2n": {
       "ext": {
-        "mean": 1.1436,
-        "median": 1.1,
-        "p95": 1.3,
-        "stddev": 0.17725416779303102,
-        "min": 1.0,
-        "max": 5.3,
+        "mean": 1.4391,
+        "median": 1.3,
+        "p95": 2.6,
+        "stddev": 0.9508318410739094,
+        "min": 1.2,
+        "max": 27.0,
         "count": 1000,
         "mem": 30588
       }
     },
     "swe_cs2timestr": {
       "ext": {
-        "mean": 1.2449,
-        "median": 1.2,
-        "p95": 1.4,
-        "stddev": 0.5477535851092168,
-        "min": 1.1,
-        "max": 17.5,
+        "mean": 3.6885,
+        "median": 2.5,
+        "p95": 3.1,
+        "stddev": 22.080945128096307,
+        "min": 1.2,
+        "max": 607.5,
         "count": 1000,
         "mem": 30605
       }
     },
     "swe_cs2lonlatstr": {
       "ext": {
-        "mean": 1.2385,
-        "median": 1.2,
-        "p95": 1.3,
-        "stddev": 0.5900574124608554,
-        "min": 1.1,
-        "max": 18.8,
+        "mean": 2.5528,
+        "median": 1.4,
+        "p95": 3.2,
+        "stddev": 6.75324012308166,
+        "min": 1.3,
+        "max": 129.8,
         "count": 1000,
         "mem": 30604
       }
     },
     "swe_cs2degstr": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: cs2degstr"
+      "error": "TypeError: function takes at most 1 argument (2 given)"
     },
     "swe_heliacal_ut": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: heliacal_ut"
+      "error": "TypeError: argument 5 must be str, not bytes"
     },
     "swe_heliacal_pheno_ut": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: heliacal_pheno_ut"
+      "error": "TypeError: argument 5 must be str, not bytes"
     },
     "swe_vis_limit_mag": {
       "ext": null,
-      "error": "NotImplementedError: Crashes in pysweph: vis_limit_mag"
+      "error": "TypeError: argument 5 must be str, not bytes"
     }
   }
 }
