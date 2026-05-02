@@ -12,11 +12,13 @@ import importlib.metadata
 import json
 import os
 import platform
+import shutil
 import statistics
+import subprocess
 import sys
 import time
 from collections.abc import Callable
-from ctypes import c_char, c_char_p, c_double, c_int, create_string_buffer
+from ctypes import c_double, c_int, create_string_buffer
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -104,6 +106,28 @@ def system_metadata(library: str, distribution: str) -> dict[str, object]:
         except (AttributeError, OSError):
             memory_bytes = None
 
+    cpu_model = platform.processor()
+    if not cpu_model and platform.system() == "Linux":
+        try:
+            cpuinfo = Path("/proc/cpuinfo").read_text(encoding="utf-8", errors="ignore")
+            for line in cpuinfo.splitlines():
+                if line.startswith("model name"):
+                    cpu_model = line.split(":", 1)[1].strip()
+                    break
+        except OSError:
+            pass
+    if not cpu_model and platform.system() == "Darwin" and shutil.which("sysctl"):
+        cpu_model = subprocess.check_output(
+            ["sysctl", "-n", "machdep.cpu.brand_string"],
+            text=True,
+        ).strip()
+    if not cpu_model and platform.system() == "Windows":
+        cpu_model = os.environ.get("PROCESSOR_IDENTIFIER", "")
+    if not cpu_model:
+        raise RuntimeError("Unable to detect CPU model for transparent benchmark metadata")
+    if memory_bytes is None:
+        raise RuntimeError("Unable to detect RAM for transparent benchmark metadata")
+
     return {
         "library": library,
         "distribution": distribution,
@@ -118,7 +142,7 @@ def system_metadata(library: str, distribution: str) -> dict[str, object]:
         "release": platform.release(),
         "version": platform.version(),
         "machine": platform.machine(),
-        "processor": platform.processor(),
+        "processor": cpu_model,
         "cpu_count": os.cpu_count(),
         "ram_bytes": memory_bytes,
     }
@@ -204,47 +228,9 @@ def ffi_cases() -> tuple[dict[str, Callable[[], object]], dict[str, object]]:
         ),
     }
 
-    generic_double = (c_double * 64)(*([1.0] * 64))
-    generic_int = (c_int * 64)(*([1] * 64))
-    generic_char = create_string_buffer(b"Sirius", 1024)
-    generic_char_out = create_string_buffer(1024)
-
-    def value_for_arg(argtype: object) -> object:
-        if argtype is c_double:
-            return jd
-        if argtype is c_int:
-            return flags
-        if argtype is c_char:
-            return c_char(b"P")
-        if argtype is c_char_p:
-            return generic_char
-        name = getattr(argtype, "__name__", "")
-        if name == "LP_c_double":
-            return generic_double
-        if name in {"LP_c_int", "LP_c_long"}:
-            return generic_int
-        if name == "LP_c_char":
-            return generic_char_out
-        return generic_double
-
-    def make_generic_case(function_name: str) -> Callable[[], object]:
-        func = getattr(swe, function_name)
-        argtypes = _SIGNATURES[function_name][1]
-        args = [value_for_arg(argtype) for argtype in argtypes]
-
-        def call() -> object:
-            return func(*args)
-
-        return call
-
-    all_cases: dict[str, Callable[[], object]] = {}
-    for function_name in sorted(_SIGNATURES):
-        all_cases[function_name] = curated_cases.get(
-            function_name.removeprefix("swe_"),
-            make_generic_case(function_name),
-        )
-
-    return all_cases, metadata
+    metadata["configured_function_count"] = len(_SIGNATURES)
+    metadata["benchmarked_function_count"] = len(curated_cases)
+    return curated_cases, metadata
 
 
 def swisseph_cases(distribution: str) -> tuple[dict[str, Callable[[], object]], dict[str, object]]:
@@ -259,6 +245,10 @@ def swisseph_cases(distribution: str) -> tuple[dict[str, Callable[[], object]], 
     metadata["module_file"] = getattr(swe, "__file__", None)
     metadata["swiss_ephemeris_version"] = getattr(swe, "version", None)
     metadata["wrapper_version"] = getattr(swe, "__version__", None)
+    if metadata["module_file"] is None:
+        raise RuntimeError("Unable to detect swisseph module path")
+    if metadata["swiss_ephemeris_version"] is None:
+        raise RuntimeError("Unable to detect Swiss Ephemeris version")
 
     return {
         "julday": lambda: swe.julday(2026, 5, 2, 12.0, swe.GREG_CAL),

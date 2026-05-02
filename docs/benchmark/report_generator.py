@@ -36,8 +36,6 @@ def fmt_ns(value: object) -> str:
 
 
 def fmt_bytes(value: object) -> str:
-    if value in (None, ""):
-        return "unknown"
     number = float(value)
     for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
         if number < 1024 or unit == "TiB":
@@ -52,7 +50,7 @@ def result_map(payload: dict[str, object]) -> dict[str, dict[str, object]]:
 
 def ratio_cell(base: dict[str, object] | None, other: dict[str, object] | None) -> str:
     if not base or not other:
-        return ""
+        raise ValueError("comparison rows require both benchmark results")
     ratio = float(base["median_ns"]) / float(other["median_ns"])
     cls = "win" if ratio <= 1.0 else "loss"
     return f'<span class="{cls}">{ratio:.2f}x</span>'
@@ -64,14 +62,19 @@ def render_payload(payload: dict[str, object]) -> str:
         ("Operating System", system.get("os", "")),
         ("Kernel/Release", system.get("release", "")),
         ("Architecture", system.get("machine", "")),
-        ("Processor", system.get("processor", "") or "reported by runner as empty"),
+        ("Processor", system["processor"]),
         ("CPU Threads", system.get("cpu_count", "")),
-        ("Runner RAM", fmt_bytes(system.get("ram_bytes"))),
-        ("Python Runtime", f"{system.get('implementation')} {system.get('python_version')}"),
-        ("Python Compiler", system.get("compiler", "")),
-        ("Distribution", f"{system.get('distribution')} {system.get('distribution_version')}"),
-        ("Swiss Ephemeris", system.get("swiss_ephemeris_version", "")),
-        ("Native/Module Path", system.get("native_library") or system.get("module_file") or ""),
+        ("Runner RAM", fmt_bytes(system["ram_bytes"])),
+        ("Python Runtime", f"{system['implementation']} {system['python_version']}"),
+        ("Python Compiler", system["compiler"]),
+        ("Distribution", f"{system['distribution']} {system['distribution_version']}"),
+        ("Swiss Ephemeris", system["swiss_ephemeris_version"]),
+        ("Configured Functions", system.get("configured_function_count", "")),
+        (
+            "Benchmarked Functions",
+            system.get("benchmarked_function_count", len(payload["results"])),
+        ),
+        ("Native/Module Path", system.get("native_library") or system["module_file"]),
         ("Generated At UTC", system.get("generated_at_utc", "")),
     ]
     spec_rows = "".join(
@@ -92,11 +95,11 @@ def render_payload(payload: dict[str, object]) -> str:
         )
     return f"""
     <section class="card">
-      <h2>{html.escape(str(system.get("library", "unknown")))}</h2>
+      <h2>{html.escape(str(system["library"]))}</h2>
       <div class="meta">
-        <span>{html.escape(str(system.get("distribution", "unknown")))} {html.escape(str(system.get("distribution_version", "")))}</span>
-        <span>{html.escape(str(system.get("system", "")))} {html.escape(str(system.get("machine", "")))}</span>
-        <span>Python {html.escape(str(system.get("python_version", "")))}</span>
+        <span>{html.escape(str(system["distribution"]))} {html.escape(str(system["distribution_version"]))}</span>
+        <span>{html.escape(str(system["system"]))} {html.escape(str(system["machine"]))}</span>
+        <span>Python {html.escape(str(system["python_version"]))}</span>
       </div>
       <table class="specs">
         <tbody>{spec_rows}</tbody>
@@ -136,9 +139,10 @@ def render_comparison(payloads: list[dict[str, object]]) -> str:
                     None,
                 )
                 other_result = result_map(other_payload).get(name) if other_payload else None
-                cells.append(
-                    f"<td>{fmt_ns(other_result['median_ns']) if other_result else 'n/a'}</td>"
-                )
+                if other_result is None:
+                    cells.append("<td></td><td></td>")
+                    continue
+                cells.append(f"<td>{fmt_ns(other_result['median_ns'])}</td>")
                 cells.append(f"<td>{ratio_cell(ffi_result, other_result)}</td>")
             rows.append(f"<tr>{''.join(cells)}</tr>")
         sections.append(
@@ -166,6 +170,7 @@ def render_comparison(payloads: list[dict[str, object]]) -> str:
 
 def main() -> None:
     payloads = load_results()
+    json_payload = json.dumps(payloads, separators=(",", ":"))
     rendered = "\n".join(render_payload(payload) for payload in payloads)
     comparison = render_comparison(payloads)
     page = f"""<!doctype html>
@@ -175,10 +180,13 @@ def main() -> None:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Swiss Ephemeris Python FFI Benchmark</title>
   <style>
-    :root {{ color-scheme: light dark; --bg: #0f172a; --card: #111827; --text: #f8fafc; --muted: #cbd5e1; --line: #334155; --accent: #38bdf8; --win: #22c55e; --loss: #f97316; }}
+    :root {{ color-scheme: light; --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; --line: #cbd5e1; --accent: #0369a1; --win: #15803d; --loss: #c2410c; }}
+    [data-theme="dark"] {{ color-scheme: dark; --bg: #0f172a; --card: #111827; --text: #f8fafc; --muted: #cbd5e1; --line: #334155; --accent: #38bdf8; --win: #22c55e; --loss: #f97316; }}
     body {{ margin: 0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); }}
     main {{ max-width: 1440px; margin: 0 auto; padding: 32px 18px; }}
     header {{ margin-bottom: 24px; }}
+    .topbar {{ display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }}
+    .theme-toggle {{ border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 8px; padding: 10px 14px; cursor: pointer; font-weight: 700; }}
     h1 {{ margin: 0 0 8px; font-size: clamp(28px, 5vw, 48px); }}
     h2 {{ margin: 0 0 12px; font-size: 20px; }}
     p {{ color: var(--muted); max-width: 980px; line-height: 1.6; }}
@@ -199,7 +207,12 @@ def main() -> None:
 <body>
   <main>
     <header>
-      <h1>Swiss Ephemeris Python FFI Benchmark</h1>
+      <div class="topbar">
+        <div>
+          <h1>Swiss Ephemeris Python FFI Benchmark</h1>
+        </div>
+        <button class="theme-toggle" type="button" id="themeToggle">Theme</button>
+      </div>
       <p>
         Multi-system benchmark generated from GitHub Actions JSON artifacts.
         The comparison installs <code>swisseph-ffi</code>, <code>pysweph</code>,
@@ -210,6 +223,18 @@ def main() -> None:
     {comparison}
     {rendered}
   </main>
+  <script type="application/json" id="benchmark-data">{html.escape(json_payload)}</script>
+  <script>
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem("theme");
+    const preferredDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = savedTheme || (preferredDark ? "dark" : "light");
+    document.getElementById("themeToggle").addEventListener("click", () => {{
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    }});
+  </script>
 </body>
 </html>
 """
