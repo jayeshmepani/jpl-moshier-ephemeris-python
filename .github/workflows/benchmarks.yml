@@ -1,0 +1,137 @@
+name: Benchmarks
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/benchmark/**"
+      - ".github/workflows/benchmarks.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    name: Benchmark ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run benchmark matrix
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          function PythonPath($venv) {
+            if ($IsWindows) {
+              return Join-Path $venv "Scripts/python.exe"
+            }
+            return Join-Path $venv "bin/python"
+          }
+
+          function Run-Benchmark($venv, $package, $library, $distribution, $output) {
+            python -m venv $venv
+            $py = PythonPath $venv
+            & $py -m pip install --upgrade pip
+            if ($package -eq ".") {
+              & $py -m pip install .
+            } else {
+              & $py -m pip install $package
+            }
+            if ($library -eq "ffi") {
+              & $py docs/benchmark/benchmark_runtime.py `
+                --library ffi `
+                --iterations 5000 `
+                --repeats 5 `
+                --output $output
+            } else {
+              & $py docs/benchmark/benchmark_runtime.py `
+                --library swisseph `
+                --distribution $distribution `
+                --iterations 5000 `
+                --repeats 5 `
+                --output $output
+            }
+          }
+
+          Run-Benchmark ".venv-bench-ffi" "." "ffi" "swisseph-ffi" "docs/benchmark/${{ matrix.os }}-swisseph-ffi.json"
+          Run-Benchmark ".venv-bench-pysweph" "pysweph" "swisseph" "pysweph" "docs/benchmark/${{ matrix.os }}-pysweph.json"
+
+      - name: Run pyswisseph comparison
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          function PythonPath($venv) {
+            if ($IsWindows) {
+              return Join-Path $venv "Scripts/python.exe"
+            }
+            return Join-Path $venv "bin/python"
+          }
+
+          python -m venv ".venv-bench-pyswisseph"
+          $py = PythonPath ".venv-bench-pyswisseph"
+          & $py -m pip install --upgrade pip
+          & $py -m pip install pyswisseph
+          & $py docs/benchmark/benchmark_runtime.py `
+            --library swisseph `
+            --distribution pyswisseph `
+            --iterations 5000 `
+            --repeats 5 `
+            --output "docs/benchmark/${{ matrix.os }}-pyswisseph.json"
+
+      - name: Upload benchmark JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-${{ matrix.os }}
+          path: docs/benchmark/${{ matrix.os }}-*.json
+
+  report:
+    name: Generate Benchmark Report
+    needs: benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download benchmark artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: docs/benchmark/
+          merge-multiple: true
+
+      - name: Generate benchmark HTML
+        run: python docs/benchmark/report_generator.py
+
+      - name: Commit benchmark report
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/benchmark/*.json docs/benchmark/benchmark.html
+          git commit -m "docs: update Python benchmark report [skip ci]" || echo "No benchmark changes to commit"
+          git push origin main
+
+      - name: Upload benchmark report
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-benchmark-report
+          path: |
+            docs/benchmark/*.json
+            docs/benchmark/benchmark.html
