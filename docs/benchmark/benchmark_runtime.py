@@ -532,7 +532,7 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     xin = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     xx = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     ipl = getattr(swe, "JUPITER", 5)  # Avoid SUN for orbital elements
-    star = b"Sirius"
+    star = "Sirius"
     datm = (1013.25, 15.0, 40.0, 0.0)
     dobs = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
@@ -603,7 +603,7 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_houses_armc": lambda: swe.houses_armc(120.0, 23.1, 23.4, b"P"),
         "swe_houses_armc_ex2": lambda: swe.houses_armc_ex2(120.0, 23.1, 23.4, b"P"),
         "swe_houses_ex2": lambda: swe.houses_ex2(jd, 23.1, 72.6, b"P", flags),
-        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(jd, ipl, flags, 0, geopos[0], geopos[1], geopos[2], 1013.25, 15.0),
+        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(jd, ipl, flags, 0, geopos[0], geopos[1], geopos[2]),
         "swe_sol_eclipse_where": lambda: swe.sol_eclipse_where(jd, flags),
         "swe_lun_occult_where": lambda: swe.lun_occult_where(jd, ipl, flags),
         "swe_sol_eclipse_how": lambda: swe.sol_eclipse_how(jd, geopos, flags),
@@ -618,8 +618,8 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_pheno_ut": lambda: swe.pheno_ut(jd, ipl, flags),
         "swe_refrac_extended": lambda: swe.refrac_extended(45.0, 0.0, 1013.25, 15.0, 0.0065, 0),
         "swe_set_lapse_rate": lambda: swe.set_lapse_rate(0.0065),
-        "swe_rise_trans_true_hor": lambda: swe.rise_trans_true_hor(jd, ipl, flags, 1, geopos[0], geopos[1], geopos[2], 1013.25, 15.0, 0.0),
-        "swe_rise_trans": lambda: swe.rise_trans(jd, ipl, flags, 1, geopos[0], geopos[1], geopos[2], 1013.25, 15.0),
+        "swe_rise_trans_true_hor": lambda: swe.rise_trans_true_hor(jd, ipl, flags, 1, geopos[0], geopos[1], geopos[2], 0.0),
+        "swe_rise_trans": lambda: swe.rise_trans(jd, ipl, flags, 1, geopos[0], geopos[1], geopos[2]),
         "swe_nod_aps": lambda: swe.nod_aps(jd, ipl, flags, 0),
         "swe_nod_aps_ut": lambda: swe.nod_aps_ut(jd, ipl, flags, 0),
         "swe_get_orbital_elements": lambda: swe.get_orbital_elements(jd, ipl, flags),
@@ -638,7 +638,7 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_difcs2n": lambda: swe.difcs2n(123456, 654321),
         "swe_cs2timestr": lambda: swe.cs2timestr(123456, b":", 0),
         "swe_cs2lonlatstr": lambda: swe.cs2lonlatstr(123456, b"E", b"W"),
-        "swe_cs2degstr": lambda: swe.cs2degstr(123456, b" "),
+        "swe_cs2degstr": lambda: swe.cs2degstr(123456),
         "swe_heliacal_ut": lambda: swe.heliacal_ut(jd, geopos, datm, dobs, star, 1, flags),
         "swe_heliacal_pheno_ut": lambda: swe.heliacal_pheno_ut(jd, geopos, datm, dobs, star, 1, flags),
         "swe_vis_limit_mag": lambda: swe.vis_limit_mag(jd, geopos, datm, dobs, star, flags),
