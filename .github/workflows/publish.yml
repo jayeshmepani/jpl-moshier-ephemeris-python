@@ -1,0 +1,42 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      libs_release:
+        description: Swiss-Ephemeris-PHP release tag containing prebuilt libs
+        required: true
+        default: v1.1.0
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install build tools
+        run: python -m pip install -U ".[dev]"
+      - name: Fetch native Swiss Ephemeris libraries
+        env:
+          SWISSEPH_LIBS_RELEASE: ${{ inputs.libs_release || 'v1.1.0' }}
+        run: python scripts/fetch_prebuilt.py
+      - name: Quality checks
+        run: |
+          python -m ruff check .
+          python -m ruff format . --check
+          python -m pyright
+          python -m pytest
+      - name: Build distributions
+        run: python -m build
+      - name: Check distributions
+        run: python -m twine check dist/*
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

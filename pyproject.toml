@@ -1,0 +1,130 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "swisseph-ffi"
+version = "1.0.0"
+description = "Complete 100% 1:1 Python FFI Wrapper for the Swiss Ephemeris C Library - Direct C function calls with zero abstraction for maximum astronomical precision"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "AGPL-3.0-or-later"
+authors = [
+    { name = "Jayesh Mepani", email = "jayeshmepani777@gmail.com" }
+]
+keywords = [
+    "swiss-ephemeris",
+    "astrology",
+    "astronomy",
+    "ephemeris",
+    "ffi",
+    "ctypes",
+    "python-ffi",
+    "vedic-astrology",
+    "jyotish",
+    "horoscope",
+    "kundli",
+    "birth-chart",
+    "planetary-positions",
+    "ayanamsa",
+    "sidereal",
+    "tropical",
+    "houses",
+    "eclipse",
+    "zero-abstraction",
+    "zero-setup",
+    "cross-platform",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "ruff>=0.9.0",
+    "pyright>=1.1.390",
+    "pre-commit>=4.0.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jayeshmepani/Swiss-Ephemeris-Python"
+Source = "https://github.com/jayeshmepani/Swiss-Ephemeris-Python"
+Issues = "https://github.com/jayeshmepani/Swiss-Ephemeris-Python/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/swisseph_ffi"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/swisseph_ffi",
+    "tests",
+    "scripts",
+    "README.md",
+    "VERSION.md",
+    "UPSTREAM_SYNC.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src/swisseph_ffi", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",
+    "F",
+    "I",
+    "N",
+    "UP",
+    "B",
+    "C4",
+    "SIM",
+    "RET",
+    "RUF",
+]
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+"src/swisseph_ffi/__init__.py" = ["F401", "F403"]
+"src/swisseph_ffi/bindings.py" = ["E501", "RUF022"]
+"src/swisseph_ffi/constants.py" = ["E501", "N816"]
+"tests/*" = ["S101"]
+
+[tool.pyright]
+pythonVersion = "3.10"
+typeCheckingMode = "standard"
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+include = ["src/swisseph_ffi", "tests", "scripts"]
+exclude = ["**/__pycache__", ".venv", "build", "dist"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
