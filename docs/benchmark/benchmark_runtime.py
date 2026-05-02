@@ -21,7 +21,7 @@ import sys
 import time
 import tracemalloc
 from collections.abc import Callable
-from ctypes import c_double, c_long, create_string_buffer
+from ctypes import c_double, c_int, c_long, create_string_buffer
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -322,13 +322,17 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
     iflag = 2
     p_house = ord("P")
 
+    from ctypes import c_int as _ci
+
     xx = (c_double * 20)()
     serr = create_string_buffer(256)
     cusps = (c_double * 13)()
     ascmc = (c_double * 10)()
     tret = (c_double * 40)()
     attr = (c_double * 40)()
-    ii = (c_long * 20)()
+    # Individual output c_int slots — used for functions needing POINTER(c_int) args
+    o_i1, o_i2, o_i3, o_i4, o_i5 = _ci(), _ci(), _ci(), _ci(), _ci()
+    o_d1 = c_double()
     geopos = (c_double * 10)()
     datm = (c_double * 10)()
     dobs = (c_double * 10)()
@@ -341,7 +345,21 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
     geopos[1] = 23.1815
     geopos[2] = 0.0
 
-    swe.swe_set_ephe_path(b".")
+    # Also set ephe path for fixstar (uses sefstars.txt) — same logic as EXT side
+    import os as _os, tempfile as _tmp, urllib.request as _ul
+    _sefstars_url = "https://www.astro.com/ftp/swisseph/ephe/sefstars.txt"
+    def _ffi_ephe_path() -> str:
+        for candidate in ("/usr/share/swisseph", "/usr/local/share/swisseph", "."):
+            if _os.path.isfile(_os.path.join(candidate, "sefstars.txt")):
+                return candidate
+        tmp = _os.path.join(_tmp.gettempdir(), "swisseph_ephe")
+        _os.makedirs(tmp, exist_ok=True)
+        dest = _os.path.join(tmp, "sefstars.txt")
+        if not _os.path.isfile(dest):
+            print(f"FFI: Downloading sefstars.txt ...", flush=True)
+            _ul.urlretrieve(_sefstars_url, dest)
+        return tmp
+    swe.swe_set_ephe_path(_ffi_ephe_path().encode())
 
     def star_buffer() -> Any:
         star.value = b"Sirius"
@@ -395,15 +413,15 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
         "swe_get_ayanamsa": lambda: swe.swe_get_ayanamsa(jd),
         "swe_get_ayanamsa_ut": lambda: swe.swe_get_ayanamsa_ut(jd),
         "swe_get_ayanamsa_name": lambda: swe.swe_get_ayanamsa_name(1),
-        "swe_get_current_file_data": lambda: swe.swe_get_current_file_data(1, xx, xx, ii),
+        "swe_get_current_file_data": lambda: swe.swe_get_current_file_data(1, xx, xx, o_i1),
         "swe_date_conversion": lambda: swe.swe_date_conversion(2024, 4, 30, 12.0, b"g", xx),
         "swe_julday": lambda: swe.swe_julday(2024, 4, 30, 12.0, 1),
-        "swe_revjul": lambda: swe.swe_revjul(jd, 1, ii, ii, ii, xx),
+        "swe_revjul": lambda: swe.swe_revjul(jd, 1, o_i1, o_i2, o_i3, xx),
         "swe_utc_to_jd": lambda: swe.swe_utc_to_jd(2024, 4, 30, 12, 0, 0.0, 1, dret, serr),
-        "swe_jdet_to_utc": lambda: swe.swe_jdet_to_utc(jd, 1, ii, ii, ii, ii, ii, xx),
-        "swe_jdut1_to_utc": lambda: swe.swe_jdut1_to_utc(jd, 1, ii, ii, ii, ii, ii, xx),
+        "swe_jdet_to_utc": lambda: swe.swe_jdet_to_utc(jd, 1, o_i1, o_i2, o_i3, o_i4, o_i5, xx),
+        "swe_jdut1_to_utc": lambda: swe.swe_jdut1_to_utc(jd, 1, o_i1, o_i2, o_i3, o_i4, o_i5, xx),
         "swe_utc_time_zone": lambda: swe.swe_utc_time_zone(
-            2024, 4, 30, 12, 0, 0.0, 5.5, ii, ii, ii, ii, ii, xx
+            2024, 4, 30, 12, 0, 0.0, 5.5, o_i1, o_i2, o_i3, o_i4, o_i5, xx
         ),
         "swe_houses": lambda: swe.swe_houses(jd, 23.1, 72.6, p_house, cusps, ascmc),
         "swe_houses_ex": lambda: swe.swe_houses_ex(jd, iflag, 23.1, 72.6, p_house, cusps, ascmc),
@@ -481,7 +499,7 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
         "swe_radnorm": lambda: swe.swe_radnorm(7.0),
         "swe_rad_midp": lambda: swe.swe_rad_midp(1.0, 2.0),
         "swe_deg_midp": lambda: swe.swe_deg_midp(10.0, 20.0),
-        "swe_split_deg": lambda: swe.swe_split_deg(123.456, 1, ii, ii, ii, xx, ii),
+        "swe_split_deg": lambda: swe.swe_split_deg(123.456, 1, o_i1, o_i2, o_i3, xx, o_i4),
         "swe_csnorm": lambda: swe.swe_csnorm(123456),
         "swe_difcsn": lambda: swe.swe_difcsn(123456, 654321),
         "swe_difdegn": lambda: swe.swe_difdegn(100.0, 200.0),
@@ -516,15 +534,39 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     import os
     import swisseph as swe
 
-    def skip(name): raise NotImplementedError(f"Crashes in pysweph: {name}")
+    def skip(name): raise NotImplementedError(f"Skipped in pysweph benchmark: {name}")
 
-    # Set ephe path to locate sefstars.txt within pysweph
-    ephe_path = os.path.join(os.path.dirname(swe.__file__), "ephe")
-    if os.path.isdir(ephe_path):
-        try:
-            swe.set_ephe_path(ephe_path.encode() if hasattr(swe, "get_library_path") else ephe_path)
-        except Exception:
-            pass
+    # Resolve ephe path: prefer the bundled ephe dir inside pysweph package,
+    # otherwise fall back to a temp dir and download sefstars.txt from astro.com.
+    import tempfile
+    import urllib.request
+
+    SEFSTARS_URL = "https://www.astro.com/ftp/swisseph/ephe/sefstars.txt"
+
+    def _resolve_ephe_path() -> str:
+        # 1. Check bundled ephe dir inside the pysweph package
+        pkg_ephe = os.path.join(os.path.dirname(swe.__file__), "ephe")
+        if os.path.isfile(os.path.join(pkg_ephe, "sefstars.txt")):
+            return pkg_ephe
+        # 2. Check standard system paths
+        for candidate in ("/usr/share/swisseph", "/usr/local/share/swisseph", "."):
+            if os.path.isfile(os.path.join(candidate, "sefstars.txt")):
+                return candidate
+        # 3. Download to a persistent temp dir
+        tmp = os.path.join(tempfile.gettempdir(), "swisseph_ephe")
+        os.makedirs(tmp, exist_ok=True)
+        dest = os.path.join(tmp, "sefstars.txt")
+        if not os.path.isfile(dest):
+            print(f"Downloading sefstars.txt from {SEFSTARS_URL} ...", flush=True)
+            urllib.request.urlretrieve(SEFSTARS_URL, dest)
+            print("sefstars.txt downloaded.", flush=True)
+        return tmp
+
+    ephe_path = _resolve_ephe_path()
+    try:
+        swe.set_ephe_path(ephe_path)
+    except Exception:
+        pass
 
     jd = swe.julday(2024, 4, 30, 12.0, swe.GREG_CAL)
     flags = getattr(swe, "FLG_SWIEPH", 2)
@@ -533,8 +575,8 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     xx = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     ipl = getattr(swe, "JUPITER", 5)  # Avoid SUN for orbital elements
     star = "Sirius"
-    datm = (1013.25, 15.0, 40.0, 0.0)
-    dobs = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    datm = (1013.25, 15.0, 40.0, 0.0)  # 4-element: press, temp, humidity, meteorological range
+    dobs = (36.0, 1.0, 0.0, 0.0, 0.0, 0.0)  # 6-element: age, snellen, binocular, magnif, aperture, transm
 
     metadata = system_probe("swisseph", distribution, str(getattr(swe, "version", "unknown")))
     metadata["module_file"] = getattr(swe, "__file__", "")
@@ -603,7 +645,8 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_houses_armc": lambda: swe.houses_armc(120.0, 23.1, 23.4, b"P"),
         "swe_houses_armc_ex2": lambda: swe.houses_armc_ex2(120.0, 23.1, 23.4, b"P"),
         "swe_houses_ex2": lambda: swe.houses_ex2(jd, 23.1, 72.6, b"P", flags),
-        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(jd, ipl, flags, 0, geopos[0], geopos[1], geopos[2]),
+        # gauquelin_sector: (tjdut, body_int_or_str, starname, iflag, imeth, geopos_seq, atpress, attemp)
+        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(jd, ipl, "", flags, 0, geopos, 1013.25, 15.0),
         "swe_sol_eclipse_where": lambda: swe.sol_eclipse_where(jd, flags),
         "swe_lun_occult_where": lambda: swe.lun_occult_where(jd, ipl, flags),
         "swe_sol_eclipse_how": lambda: swe.sol_eclipse_how(jd, geopos, flags),
@@ -618,8 +661,9 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_pheno_ut": lambda: swe.pheno_ut(jd, ipl, flags),
         "swe_refrac_extended": lambda: swe.refrac_extended(45.0, 0.0, 1013.25, 15.0, 0.0065, 0),
         "swe_set_lapse_rate": lambda: swe.set_lapse_rate(0.0065),
-        "swe_rise_trans_true_hor": lambda: swe.rise_trans_true_hor(jd, ipl, flags, 1, geopos[0], geopos[1], geopos[2], 0.0),
-        "swe_rise_trans": lambda: swe.rise_trans(jd, ipl, flags, 1, geopos[0], geopos[1], geopos[2]),
+        # rise_trans: (tjdut, body_int_or_str, rsmi, geopos_seq, atpress=0, attemp=0, flags=FLG_SWIEPH)
+        "swe_rise_trans_true_hor": lambda: swe.rise_trans_true_hor(jd, ipl, 1, geopos, 1013.25, 15.0, 0.0, flags),
+        "swe_rise_trans": lambda: swe.rise_trans(jd, ipl, 1, geopos, 1013.25, 15.0, flags),
         "swe_nod_aps": lambda: swe.nod_aps(jd, ipl, flags, 0),
         "swe_nod_aps_ut": lambda: swe.nod_aps_ut(jd, ipl, flags, 0),
         "swe_get_orbital_elements": lambda: swe.get_orbital_elements(jd, ipl, flags),
