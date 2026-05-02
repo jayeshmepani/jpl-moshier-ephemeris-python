@@ -3,7 +3,7 @@
     "library": "pysweph",
     "distribution": "pysweph",
     "distribution_version": "2.10.3.6",
-    "generated_at_utc": "2026-05-02T18:13:30.751541+00:00",
+    "generated_at_utc": "2026-05-02T18:17:42.172901+00:00",
     "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
     "python_version": "3.12.10",
     "implementation": "CPython",
@@ -26,60 +26,60 @@
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 113.208,
-      "median_ns": 113.208,
-      "min_ns": 113.208,
-      "max_ns": 113.208
+      "mean_ns": 118.75,
+      "median_ns": 118.75,
+      "min_ns": 118.75,
+      "max_ns": 118.75
     },
     {
       "name": "revjul",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 146.792,
-      "median_ns": 146.792,
-      "min_ns": 146.792,
-      "max_ns": 146.792
+      "mean_ns": 140.125,
+      "median_ns": 140.125,
+      "min_ns": 140.125,
+      "max_ns": 140.125
     },
     {
       "name": "calc_ut_sun",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 4706.75,
-      "median_ns": 4706.75,
-      "min_ns": 4706.75,
-      "max_ns": 4706.75
+      "mean_ns": 4827.792,
+      "median_ns": 4827.792,
+      "min_ns": 4827.792,
+      "max_ns": 4827.792
     },
     {
       "name": "calc_ut_moon",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 4719.708,
-      "median_ns": 4719.708,
-      "min_ns": 4719.708,
-      "max_ns": 4719.708
+      "mean_ns": 4807.917,
+      "median_ns": 4807.917,
+      "min_ns": 4807.917,
+      "max_ns": 4807.917
     },
     {
       "name": "houses",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 4842.958,
-      "median_ns": 4842.958,
-      "min_ns": 4842.958,
-      "max_ns": 4842.958
+      "mean_ns": 4871.458,
+      "median_ns": 4871.458,
+      "min_ns": 4871.458,
+      "max_ns": 4871.458
     },
     {
       "name": "ayanamsa_ut",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 737.417,
-      "median_ns": 737.417,
-      "min_ns": 737.417,
-      "max_ns": 737.417
+      "mean_ns": 731.958,
+      "median_ns": 731.958,
+      "min_ns": 731.958,
+      "max_ns": 731.958
     },
     {
       "name": "deltat",
@@ -96,50 +96,50 @@
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 1908.875,
-      "median_ns": 1908.875,
-      "min_ns": 1908.875,
-      "max_ns": 1908.875
+      "mean_ns": 1919.083,
+      "median_ns": 1919.083,
+      "min_ns": 1919.083,
+      "max_ns": 1919.083
     },
     {
       "name": "split_deg",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 144.5,
-      "median_ns": 144.5,
-      "min_ns": 144.5,
-      "max_ns": 144.5
+      "mean_ns": 149.416,
+      "median_ns": 149.416,
+      "min_ns": 149.416,
+      "max_ns": 149.416
     },
     {
       "name": "azalt",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 2165.75,
-      "median_ns": 2165.75,
-      "min_ns": 2165.75,
-      "max_ns": 2165.75
+      "mean_ns": 2138.125,
+      "median_ns": 2138.125,
+      "min_ns": 2138.125,
+      "max_ns": 2138.125
     },
     {
       "name": "utc_to_jd",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 298.458,
-      "median_ns": 298.458,
-      "min_ns": 298.458,
-      "max_ns": 298.458
+      "mean_ns": 298.542,
+      "median_ns": 298.542,
+      "min_ns": 298.542,
+      "max_ns": 298.542
     },
     {
       "name": "sol_eclipse_when_glob",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 2059293.167,
-      "median_ns": 2059293.167,
-      "min_ns": 2059293.167,
-      "max_ns": 2059293.167
+      "mean_ns": 2515159.834,
+      "median_ns": 2515159.834,
+      "min_ns": 2515159.834,
+      "max_ns": 2515159.834
     }
   ]
 }

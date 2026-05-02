@@ -3,7 +3,7 @@
     "library": "pysweph",
     "distribution": "pysweph",
     "distribution_version": "2.10.3.6",
-    "generated_at_utc": "2026-05-02T18:13:45.810182+00:00",
+    "generated_at_utc": "2026-05-02T18:17:28.593696+00:00",
     "python": "3.12.13 (main, Mar  4 2026, 02:26:36) [GCC 13.3.0]",
     "python_version": "3.12.13",
     "implementation": "CPython",
@@ -26,120 +26,120 @@
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 214.69,
-      "median_ns": 214.69,
-      "min_ns": 214.69,
-      "max_ns": 214.69
+      "mean_ns": 221.953,
+      "median_ns": 221.953,
+      "min_ns": 221.953,
+      "max_ns": 221.953
     },
     {
       "name": "revjul",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 331.065,
-      "median_ns": 331.065,
-      "min_ns": 331.065,
-      "max_ns": 331.065
+      "mean_ns": 308.855,
+      "median_ns": 308.855,
+      "min_ns": 308.855,
+      "max_ns": 308.855
     },
     {
       "name": "calc_ut_sun",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 8742.01,
-      "median_ns": 8742.01,
-      "min_ns": 8742.01,
-      "max_ns": 8742.01
+      "mean_ns": 9565.781,
+      "median_ns": 9565.781,
+      "min_ns": 9565.781,
+      "max_ns": 9565.781
     },
     {
       "name": "calc_ut_moon",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 8951.469,
-      "median_ns": 8951.469,
-      "min_ns": 8951.469,
-      "max_ns": 8951.469
+      "mean_ns": 9284.067,
+      "median_ns": 9284.067,
+      "min_ns": 9284.067,
+      "max_ns": 9284.067
     },
     {
       "name": "houses",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 9858.004,
-      "median_ns": 9858.004,
-      "min_ns": 9858.004,
-      "max_ns": 9858.004
+      "mean_ns": 7564.833,
+      "median_ns": 7564.833,
+      "min_ns": 7564.833,
+      "max_ns": 7564.833
     },
     {
       "name": "ayanamsa_ut",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 3060.95,
-      "median_ns": 3060.95,
-      "min_ns": 3060.95,
-      "max_ns": 3060.95
+      "mean_ns": 1766.416,
+      "median_ns": 1766.416,
+      "min_ns": 1766.416,
+      "max_ns": 1766.416
     },
     {
       "name": "deltat",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 574.397,
-      "median_ns": 574.397,
-      "min_ns": 574.397,
-      "max_ns": 574.397
+      "mean_ns": 304.848,
+      "median_ns": 304.848,
+      "min_ns": 304.848,
+      "max_ns": 304.848
     },
     {
       "name": "sidtime",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 4109.569,
-      "median_ns": 4109.569,
-      "min_ns": 4109.569,
-      "max_ns": 4109.569
+      "mean_ns": 3871.41,
+      "median_ns": 3871.41,
+      "min_ns": 3871.41,
+      "max_ns": 3871.41
     },
     {
       "name": "split_deg",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 240.978,
-      "median_ns": 240.978,
-      "min_ns": 240.978,
-      "max_ns": 240.978
+      "mean_ns": 228.603,
+      "median_ns": 228.603,
+      "min_ns": 228.603,
+      "max_ns": 228.603
     },
     {
       "name": "azalt",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 4216.678,
-      "median_ns": 4216.678,
-      "min_ns": 4216.678,
-      "max_ns": 4216.678
+      "mean_ns": 4246.534,
+      "median_ns": 4246.534,
+      "min_ns": 4246.534,
+      "max_ns": 4246.534
     },
     {
       "name": "utc_to_jd",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 1002.584,
-      "median_ns": 1002.584,
-      "min_ns": 1002.584,
-      "max_ns": 1002.584
+      "mean_ns": 953.313,
+      "median_ns": 953.313,
+      "min_ns": 953.313,
+      "max_ns": 953.313
     },
     {
       "name": "sol_eclipse_when_glob",
       "iterations": 1000,
       "warmup": 100,
       "repeats": 1,
-      "mean_ns": 4297534.431,
-      "median_ns": 4297534.431,
-      "min_ns": 4297534.431,
-      "max_ns": 4297534.431
+      "mean_ns": 4552414.811,
+      "median_ns": 4552414.811,
+      "min_ns": 4552414.811,
+      "max_ns": 4552414.811
     }
   ]
 }
