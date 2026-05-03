@@ -724,7 +724,7 @@ def _safe_probe(name: str, fn: Callable[[], Any]) -> str | None:
     import os
     import sys
 
-    if sys.platform == "win32" or name == "swe_cs2degstr":
+    if sys.platform == "win32":
         try:
             fn()
             return None
