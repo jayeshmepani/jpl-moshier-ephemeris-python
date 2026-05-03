@@ -9,6 +9,7 @@ an equivalent callable safely enough to benchmark without inventing a fake 1:1 A
 from __future__ import annotations
 
 import argparse
+import contextlib
 import gc
 import importlib.metadata
 import json
@@ -21,7 +22,7 @@ import sys
 import time
 import tracemalloc
 from collections.abc import Callable
-from ctypes import c_double, c_int, c_long, create_string_buffer
+from ctypes import c_double, create_string_buffer
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -332,7 +333,6 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
     attr = (c_double * 40)()
     # Individual output c_int slots — used for functions needing POINTER(c_int) args
     o_i1, o_i2, o_i3, o_i4, o_i5 = _ci(), _ci(), _ci(), _ci(), _ci()
-    o_d1 = c_double()
     geopos = (c_double * 10)()
     datm = (c_double * 10)()
     dobs = (c_double * 10)()
@@ -346,8 +346,12 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
     geopos[2] = 0.0
 
     # Also set ephe path for fixstar (uses sefstars.txt) — same logic as EXT side
-    import os as _os, tempfile as _tmp, urllib.request as _ul
+    import os as _os
+    import tempfile as _tmp
+    import urllib.request as _ul
+
     _sefstars_url = "https://raw.githubusercontent.com/aloistr/swisseph/master/ephe/sefstars.txt"
+
     def _ffi_ephe_path() -> str:
         for candidate in ("/usr/share/swisseph", "/usr/local/share/swisseph", "."):
             if _os.path.isfile(_os.path.join(candidate, "sefstars.txt")):
@@ -356,9 +360,10 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
         _os.makedirs(tmp, exist_ok=True)
         dest = _os.path.join(tmp, "sefstars.txt")
         if not _os.path.isfile(dest):
-            print(f"FFI: Downloading sefstars.txt ...", flush=True)
+            print("FFI: Downloading sefstars.txt ...", flush=True)
             _ul.urlretrieve(_sefstars_url, dest)
         return tmp
+
     swe.swe_set_ephe_path(_ffi_ephe_path().encode())
 
     def star_buffer() -> Any:
@@ -532,16 +537,18 @@ def ffi_cases() -> tuple[CaseMap, dict[str, Any]]:
 
 def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     import os
+
     import swisseph as swe
 
-    def skip(name): raise NotImplementedError(f"Skipped in pysweph benchmark: {name}")
+    def skip(name):
+        raise NotImplementedError(f"Skipped in pysweph benchmark: {name}")
 
     # Resolve ephe path: prefer the bundled ephe dir inside pysweph package,
     # otherwise fall back to a temp dir and download sefstars.txt from astro.com.
     import tempfile
     import urllib.request
 
-    SEFSTARS_URL = "https://raw.githubusercontent.com/aloistr/swisseph/master/ephe/sefstars.txt"
+    sefstars_url = "https://raw.githubusercontent.com/aloistr/swisseph/master/ephe/sefstars.txt"
 
     def _resolve_ephe_path() -> str:
         # 1. Check bundled ephe dir inside the pysweph package
@@ -557,16 +564,14 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         os.makedirs(tmp, exist_ok=True)
         dest = os.path.join(tmp, "sefstars.txt")
         if not os.path.isfile(dest):
-            print(f"Downloading sefstars.txt from {SEFSTARS_URL} ...", flush=True)
-            urllib.request.urlretrieve(SEFSTARS_URL, dest)
+            print(f"Downloading sefstars.txt from {sefstars_url} ...", flush=True)
+            urllib.request.urlretrieve(sefstars_url, dest)
             print("sefstars.txt downloaded.", flush=True)
         return tmp
 
     ephe_path = _resolve_ephe_path()
-    try:
+    with contextlib.suppress(Exception):
         swe.set_ephe_path(ephe_path)
-    except Exception:
-        pass
 
     jd = swe.julday(2024, 4, 30, 12.0, swe.GREG_CAL)
     flags = getattr(swe, "FLG_SWIEPH", 2)
@@ -576,7 +581,14 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     ipl = getattr(swe, "JUPITER", 5)  # Avoid SUN for orbital elements
     star = "Sirius"
     datm = (1013.25, 15.0, 40.0, 0.0)  # 4-element: press, temp, humidity, meteorological range
-    dobs = (36.0, 1.0, 0.0, 0.0, 0.0, 0.0)  # 6-element: age, snellen, binocular, magnif, aperture, transm
+    dobs = (
+        36.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    )  # 6-element: age, snellen, binocular, magnif, aperture, transm
 
     metadata = system_probe("swisseph", distribution, str(getattr(swe, "version", "unknown")))
     metadata["module_file"] = getattr(swe, "__file__", "")
@@ -633,7 +645,9 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_set_jpl_file": lambda: swe.set_jpl_file("de431.eph"),
         "swe_get_planet_name": lambda: swe.get_planet_name(ipl),
         "swe_set_topo": lambda: swe.set_topo(72.6, 23.1, 0.0),
-        "swe_set_sid_mode": lambda: swe.set_sid_mode(getattr(swe, "SIDM_FAGAN_BRADLEY", 0), 0.0, 0.0),
+        "swe_set_sid_mode": lambda: swe.set_sid_mode(
+            getattr(swe, "SIDM_FAGAN_BRADLEY", 0), 0.0, 0.0
+        ),
         "swe_get_ayanamsa_ex": lambda: swe.get_ayanamsa_ex(jd, flags),
         "swe_get_ayanamsa_ex_ut": lambda: swe.get_ayanamsa_ex_ut(jd, flags),
         "swe_get_ayanamsa_name": lambda: swe.get_ayanamsa_name(1),
@@ -645,8 +659,10 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_houses_armc": lambda: swe.houses_armc(120.0, 23.1, 23.4, b"P"),
         "swe_houses_armc_ex2": lambda: swe.houses_armc_ex2(120.0, 23.1, 23.4, b"P"),
         "swe_houses_ex2": lambda: swe.houses_ex2(jd, 23.1, 72.6, b"P", flags),
-        # gauquelin_sector pysweph API: (tjdut, ipl, iflag, imeth, geopos_seq, atpress, attemp) — 7 args, no starname
-        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(jd, ipl, flags, 0, geopos, 1013.25, 15.0),
+        # gauquelin_sector pysweph API: (tjdut, body, method, geopos, atpress, attemp, flags)
+        "swe_gauquelin_sector": lambda: swe.gauquelin_sector(
+            jd, ipl, 0, geopos, 1013.25, 15.0, flags
+        ),
         "swe_sol_eclipse_where": lambda: swe.sol_eclipse_where(jd, flags),
         "swe_lun_occult_where": lambda: swe.lun_occult_where(jd, ipl, flags),
         "swe_sol_eclipse_how": lambda: swe.sol_eclipse_how(jd, geopos, flags),
@@ -661,8 +677,11 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_pheno_ut": lambda: swe.pheno_ut(jd, ipl, flags),
         "swe_refrac_extended": lambda: swe.refrac_extended(45.0, 0.0, 1013.25, 15.0, 0.0065, 0),
         "swe_set_lapse_rate": lambda: swe.set_lapse_rate(0.0065),
-        # rise_trans: (tjdut, body_int_or_str, rsmi, geopos_seq, atpress=0, attemp=0, flags=FLG_SWIEPH)
-        "swe_rise_trans_true_hor": lambda: swe.rise_trans_true_hor(jd, ipl, 1, geopos, 1013.25, 15.0, 0.0, flags),
+        # rise_trans: (tjdut, body_int_or_str, rsmi, geopos_seq, atpress,
+        # attemp, flags)
+        "swe_rise_trans_true_hor": lambda: swe.rise_trans_true_hor(
+            jd, ipl, 1, geopos, 1013.25, 15.0, 0.0, flags
+        ),
         "swe_rise_trans": lambda: swe.rise_trans(jd, ipl, 1, geopos, 1013.25, 15.0, flags),
         "swe_nod_aps": lambda: swe.nod_aps(jd, ipl, flags, 0),
         "swe_nod_aps_ut": lambda: swe.nod_aps_ut(jd, ipl, flags, 0),
@@ -684,7 +703,9 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
         "swe_cs2lonlatstr": lambda: swe.cs2lonlatstr(123456, b"E", b"W"),
         "swe_cs2degstr": lambda: swe.cs2degstr(123456),
         "swe_heliacal_ut": lambda: swe.heliacal_ut(jd, geopos, datm, dobs, star, 1, flags),
-        "swe_heliacal_pheno_ut": lambda: swe.heliacal_pheno_ut(jd, geopos, datm, dobs, star, 1, flags),
+        "swe_heliacal_pheno_ut": lambda: swe.heliacal_pheno_ut(
+            jd, geopos, datm, dobs, star, 1, flags
+        ),
         "swe_vis_limit_mag": lambda: swe.vis_limit_mag(jd, geopos, datm, dobs, star, flags),
     }
 
@@ -693,7 +714,7 @@ def extension_cases(distribution: str) -> tuple[CaseMap, dict[str, Any]]:
     return safe_cases, metadata
 
 
-def _safe_probe(name: str, fn: "Callable[[], Any]") -> "str | None":
+def _safe_probe(name: str, fn: Callable[[], Any]) -> str | None:
     """Run fn once in an isolated process to detect segfaults before full benchmark.
 
     On Unix: uses os.fork() so the child inherits all closures/lambdas without pickling.
@@ -703,7 +724,7 @@ def _safe_probe(name: str, fn: "Callable[[], Any]") -> "str | None":
     import os
     import sys
 
-    if sys.platform == "win32":
+    if sys.platform == "win32" or name == "swe_cs2degstr":
         try:
             fn()
             return None
@@ -741,6 +762,7 @@ def _safe_probe(name: str, fn: "Callable[[], Any]") -> "str | None":
 
 def run_cases(cases: CaseMap, iterations: int, warmup: int, slot: str) -> dict[str, dict[str, Any]]:
     import sys
+
     results: dict[str, dict[str, Any]] = {}
     for name, fn in cases.items():
         # For C-extension benchmarks, pre-probe in an isolated process to catch segfaults
