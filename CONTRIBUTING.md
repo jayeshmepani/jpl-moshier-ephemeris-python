@@ -1,29 +1,26 @@
-# Contributing to Swiss Ephemeris Python FFI
+# Contributing to JPL Moshier Ephemeris Python
 
-Thank you for considering a contribution.
-
-This package is intentionally a raw, zero-abstraction `ctypes` binding to the
-Swiss Ephemeris C API. Contributions should preserve that design.
+This package is a raw `ctypes` wrapper over the native JME C API. Contributions should preserve that low-level, lossless contract.
 
 ## Requirements
 
 - Python 3.10 or newer
 - Git
-- The bundled native Swiss Ephemeris libraries, or a custom library path set via
-  `SWISSEPH_LIBRARY_PATH`
+- Bundled JME/CALCEPH runtimes, or explicit `JME_LIBRARY_PATH` and `JME_CALCEPH_LIBRARY_PATH`
+- Optional local native source tree for surface-audit tests:
+  `/home/shreesoftech/projects/test1/astro_packages/jpl-ephemeris-`
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Swiss-Ephemeris-Python.git
-cd Swiss-Ephemeris-Python
+git clone https://github.com/YOUR_USERNAME/jpl-moshier-ephemeris-python.git
+cd jpl-moshier-ephemeris-python
 python -m pip install -e ".[dev]"
+python scripts/fetch_prebuilt.py
 python -m pytest
 ```
 
 ## Quality Checks
-
-Run the full local check set before opening a pull request:
 
 ```bash
 python -m ruff check .
@@ -34,84 +31,64 @@ python -m build
 python -m twine check dist/*
 ```
 
-## 1:1 C API Compatibility
-
-The raw binding must remain a direct C API mapping.
+## Raw API Rules
 
 Do not:
 
-- change Swiss Ephemeris function names;
-- rename or remove constants;
-- change constant values;
-- reshape output arrays into Python arrays in the raw layer;
-- hide return flags;
-- drop `serr` parameters;
-- normalize angles;
-- round numeric outputs;
-- reimplement calculations;
-- change house cusp indexing;
-- add high-level astrology APIs to the raw binding.
+- rename `jme_*` functions;
+- rename or alter `JME_*` constant values;
+- reorder arguments;
+- reshape output buffers in the raw layer;
+- hide return codes;
+- drop error buffer arguments;
+- reimplement astronomy inside Python;
+- silently normalize or round outputs.
 
 Do:
 
-- keep constants aligned with upstream `swephexp.h`;
-- keep `ctypes` signatures aligned with the C declarations;
-- pass caller-owned buffers and pointers directly;
-- add tests when touching bindings;
-- run parity checks against `Swiss-Ephemeris-PHP` and `swetest` where possible.
+- keep the wrapper aligned with `include/jme/jme.h` and `include/jme/jme_extended.h`;
+- keep the generated surface at `204` functions and `462` constants unless the native API changes;
+- add or update tests when bindings or loader behavior change;
+- use the PHP wrapper as the prebuilt runtime source of truth.
 
-## Native Libraries
+## Prebuilt Runtimes
 
-The Python package bundles native libraries under:
+Development can source runtimes from:
 
 ```text
-src/swisseph_ffi/libs/
+/home/shreesoftech/projects/test1/astro_packages/user-ffi-wrappers/jpl-moshier-ephemeris-php/libs
 ```
 
-These binaries are sourced from the sibling `Swiss-Ephemeris-PHP` package. Do
-not replace them casually. Native binary updates should be tied to an upstream
-Swiss Ephemeris sync or an explicit platform support fix.
+Published runtime source:
 
-To refresh binaries from a known PHP package release:
+```text
+https://github.com/jayeshmepani/jpl-moshier-ephemeris-php/releases/tag/prebuilt-libs
+```
+
+Refresh bundled runtimes with:
 
 ```bash
-SWISSEPH_LIBS_RELEASE=v1.1.0 python scripts/fetch_prebuilt.py
-```
-
-On Windows PowerShell:
-
-```powershell
-$env:SWISSEPH_LIBS_RELEASE = "v1.1.0"
 python scripts/fetch_prebuilt.py
 ```
 
+Useful environment overrides:
+
+- `JME_PHP_LIBS_PATH`
+- `JME_PHP_REPO`
+- `JME_PHP_TAG`
+- `JME_PHP_ARCHIVE_URL`
+
 ## Reporting Bugs
 
-Please include:
+Include:
 
-- Python version;
-- OS and CPU architecture;
-- package version;
-- whether you use bundled libraries or `SWISSEPH_LIBRARY_PATH`;
-- exact error message or stack trace;
-- minimal code to reproduce.
-
-## Release Process
-
-Releases follow semantic versioning:
-
-- **MAJOR** for breaking API changes or major upstream compatibility changes.
-- **MINOR** for backward-compatible features or platform additions.
-- **PATCH** for bug fixes and documentation corrections.
-
-The first public release is `v1.0.0`.
+- Python version
+- OS and CPU architecture
+- package version
+- whether you used bundled libraries or env overrides
+- exact traceback or native error text
+- minimal reproduction
 
 ## License
 
-This repository is licensed under **AGPL-3.0-or-later**.
-
-The upstream Swiss Ephemeris C library and ephemeris files are distributed under
-Astrodienst's dual licensing model: AGPL or Swiss Ephemeris Professional
-License. Commercial, closed-source, SaaS, or public web-service usage may
-require a professional license from Astrodienst.
-
+MIT.

@@ -5,10 +5,10 @@ on:
     types: [published]
   workflow_dispatch:
     inputs:
-      libs_release:
-        description: Swiss-Ephemeris-PHP release tag containing prebuilt libs
+      php_libs_tag:
+        description: jpl-moshier-ephemeris-php tag/archive containing prebuilt jme and calceph libs
         required: true
-        default: v1.1.0
+        default: prebuilt-libs
         type: string
 
 jobs:
@@ -24,9 +24,9 @@ jobs:
           python-version: "3.10"
       - name: Install build tools
         run: python -m pip install -U ".[dev]"
-      - name: Fetch native Swiss Ephemeris libraries
+      - name: Fetch native JME and CALCEPH libraries
         env:
-          SWISSEPH_LIBS_RELEASE: ${{ inputs.libs_release || 'v1.1.0' }}
+          JME_PHP_TAG: ${{ inputs.php_libs_tag || 'prebuilt-libs' }}
         run: python scripts/fetch_prebuilt.py
       - name: Quality checks
         run: |

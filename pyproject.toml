@@ -3,23 +3,25 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [project]
-name = "swisseph-ffi"
+name = "jpl-moshier-ephemeris-python"
 version = "1.0.0"
-description = "Complete 100% 1:1 Python FFI Wrapper for the Swiss Ephemeris C Library - Direct C function calls with zero abstraction for maximum astronomical precision"
+description = "Pure Python ctypes FFI wrapper for the JPL Moshier Ephemeris native library with direct jme_* API access and bundled jme plus calceph runtimes"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "AGPL-3.0-or-later"
+license = "MIT"
 authors = [
     { name = "Jayesh Mepani", email = "jayeshmepani777@gmail.com" }
 ]
 keywords = [
-    "swiss-ephemeris",
     "astrology",
     "astronomy",
     "ephemeris",
     "ffi",
     "ctypes",
     "python-ffi",
+    "jpl",
+    "moshier",
+    "calceph",
     "vedic-astrology",
     "jyotish",
     "horoscope",
@@ -45,7 +47,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "License :: OSI Approved :: MIT License",
     "Topic :: Scientific/Engineering :: Astronomy",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -62,16 +64,16 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/jayeshmepani/Swiss-Ephemeris-Python"
-Source = "https://github.com/jayeshmepani/Swiss-Ephemeris-Python"
-Issues = "https://github.com/jayeshmepani/Swiss-Ephemeris-Python/issues"
+Homepage = "https://github.com/jayeshmepani/jpl-moshier-ephemeris-python"
+Source = "https://github.com/jayeshmepani/jpl-moshier-ephemeris-python"
+Issues = "https://github.com/jayeshmepani/jpl-moshier-ephemeris-python/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/swisseph_ffi"]
+packages = ["src/jpl_moshier_ephemeris"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "src/swisseph_ffi",
+    "src/jpl_moshier_ephemeris",
     "tests",
     "scripts",
     "README.md",
@@ -84,7 +86,7 @@ include = [
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-src = ["src/swisseph_ffi", "tests", "scripts"]
+src = ["src/jpl_moshier_ephemeris", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = [
@@ -107,9 +109,9 @@ indent-style = "space"
 line-ending = "auto"
 
 [tool.ruff.lint.per-file-ignores]
-"src/swisseph_ffi/__init__.py" = ["F401", "F403"]
-"src/swisseph_ffi/bindings.py" = ["E501", "RUF022"]
-"src/swisseph_ffi/constants.py" = ["E501", "N816"]
+"src/jpl_moshier_ephemeris/__init__.py" = ["F401", "F403"]
+"src/jpl_moshier_ephemeris/bindings.py" = ["E501", "RUF022"]
+"src/jpl_moshier_ephemeris/constants.py" = ["E501", "N816"]
 "tests/*" = ["S101"]
 
 [tool.pyright]
@@ -120,7 +122,7 @@ reportMissingTypeStubs = false
 reportUnknownMemberType = false
 reportUnknownVariableType = false
 reportUnknownArgumentType = false
-include = ["src/swisseph_ffi", "tests", "scripts"]
+include = ["src/jpl_moshier_ephemeris", "tests", "scripts"]
 exclude = ["**/__pycache__", ".venv", "build", "dist"]
 
 [tool.pytest.ini_options]

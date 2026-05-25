@@ -1,55 +1,93 @@
-"""Fetch all prebuilt Swiss Ephemeris binaries from the PHP sibling release."""
+"""Install bundled JME and CALCEPH runtimes from the PHP wrapper source."""
 
 from __future__ import annotations
 
 import os
-import tarfile
+import shutil
 import tempfile
 import urllib.request
 import zipfile
 from pathlib import Path
 
-ASSETS = {
-    "linux-x64": ("libswe.so", "libswe-linux-x64.tar.gz"),
-    "linux-arm64": ("libswe.so", "libswe-linux-arm64.tar.gz"),
-    "macos-x64": ("libswe.dylib", "libswe-macos-x64.tar.gz"),
-    "macos-arm64": ("libswe.dylib", "libswe-macos-arm64.tar.gz"),
-    "windows-x64": ("swe.dll", "libswe-windows-x64.zip"),
-}
+
+def default_local_source() -> Path:
+    return (
+        Path(__file__).resolve().parents[2]
+        / "jpl-moshier-ephemeris-php"
+        / "libs"
+    )
 
 
-def extract(asset_path: Path, out_dir: Path) -> None:
-    if asset_path.suffix == ".zip":
-        with zipfile.ZipFile(asset_path) as zf:
-            zf.extractall(out_dir)
-        return
-    with tarfile.open(asset_path, "r:gz") as tf:
-        tf.extractall(out_dir)
+def archive_url() -> str:
+    repo = os.environ.get("JME_PHP_REPO", "jayeshmepani/jpl-moshier-ephemeris-php")
+    tag = os.environ.get("JME_PHP_TAG", "prebuilt-libs")
+    return os.environ.get(
+        "JME_PHP_ARCHIVE_URL",
+        f"https://github.com/{repo}/archive/refs/tags/{tag}.zip",
+    )
+
+
+def install_from_directory(source: Path, destination: Path) -> None:
+    if destination.exists():
+        shutil.rmtree(destination)
+    shutil.copytree(source, destination)
+
+
+def install_from_archive(destination: Path) -> None:
+    tmp_root = Path(tempfile.gettempdir()) / "jme-python-prebuilt"
+    tmp_root.mkdir(parents=True, exist_ok=True)
+    archive_path = tmp_root / "jpl-moshier-ephemeris-php-prebuilt.zip"
+    urllib.request.urlretrieve(archive_url(), archive_path)
+
+    extract_root = tmp_root / "extract"
+    if extract_root.exists():
+        shutil.rmtree(extract_root)
+    extract_root.mkdir(parents=True, exist_ok=True)
+
+    with zipfile.ZipFile(archive_path) as zf:
+        zf.extractall(extract_root)
+
+    libs_dir = next(extract_root.glob("jpl-moshier-ephemeris-php-*/libs"), None)
+    if libs_dir is None:
+        raise SystemExit("Downloaded archive does not contain a libs directory.")
+
+    install_from_directory(libs_dir, destination)
+
+
+def validate(destination: Path) -> None:
+    required = {
+        "linux-x64/libjme.so",
+        "linux-x64/libcalceph.so",
+        "linux-arm64/libjme.so",
+        "linux-arm64/libcalceph.so",
+        "macos-x64/libjme.dylib",
+        "macos-x64/libcalceph.dylib",
+        "macos-arm64/libjme.dylib",
+        "macos-arm64/libcalceph.dylib",
+        "windows-x64/jme.dll",
+        "windows-x64/calceph.dll",
+    }
+    missing = [item for item in sorted(required) if not (destination / item).exists()]
+    if missing:
+        raise SystemExit(f"Missing expected runtime files: {', '.join(missing)}")
 
 
 def main() -> None:
-    repo = os.environ.get("SWISSEPH_LIBS_REPO", "jayeshmepani/Swiss-Ephemeris-PHP")
-    release = os.environ.get("SWISSEPH_LIBS_RELEASE", "v1.1.0")
-    base = os.environ.get(
-        "SWISSEPH_LIBS_BASE_URL", f"https://github.com/{repo}/releases/download/{release}"
-    )
     root = Path(__file__).resolve().parents[1]
-    libs_root = root / "src" / "swisseph_ffi" / "libs"
-    tmp_dir = Path(tempfile.gettempdir()) / "swisseph-ffi-libs"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
+    destination = root / "src" / "jpl_moshier_ephemeris" / "libs"
+    override = os.environ.get("JME_PHP_LIBS_PATH")
+    source = Path(override).expanduser() if override else default_local_source()
 
-    for platform_dir, (filename, asset) in ASSETS.items():
-        out_dir = libs_root / platform_dir
-        out_dir.mkdir(parents=True, exist_ok=True)
-        url = f"{base.rstrip('/')}/{asset}"
-        asset_path = tmp_dir / asset
-        print(f"Downloading {url}")
-        urllib.request.urlretrieve(url, asset_path)
-        extract(asset_path, out_dir)
-        expected = out_dir / filename
-        if not expected.exists():
-            raise SystemExit(f"Downloaded archive did not contain expected file: {expected}")
-        print(f"Installed {expected}")
+    if source.exists():
+        print(f"Copying runtimes from local source: {source}")
+        install_from_directory(source, destination)
+    else:
+        print(f"Local runtime source not found at {source}")
+        print(f"Downloading runtimes from {archive_url()}")
+        install_from_archive(destination)
+
+    validate(destination)
+    print(f"Installed runtimes into {destination}")
 
 
 if __name__ == "__main__":
