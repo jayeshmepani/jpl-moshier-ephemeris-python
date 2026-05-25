@@ -1,8 +1,11 @@
 # JPL Moshier Ephemeris Python
 
 [![PyPI version](https://img.shields.io/pypi/v/jpl-moshier-ephemeris-python.svg?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
+[![Downloads](https://static.pepy.tech/badge/jpl-moshier-ephemeris-python)](https://pepy.tech/projects/jpl-moshier-ephemeris-python)
 [![Python Versions](https://img.shields.io/pypi/pyversions/jpl-moshier-ephemeris-python.svg?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Wheel](https://img.shields.io/pypi/wheel/jpl-moshier-ephemeris-python?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
+[![Status](https://img.shields.io/pypi/status/jpl-moshier-ephemeris-python?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
 
 Pure Python `ctypes` runtime FFI binding for the project-owned JPL Moshier Ephemeris C library.
 
