@@ -20,11 +20,7 @@ ASSETS = {
 
 
 def default_local_source() -> Path:
-    return (
-        Path(__file__).resolve().parents[2]
-        / "jpl-moshier-ephemeris-php"
-        / "libs"
-    )
+    return Path(__file__).resolve().parents[2] / "jpl-moshier-ephemeris-php" / "libs"
 
 
 def release_base_url() -> str:

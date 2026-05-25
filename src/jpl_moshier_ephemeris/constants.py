@@ -1,7 +1,7 @@
 """JPL Moshier Ephemeris constants mapped directly from the native JME headers."""
 
 JME_JME_H = 1
-JME_VERSION = '0.1.0'
+JME_VERSION = "0.1.0"
 JME_AU_KM = 149597870.7
 JME_SPEED_OF_LIGHT_KM_PER_SEC = 299792.458
 JME_SECONDS_PER_DAY = 86400.0
