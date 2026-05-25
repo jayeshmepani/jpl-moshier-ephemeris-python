@@ -42,7 +42,7 @@ The package bundles the same prebuilt runtimes as the PHP wrapper:
 Local source for those prebuilt runtimes during development:
 
 ```text
-/home/shreesoftech/projects/test1/astro_packages/user-ffi-wrappers/jpl-moshier-ephemeris-php/libs
+Copy from a local checkout of jpl-moshier-ephemeris-php/libs
 ```
 
 Published runtime source:
