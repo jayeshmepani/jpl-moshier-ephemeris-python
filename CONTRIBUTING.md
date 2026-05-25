@@ -7,8 +7,7 @@ This package is a raw `ctypes` wrapper over the native JME C API. Contributions 
 - Python 3.10 or newer
 - Git
 - Bundled JME/CALCEPH runtimes, or explicit `JME_LIBRARY_PATH` and `JME_CALCEPH_LIBRARY_PATH`
-- Optional local native source tree for surface-audit tests:
-  `/home/shreesoftech/projects/test1/astro_packages/jpl-ephemeris-`
+- Optional local native source tree for surface-audit tests via `JME_SOURCE_PATH`
 
 ## Development Setup
 
@@ -56,7 +55,7 @@ Do:
 Development can source runtimes from:
 
 ```text
-/home/shreesoftech/projects/test1/astro_packages/user-ffi-wrappers/jpl-moshier-ephemeris-php/libs
+Copy from a local checkout of jpl-moshier-ephemeris-php/libs
 ```
 
 Published runtime source:

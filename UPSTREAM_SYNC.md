@@ -27,7 +27,7 @@ This Python package is synchronized against two local/project sources:
 Local development source:
 
 ```text
-/home/shreesoftech/projects/test1/astro_packages/user-ffi-wrappers/jpl-moshier-ephemeris-php/libs
+Copy from a local checkout of jpl-moshier-ephemeris-php/libs
 ```
 
 Published runtime source:

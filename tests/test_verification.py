@@ -17,7 +17,6 @@ def _native_root() -> Path | None:
     candidates = [
         Path(__file__).resolve().parents[3] / "jpl-ephemeris-",
         Path(__file__).resolve().parents[3] / "jpl-ephemeris",
-        Path("/home/shreesoftech/projects/test1/astro_packages/jpl-ephemeris-"),
     ]
     return next((candidate for candidate in candidates if candidate.exists()), None)
 
