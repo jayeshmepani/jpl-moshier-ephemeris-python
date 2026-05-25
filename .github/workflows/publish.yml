@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       php_libs_tag:
-        description: jpl-moshier-ephemeris-php tag/archive containing prebuilt jme and calceph libs
+        description: jpl-moshier-ephemeris-php release tag containing prebuilt jme and calceph assets
         required: true
         default: prebuilt-libs
         type: string

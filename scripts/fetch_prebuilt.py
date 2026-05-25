@@ -4,10 +4,19 @@ from __future__ import annotations
 
 import os
 import shutil
+import tarfile
 import tempfile
 import urllib.request
 import zipfile
 from pathlib import Path
+
+ASSETS = {
+    "linux-x64": "jme-linux-x64.tar.gz",
+    "linux-arm64": "jme-linux-arm64.tar.gz",
+    "macos-x64": "jme-macos-x64.tar.gz",
+    "macos-arm64": "jme-macos-arm64.tar.gz",
+    "windows-x64": "jme-windows-x64.zip",
+}
 
 
 def default_local_source() -> Path:
@@ -18,12 +27,12 @@ def default_local_source() -> Path:
     )
 
 
-def archive_url() -> str:
+def release_base_url() -> str:
     repo = os.environ.get("JME_PHP_REPO", "jayeshmepani/jpl-moshier-ephemeris-php")
     tag = os.environ.get("JME_PHP_TAG", "prebuilt-libs")
     return os.environ.get(
-        "JME_PHP_ARCHIVE_URL",
-        f"https://github.com/{repo}/archive/refs/tags/{tag}.zip",
+        "JME_PHP_RELEASE_BASE_URL",
+        f"https://github.com/{repo}/releases/download/{tag}",
     )
 
 
@@ -33,25 +42,32 @@ def install_from_directory(source: Path, destination: Path) -> None:
     shutil.copytree(source, destination)
 
 
-def install_from_archive(destination: Path) -> None:
+def extract_archive(archive_path: Path, out_dir: Path) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if archive_path.suffix == ".zip":
+        with zipfile.ZipFile(archive_path) as zf:
+            zf.extractall(out_dir)
+        return
+    with tarfile.open(archive_path, "r:gz") as tf:
+        tf.extractall(out_dir)
+
+
+def install_from_release_assets(destination: Path) -> None:
     tmp_root = Path(tempfile.gettempdir()) / "jme-python-prebuilt"
     tmp_root.mkdir(parents=True, exist_ok=True)
-    archive_path = tmp_root / "jpl-moshier-ephemeris-php-prebuilt.zip"
-    urllib.request.urlretrieve(archive_url(), archive_path)
+    if destination.exists():
+        shutil.rmtree(destination)
+    destination.mkdir(parents=True, exist_ok=True)
 
-    extract_root = tmp_root / "extract"
-    if extract_root.exists():
-        shutil.rmtree(extract_root)
-    extract_root.mkdir(parents=True, exist_ok=True)
+    base_url = release_base_url().rstrip("/")
 
-    with zipfile.ZipFile(archive_path) as zf:
-        zf.extractall(extract_root)
-
-    libs_dir = next(extract_root.glob("jpl-moshier-ephemeris-php-*/libs"), None)
-    if libs_dir is None:
-        raise SystemExit("Downloaded archive does not contain a libs directory.")
-
-    install_from_directory(libs_dir, destination)
+    for platform_dir, asset_name in ASSETS.items():
+        url = f"{base_url}/{asset_name}"
+        archive_path = tmp_root / asset_name
+        out_dir = destination / platform_dir
+        print(f"Downloading {url}")
+        urllib.request.urlretrieve(url, archive_path)
+        extract_archive(archive_path, out_dir)
 
 
 def validate(destination: Path) -> None:
@@ -83,8 +99,8 @@ def main() -> None:
         install_from_directory(source, destination)
     else:
         print(f"Local runtime source not found at {source}")
-        print(f"Downloading runtimes from {archive_url()}")
-        install_from_archive(destination)
+        print(f"Downloading runtimes from {release_base_url()}")
+        install_from_release_assets(destination)
 
     validate(destination)
     print(f"Installed runtimes into {destination}")

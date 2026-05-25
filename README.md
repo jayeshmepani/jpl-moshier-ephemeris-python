@@ -27,6 +27,8 @@ This package wraps the native `jme_*` API directly. It is intended to be a true 
 pip install jpl-moshier-ephemeris-python
 ```
 
+End users do not need to download native binaries manually. The package ships its bundled `jme` and `calceph` runtimes inbuilt inside the wheel.
+
 ## Native Libraries
 
 The package bundles the same prebuilt runtimes as the PHP wrapper:
@@ -41,6 +43,8 @@ The package bundles the same prebuilt runtimes as the PHP wrapper:
 - `macos-arm64/libcalceph.dylib`
 - `windows-x64/jme.dll`
 - `windows-x64/calceph.dll`
+
+The local/PHP release source below is for maintainers and package build refresh only, not for normal users.
 
 Local source for those prebuilt runtimes during development:
 
