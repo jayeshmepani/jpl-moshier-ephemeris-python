@@ -7,7 +7,7 @@
 | Attribute | Value |
 | --- | --- |
 | Python package | `jmeph-ffi` |
-| Package version | `1.0.1` |
+| Package version | `1.0.0` |
 | Python requirement | `>=3.10` |
 | Binding model | Pure Python `ctypes` runtime FFI |
 | Native API target | `204` public `jme_*` functions |
