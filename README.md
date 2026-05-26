@@ -1,11 +1,11 @@
 # JPL Moshier Ephemeris Python
 
-[![PyPI version](https://img.shields.io/pypi/v/jpl-moshier-ephemeris-python.svg?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
-[![Downloads](https://static.pepy.tech/badge/jpl-moshier-ephemeris-python)](https://pepy.tech/projects/jpl-moshier-ephemeris-python)
-[![Python Versions](https://img.shields.io/pypi/pyversions/jpl-moshier-ephemeris-python.svg?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
+[![PyPI version](https://img.shields.io/pypi/v/jmeph-ffi.svg?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
+[![Downloads](https://static.pepy.tech/badge/jmeph-ffi)](https://pepy.tech/projects/jmeph-ffi)
+[![Python Versions](https://img.shields.io/pypi/pyversions/jmeph-ffi.svg?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Wheel](https://img.shields.io/pypi/wheel/jpl-moshier-ephemeris-python?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
-[![Status](https://img.shields.io/pypi/status/jpl-moshier-ephemeris-python?style=flat-square)](https://pypi.org/project/jpl-moshier-ephemeris-python/)
+[![Wheel](https://img.shields.io/pypi/wheel/jmeph-ffi?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
+[![Status](https://img.shields.io/pypi/status/jmeph-ffi?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
 
 Pure Python `ctypes` runtime FFI binding for the project-owned JPL Moshier Ephemeris C library.
 
@@ -24,7 +24,7 @@ This package wraps the native `jme_*` API directly. It is intended to be a true 
 ## Installation
 
 ```bash
-pip install jpl-moshier-ephemeris-python
+pip install jmeph-ffi
 ```
 
 End users do not need to download native binaries manually. The package ships its bundled `jme` and `calceph` runtimes inbuilt inside the wheel.
