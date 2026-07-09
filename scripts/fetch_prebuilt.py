@@ -11,11 +11,14 @@ import zipfile
 from pathlib import Path
 
 ASSETS = {
-    "linux-x64": "jme-linux-x64.tar.gz",
-    "linux-arm64": "jme-linux-arm64.tar.gz",
-    "macos-x64": "jme-macos-x64.tar.gz",
-    "macos-arm64": "jme-macos-arm64.tar.gz",
-    "windows-x64": "jme-windows-x64.zip",
+    "jme-linux-x64-ubuntu24": "jme-linux-x64-ubuntu24.tar.gz",
+    "jme-linux-arm64-ubuntu24": "jme-linux-arm64-ubuntu24.tar.gz",
+    "jme-linux-x64-ubuntu22": "jme-linux-x64-ubuntu22.tar.gz",
+    "jme-linux-arm64-ubuntu22": "jme-linux-arm64-ubuntu22.tar.gz",
+    "jme-macos-x64-15": "jme-macos-x64-15.tar.gz",
+    "jme-macos-arm64-15": "jme-macos-arm64-15.tar.gz",
+    "jme-macos-arm64-14": "jme-macos-arm64-14.tar.gz",
+    "jme-windows-x64-2022": "jme-windows-x64-2022.zip",
 }
 
 
@@ -68,16 +71,22 @@ def install_from_release_assets(destination: Path) -> None:
 
 def validate(destination: Path) -> None:
     required = {
-        "linux-x64/libjme.so",
-        "linux-x64/libcalceph.so",
-        "linux-arm64/libjme.so",
-        "linux-arm64/libcalceph.so",
-        "macos-x64/libjme.dylib",
-        "macos-x64/libcalceph.dylib",
-        "macos-arm64/libjme.dylib",
-        "macos-arm64/libcalceph.dylib",
-        "windows-x64/jme.dll",
-        "windows-x64/calceph.dll",
+        "jme-linux-x64-ubuntu24/libjme.so",
+        "jme-linux-x64-ubuntu24/libcalceph.so",
+        "jme-linux-arm64-ubuntu24/libjme.so",
+        "jme-linux-arm64-ubuntu24/libcalceph.so",
+        "jme-linux-x64-ubuntu22/libjme.so",
+        "jme-linux-x64-ubuntu22/libcalceph.so",
+        "jme-linux-arm64-ubuntu22/libjme.so",
+        "jme-linux-arm64-ubuntu22/libcalceph.so",
+        "jme-macos-x64-15/libjme.dylib",
+        "jme-macos-x64-15/libcalceph.dylib",
+        "jme-macos-arm64-15/libjme.dylib",
+        "jme-macos-arm64-15/libcalceph.dylib",
+        "jme-macos-arm64-14/libjme.dylib",
+        "jme-macos-arm64-14/libcalceph.dylib",
+        "jme-windows-x64-2022/jme.dll",
+        "jme-windows-x64-2022/calceph.dll",
     }
     missing = [item for item in sorted(required) if not (destination / item).exists()]
     if missing:
