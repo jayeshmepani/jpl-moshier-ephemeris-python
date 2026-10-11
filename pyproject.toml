@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.24"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
@@ -9,8 +9,9 @@ description = "Pure Python ctypes FFI wrapper for the JPL Moshier Ephemeris nati
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
+license-files = ["LICENSE", "LICENSES/*", "THIRD_PARTY_NOTICES.md"]
 authors = [
-    { name = "Jayesh Mepani", email = "jayeshmepani777@gmail.com" }
+    { name = "Jayesh Mepani (Jayesh Patel)", email = "jayeshmepani777@gmail.com" }
 ]
 keywords = [
     "astrology",
@@ -81,6 +82,8 @@ include = [
     "UPSTREAM_SYNC.md",
     "CONTRIBUTING.md",
     "LICENSE",
+    "LICENSES",
+    "THIRD_PARTY_NOTICES.md",
 ]
 
 [tool.ruff]
