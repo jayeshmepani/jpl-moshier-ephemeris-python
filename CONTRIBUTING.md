@@ -90,4 +90,4 @@ Include:
 
 ## License
 
-MIT.
+Contributions to the project-authored code are accepted under the MIT License. The distributed package is `MIT AND CeCILL-B` because it bundles CALCEPH binaries (CeCILL-B); see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

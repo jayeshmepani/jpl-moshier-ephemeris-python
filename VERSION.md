@@ -14,7 +14,7 @@
 | Native constant target | `462` public `JME_*` constants |
 | Native source tree | `jpl-ephemeris-` |
 | Runtime binary source | `jpl-moshier-ephemeris-php` prebuilt libs |
-| License | MIT |
+| License | `MIT AND CeCILL-B` (project code MIT; bundled CALCEPH CeCILL-B; see `THIRD_PARTY_NOTICES.md`) |
 | Binding contract | Lossless raw I/O; native argument order, types, buffers, and return values preserved |
 
 ## Bundled Runtime Files

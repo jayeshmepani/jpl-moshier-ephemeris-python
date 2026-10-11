@@ -2,6 +2,8 @@
 
 This package is a binding for **JPL Moshier Ephemeris (JME)**, the C library at https://github.com/jayeshmepani/jpl-ephemeris. It ships prebuilt JME runtime libraries and prebuilt **CALCEPH 4.0.5** runtime libraries. The MIT License in [`LICENSE`](LICENSE) covers the original code written by Jayesh Mepani (Jayesh Patel). The components below are not relicensed by that MIT License; each keeps its own terms.
 
+**Package license (as distributed): `MIT AND CeCILL-B`.** Project-authored code is MIT; the bundled CALCEPH 4.0.5 binaries are CeCILL-B; the Moshier and ELP2000-82B material compiled into the JME runtime is permission-pending (see below).
+
 This file is informational and is not legal advice.
 
 ## Summary

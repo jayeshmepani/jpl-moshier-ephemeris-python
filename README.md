@@ -3,7 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/jmeph-ffi.svg?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
 [![Downloads](https://static.pepy.tech/badge/jmeph-ffi)](https://pepy.tech/projects/jmeph-ffi)
 [![Python Versions](https://img.shields.io/pypi/pyversions/jmeph-ffi.svg?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![License: MIT AND CeCILL-B](https://img.shields.io/badge/license-MIT%20AND%20CeCILL--B-blue.svg?style=flat-square)](#license)
 [![Wheel](https://img.shields.io/pypi/wheel/jmeph-ffi?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
 [![Status](https://img.shields.io/pypi/status/jmeph-ffi?style=flat-square)](https://pypi.org/project/jmeph-ffi/)
 
@@ -127,6 +127,10 @@ Full credits, terms, and required notice texts: [THIRD_PARTY_NOTICES.md](THIRD_P
 
 ## License
 
-The original code in this repository is licensed under the [MIT License](LICENSE), Copyright (c) 2026 Jayesh Mepani (Jayesh Patel).
+**Package license: `MIT AND CeCILL-B`.**
 
-**Scope:** MIT applies to the original code in this repository; third-party components keep their own terms, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The bundled CALCEPH runtime libraries are licensed under CeCILL-B, not MIT. The bundled JME runtime libraries include the Moshier and ELP2000-82B components described there, which are not covered by the MIT License.
+- The original code in this repository (the Python `ctypes` binding, tests and scripts) is licensed under the [MIT License](LICENSE), Copyright (c) 2026 Jayesh Mepani (Jayesh Patel). The `LICENSE` file contains only the MIT text for that code.
+- The bundled prebuilt CALCEPH 4.0.5 runtime libraries are licensed under CeCILL-B; the full text is in [`LICENSES/CeCILL-B.txt`](LICENSES/CeCILL-B.txt).
+- The bundled JME runtime libraries also contain the Moshier and ELP2000-82B components, whose redistribution permission is still pending from their authors. They are not covered by the MIT License.
+
+Third-party components keep their own terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
