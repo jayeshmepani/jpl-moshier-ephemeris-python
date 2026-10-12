@@ -1,6 +1,6 @@
 # JPL Moshier Ephemeris Python Version Tracking
 
-**Last verified**: October 12, 2026 (native jpl-ephemeris f08dac8, PR #3)
+**Last verified**: October 12, 2026 (native jpl-ephemeris c15031e, PR #3)
 
 ## Current Package State
 
