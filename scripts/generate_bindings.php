@@ -173,7 +173,7 @@ foreach ($headers as $header) {
 
     if (preg_match_all('/typedef\s+enum\s+[^{]*\{(.*?)\}\s*[A-Za-z0-9_]+\s*;/s', $header, $enumMatches, PREG_SET_ORDER)) {
         foreach ($enumMatches as $enumMatch) {
-            $entries = explode(',', $enumMatch[1]);
+            $entries = explode(',', (string) preg_replace('!/\*.*?\*/!s', '', $enumMatch[1]));
             $nextValue = null;
             foreach ($entries as $entry) {
                 $entry = trim((string) preg_replace('!/\*.*?\*/!s', '', $entry));

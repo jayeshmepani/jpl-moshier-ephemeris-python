@@ -1,8 +1,8 @@
 # Third-Party Notices
 
-This package is a binding for **JPL Moshier Ephemeris (JME)**, the C library at https://github.com/jayeshmepani/jpl-ephemeris. It ships prebuilt JME runtime libraries and prebuilt **CALCEPH 4.0.5** runtime libraries. The MIT License in [`LICENSE`](LICENSE) covers the original code written by Jayesh Mepani (Jayesh Patel). Unless stated otherwise below (the Moshier material is MIT by permission of its author), the components below are not relicensed by that MIT License; each keeps its own terms.
+This package is a binding for **JPL Moshier Ephemeris (JME)**, the C library at https://github.com/jayeshmepani/jpl-ephemeris. It ships prebuilt JME runtime libraries and prebuilt **CALCEPH 5.0.1** runtime libraries. The MIT License in [`LICENSE`](LICENSE) covers the original code written by Jayesh Mepani (Jayesh Patel). Unless stated otherwise below (the Moshier material is MIT by permission of its author), the components below are not relicensed by that MIT License; each keeps its own terms.
 
-**Package license (as distributed): `MIT AND CeCILL-B`.** Project-authored code is MIT; the bundled CALCEPH 4.0.5 binaries are CeCILL-B; the Moshier material compiled into the JME runtime is MIT by permission of its author (12 October 2026); the ELP2000-82B implementation in the current runtime is permission-pending and is replaced in the upcoming JME release (see below).
+**Package license (as distributed): `MIT AND CeCILL-B`.** Project-authored code is MIT; the bundled CALCEPH 5.0.1 binaries are CeCILL-B; the Moshier material compiled into the JME runtime is MIT by permission of its author (12 October 2026); the ELP 2000-82B evaluator is JME's own code (see below).
 
 This file is informational and is not legal advice.
 
@@ -10,25 +10,25 @@ This file is informational and is not legal advice.
 
 | Component | Terms | Where it is used |
 |---|---|---|
-| CALCEPH 4.0.5 | CeCILL-B (CALCEPH is offered under CeCILL-C, CeCILL-B, or CeCILL v2.1; JME uses it under CeCILL-B) | Bundled prebuilt runtime libraries (`libcalceph` / `calceph.dll` / `Calceph.xcframework`), unmodified |
+| CALCEPH 5.0.1 | CeCILL-B (CALCEPH is offered under CeCILL-C, CeCILL-B, or CeCILL v2.1; JME uses it under CeCILL-B) | Bundled prebuilt runtime libraries (`libcalceph` / `calceph.dll` / `Calceph.xcframework`), unmodified |
 | JPL DE440 / DE440s / DE441 kernels | NAIF rules: redistribution permitted if unmodified | Kernel files published unmodified in the [`jpl-kernels` release](https://github.com/jayeshmepani/jpl-ephemeris/releases/tag/jpl-kernels); not bundled in this package |
 | Moshier planetary and lunar theories | Copyright Stephen L. Moshier; MIT License by permission of the author (12 October 2026, [record](https://github.com/jayeshmepani/jpl-ephemeris/blob/main/docs/permissions/MOSHIER_PERMISSION.md)) | Moshier engine (compiled into the JME runtime) |
-| ELP2000-82B implementation | Code by Serhii Tsyba; no license file; permission pending (replaced in upcoming JME release by JME's own CDS-based evaluator). Theory/data: Chapront-Touzé & Chapront, CDS VI/79 | Moon in the VSOP87 + ELP2000 + Meeus engine (compiled into the JME runtime) |
+| ELP 2000-82B lunar theory | Theory and series data: Chapront-Touzé & Chapront (CDS VI/79); evaluated by JME's own code, generated from the unmodified CDS files | Moon in the analytical engine (compiled into the JME runtime) |
 | VSOP87 code (VSOP87-Multilang) | Greg A. Miller: public domain dedication. Theory/data: Bretagnon & Francou 1988, CDS VI/81 | Planets in the VSOP87 + ELP2000 + Meeus engine (compiled into the JME runtime) |
-| ERFA (IAU 2000B nutation) | BSD 3-Clause, Copyright (C) 2013-2023 NumFOCUS Foundation | Nutation (compiled into the JME runtime) |
+| ERFA | BSD 3-Clause, Copyright (C) 2013-2023 NumFOCUS Foundation | Time scales, precession-nutation, astrometry and polar motion (compiled into the JME runtime) |
 | Meeus, *Astronomical Algorithms* | Formulas cited; no text or programs copied | Low-precision Sun/Moon arguments and mean elements |
-| Espenak & Meeus ΔT polynomials | NASA publication | ΔT model |
-| Yale Bright Star Catalogue, 5th Rev. Ed. | NSSDC/ADC catalogue (CDS V/50) | Fixed stars |
+| ΔT sources (IERS finals2000A; Stephenson, Morrison, Hohenkerk & Zawilski 2016/2021; Morrison & Stephenson 2004; Espenak & Meeus 2006) | Published tables and polynomials; see [`NOTICE.md`](NOTICE.md) | ΔT models |
+| Yale Bright Star Catalogue, 5th Rev. Ed. | NSSDC/ADC catalogue (CDS V/50) | Fixed stars (Hipparcos, van Leeuwen 2007, where available; see [`NOTICE.md`](NOTICE.md)) |
 
 ## CALCEPH
 
-**Bundled binary notice.** This package redistributes unmodified prebuilt runtime libraries of CALCEPH 4.0.5 so that the JPL engine works without a separate install.
+**Bundled binary notice.** This package redistributes unmodified prebuilt runtime libraries of CALCEPH 5.0.1 so that the JPL engine works without a separate install.
 
-- Software: CALCEPH 4.0.5
-- Copyright 2008-2025 CNRS, Observatoire de Paris, Observatoire de la Côte d'Azur. Contributed by M. Gastineau, J. Laskar, H. Manche (ASD/IMCCE, Observatoire de Paris) and A. Fienga (Observatoire de la Côte d'Azur).
+- Software: CALCEPH 5.0.1
+- Copyright CNRS, Observatoire de Paris, Observatoire de la Côte d'Azur. Contributed by M. Gastineau, J. Laskar, H. Manche (ASD/IMCCE, Observatoire de Paris) and A. Fienga (Observatoire de la Côte d'Azur).
 - Licence: CALCEPH is triple-licensed (CeCILL-C, CeCILL-B, or CeCILL v2.1). The JME ecosystem uses and redistributes it under the **CeCILL-B** Free Software License Agreement, version 1.0.
-- Licence text: included in this repository as [`LICENSES/CeCILL-B.txt`](LICENSES/CeCILL-B.txt) (copied from `COPYING_CECILL_B.LIB` in the official CALCEPH 4.0.5 source distribution, converted to UTF-8). Official page: https://cecill.info/licences/Licence_CeCILL-B_V1-en.html
-- Source code: https://calceph.imcce.fr/ ; CALCEPH 4.0.5 source archive: https://www.imcce.fr/content/medias/recherche/equipes/asd/calceph/calceph-4.0.5.tar.gz
+- Licence text: included in this repository as [`LICENSES/CeCILL-B.txt`](LICENSES/CeCILL-B.txt) (the text of `COPYING_CECILL_B.LIB` in the official CALCEPH 5.0.1 source distribution, converted to UTF-8). Official page: https://cecill.info/licences/Licence_CeCILL-B_V1-en.html
+- Source code: https://calceph.imcce.fr/ ; CALCEPH 5.0.1 source archive: https://calceph.imcce.fr/releases/calceph-5.0.1.tar.gz
 - Project page and documentation: https://calceph.imcce.fr/
 
 **No warranty (CeCILL-B Articles 8 and 9).** CALCEPH is provided by its licensors with only the limited warranty and limited liability described in Articles 8 and 9 of the CeCILL-B agreement. As stated in the CALCEPH copying conditions: "users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the successive licensors have only limited liability." JME and its packages do not add any warranty on behalf of the CALCEPH authors.
@@ -53,8 +53,7 @@ The Moshier engine uses Stephen L. Moshier's analytical planetary theories ("pla
 ## ELP2000-82B lunar theory and implementation
 
 - Theory and data: M. Chapront-Touzé and J. Chapront, "The lunar ephemeris ELP 2000", *Astronomy & Astrophysics* 124, 50 (1983), and "ELP 2000-85: a semi-analytical lunar ephemeris adequate for historical times", *A&A* 190, 342 (1988). Series data: CDS catalogue VI/79 (https://cdsarc.cds.unistra.fr/viz-bin/cat/VI/79).
-- C implementation: the files in the JME `src/elp2000/` directory come from Serhii Tsyba's `elp2000-82b` project (https://github.com/variar/elp2000-82b), "Created by Serhii Tsyba". That project has **no license file**, so this code is **not** covered by JME's MIT License.
-- Status: permission to redistribute this code with attribution is **pending**. This notice does not claim that permission has been granted. The code is replaced in the upcoming JME release by JME's own ELP 2000-82B evaluator, generated from the unmodified CDS VI/79 series ([jpl-ephemeris PR #3](https://github.com/jayeshmepani/jpl-ephemeris/pull/3)); the prebuilt runtimes here will be rebuilt from it.
+- Implementation: JME's own ELP 2000-82B evaluator. Its series tables are generated from the unmodified CDS VI/79 files by the JME tool `tools/gen_elp82b.py`. The earlier third-party implementation is no longer part of JME, and the runtimes bundled here (built from jpl-ephemeris 1.1.0) do not contain it.
 
 ## VSOP87
 
@@ -140,3 +139,7 @@ POSSIBILITY OF SUCH DAMAGE.
 ## Contact
 
 Questions or corrections about these notices: open an issue at https://github.com/jayeshmepani/jpl-ephemeris/issues.
+
+## Native engine notices
+
+The bundled native runtimes are built from jpl-ephemeris 1.1.0. Their attribution is in [`NOTICE.md`](NOTICE.md). The vendored ERFA licence (BSD-3-Clause) is in [`LICENSES/LICENSE.ERFA`](LICENSES/LICENSE.ERFA). Each runtime folder carries its own `notices/` copy, including `JME_NATIVE_COMMIT.txt`.

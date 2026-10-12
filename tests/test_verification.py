@@ -31,7 +31,7 @@ def native_root() -> Path:
 
 def test_generated_constants_count() -> None:
     constants = [name for name in vars(jme_pkg) if name.startswith("JME_")]
-    assert len(constants) == 462
+    assert len(constants) == 480
 
 
 def test_surface_matches_native_inventory(native_root: Path) -> None:
@@ -39,7 +39,7 @@ def test_surface_matches_native_inventory(native_root: Path) -> None:
     tracked_functions = sorted(
         set(re.findall(r"\|\s*\d+\s*\|\s*`(jme_[A-Za-z0-9_]+)`\s*\|", api_reference))
     )
-    assert len(tracked_functions) == 204
+    assert len(tracked_functions) == 225
     assert sorted(jme_pkg.signature_names()) == tracked_functions
 
     headers = (
@@ -50,5 +50,5 @@ def test_surface_matches_native_inventory(native_root: Path) -> None:
     native_constants = sorted(set(re.findall(r"\b(JME_[A-Z0-9_]+)\b", headers)))
     python_constants = sorted(name for name in vars(jme_pkg) if name.startswith("JME_"))
 
-    assert len(native_constants) == 462
+    assert len(native_constants) == 480
     assert python_constants == native_constants

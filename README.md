@@ -15,8 +15,8 @@ This package wraps the native `jme_*` API directly. It is intended to be a true 
 
 - Primary public functions: `jme_*`
 - Primary public constants: `JME_*`
-- Current wrapper target: all `204` public `jme_*` functions tracked by the native API inventory
-- Current constant target: all `462` public `JME_*` constants from the native headers
+- Current wrapper target: all `225` public `jme_*` functions tracked by the native API inventory
+- Current constant target: all `480` public `JME_*` constants from the native headers
 - Native runtimes bundled in the wheel: `jme` plus `calceph`
 - No CPython extension module; pure Python loader plus bundled native libraries
 - Argument order, pointer ownership, output buffers, and return values are kept as-is from the native C API
@@ -106,8 +106,8 @@ python -m twine check dist/*
 
 The test suite verifies:
 
-- `204/204` configured ctypes function signatures
-- `462/462` generated `JME_*` constants
+- `225/225` configured ctypes function signatures
+- `480/480` generated `JME_*` constants
 - import and runtime loading
 - basic native contract calls such as version, Julian day conversion, calculation, houses, ayanamsa, Delta-T, split-degree, body naming, and refraction
 - optional source-surface audit against the local native `jpl-ephemeris-` tree
@@ -117,9 +117,9 @@ The test suite verifies:
 This package is a binding for [JPL Moshier Ephemeris (JME)](https://github.com/jayeshmepani/jpl-ephemeris) by Jayesh Mepani (Jayesh Patel). JME builds on:
 
 - **JPL DE440 / DE441** ephemerides (NASA/JPL; Park et al. 2021). Kernels are downloaded separately and are redistributed unmodified per the NAIF rules.
-- **CALCEPH 4.0.5** (Copyright 2008-2025 CNRS, Observatoire de Paris, Observatoire de la Côte d'Azur), used under the CeCILL-B license. Prebuilt CALCEPH runtime libraries are bundled unmodified; license text in [`LICENSES/CeCILL-B.txt`](LICENSES/CeCILL-B.txt); provided without warranty (CeCILL-B Articles 8 and 9); source code at https://calceph.imcce.fr/.
+- **CALCEPH 5.0.1** (Copyright CNRS, Observatoire de Paris, Observatoire de la Côte d'Azur), used under the CeCILL-B license. Prebuilt CALCEPH runtime libraries are bundled unmodified; license text in [`LICENSES/CeCILL-B.txt`](LICENSES/CeCILL-B.txt); provided without warranty (CeCILL-B Articles 8 and 9); source code at https://calceph.imcce.fr/.
 - **Stephen L. Moshier**: plan404 and Astronomical Almanac 5.6 analytical theories (Moshier engine). MIT License by permission of the author (12 October 2026; [record](https://github.com/jayeshmepani/jpl-ephemeris/blob/main/docs/permissions/MOSHIER_PERMISSION.md)). Portions derived from the work of Stephen L. Moshier, incorporated herein by permission of the author.
-- **ELP2000-82B** by M. Chapront-Touzé and J. Chapront (CDS VI/79); C implementation by Serhii Tsyba. No license file; permission pending (replaced in upcoming JME release).
+- **ELP 2000-82B** by M. Chapront-Touzé and J. Chapront (CDS VI/79), evaluated by JME's own code generated from the unmodified CDS files.
 - **VSOP87** by P. Bretagnon and G. Francou (CDS VI/81); C code from Greg A. Miller's VSOP87-Multilang (public domain dedication).
 - **Jean Meeus**, *Astronomical Algorithms* (formulas cited); **F. Espenak and J. Meeus** (NASA) ΔT polynomials; **ERFA** (BSD 3-Clause, NumFOCUS Foundation) IAU 2000B nutation; **Yale Bright Star Catalogue** (Hoffleit and Warren).
 
@@ -130,8 +130,7 @@ Full credits, terms, and required notice texts: [THIRD_PARTY_NOTICES.md](THIRD_P
 **Package license: `MIT AND CeCILL-B`.**
 
 - The original code in this repository (the Python `ctypes` binding, tests and scripts) is licensed under the [MIT License](LICENSE), Copyright (c) 2026 Jayesh Mepani (Jayesh Patel). The `LICENSE` file contains only the MIT text for that code.
-- The bundled prebuilt CALCEPH 4.0.5 runtime libraries are licensed under CeCILL-B; the full text is in [`LICENSES/CeCILL-B.txt`](LICENSES/CeCILL-B.txt).
+- The bundled prebuilt CALCEPH 5.0.1 runtime libraries are licensed under CeCILL-B; the full text is in [`LICENSES/CeCILL-B.txt`](LICENSES/CeCILL-B.txt).
 - The bundled JME runtime libraries contain the Moshier material (plan404, AA 5.6), which is distributed under the MIT License by permission of Stephen L. Moshier, 12 October 2026 ([permission record](https://github.com/jayeshmepani/jpl-ephemeris/blob/main/docs/permissions/MOSHIER_PERMISSION.md)). Portions derived from the work of Stephen L. Moshier, incorporated herein by permission of the author.
-- The bundled JME runtime libraries also contain the ELP2000-82B implementation by Serhii Tsyba. Its redistribution permission is still pending, so it is not covered by the MIT License. It is replaced in the upcoming JME release by JME's own CDS-based evaluator.
 
 Third-party components keep their own terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
