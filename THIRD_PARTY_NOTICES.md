@@ -1,8 +1,8 @@
 # Third-Party Notices
 
-This package is a binding for **JPL Moshier Ephemeris (JME)**, the C library at https://github.com/jayeshmepani/jpl-ephemeris. It ships prebuilt JME runtime libraries and prebuilt **CALCEPH 4.0.5** runtime libraries. The MIT License in [`LICENSE`](LICENSE) covers the original code written by Jayesh Mepani (Jayesh Patel). The components below are not relicensed by that MIT License; each keeps its own terms.
+This package is a binding for **JPL Moshier Ephemeris (JME)**, the C library at https://github.com/jayeshmepani/jpl-ephemeris. It ships prebuilt JME runtime libraries and prebuilt **CALCEPH 4.0.5** runtime libraries. The MIT License in [`LICENSE`](LICENSE) covers the original code written by Jayesh Mepani (Jayesh Patel). Unless stated otherwise below (the Moshier material is MIT by permission of its author), the components below are not relicensed by that MIT License; each keeps its own terms.
 
-**Package license (as distributed): `MIT AND CeCILL-B`.** Project-authored code is MIT; the bundled CALCEPH 4.0.5 binaries are CeCILL-B; the Moshier and ELP2000-82B material compiled into the JME runtime is permission-pending (see below).
+**Package license (as distributed): `MIT AND CeCILL-B`.** Project-authored code is MIT; the bundled CALCEPH 4.0.5 binaries are CeCILL-B; the Moshier material compiled into the JME runtime is MIT by permission of its author (12 October 2026); the ELP2000-82B implementation in the current runtime is permission-pending and is replaced in the upcoming JME release (see below).
 
 This file is informational and is not legal advice.
 
@@ -12,8 +12,8 @@ This file is informational and is not legal advice.
 |---|---|---|
 | CALCEPH 4.0.5 | CeCILL-B (CALCEPH is offered under CeCILL-C, CeCILL-B, or CeCILL v2.1; JME uses it under CeCILL-B) | Bundled prebuilt runtime libraries (`libcalceph` / `calceph.dll` / `Calceph.xcframework`), unmodified |
 | JPL DE440 / DE440s / DE441 kernels | NAIF rules: redistribution permitted if unmodified | Kernel files published unmodified in the [`jpl-kernels` release](https://github.com/jayeshmepani/jpl-ephemeris/releases/tag/jpl-kernels); not bundled in this package |
-| Moshier planetary and lunar theories | Copyright Stephen L. Moshier; no explicit license; permission requested | Moshier engine (compiled into the JME runtime) |
-| ELP2000-82B implementation | Code by Serhii Tsyba; no license file; permission requested. Theory/data: Chapront-Touzé & Chapront, CDS VI/79 | Moon in the VSOP87 + ELP2000 + Meeus engine (compiled into the JME runtime) |
+| Moshier planetary and lunar theories | Copyright Stephen L. Moshier; MIT License by permission of the author (12 October 2026, [record](https://github.com/jayeshmepani/jpl-ephemeris/blob/main/docs/permissions/MOSHIER_PERMISSION.md)) | Moshier engine (compiled into the JME runtime) |
+| ELP2000-82B implementation | Code by Serhii Tsyba; no license file; permission pending (replaced in upcoming JME release by JME's own CDS-based evaluator). Theory/data: Chapront-Touzé & Chapront, CDS VI/79 | Moon in the VSOP87 + ELP2000 + Meeus engine (compiled into the JME runtime) |
 | VSOP87 code (VSOP87-Multilang) | Greg A. Miller: public domain dedication. Theory/data: Bretagnon & Francou 1988, CDS VI/81 | Planets in the VSOP87 + ELP2000 + Meeus engine (compiled into the JME runtime) |
 | ERFA (IAU 2000B nutation) | BSD 3-Clause, Copyright (C) 2013-2023 NumFOCUS Foundation | Nutation (compiled into the JME runtime) |
 | Meeus, *Astronomical Algorithms* | Formulas cited; no text or programs copied | Low-precision Sun/Moon arguments and mean elements |
@@ -46,15 +46,15 @@ The kernel files are downloaded from JPL and republished unmodified (DE441 is sp
 The Moshier engine uses Stephen L. Moshier's analytical planetary theories ("plan404") and lunar theory from his Astronomical Almanac (AA) version 5.6, which are fits to the JPL DE404 ephemeris, together with code adapted from his `gplan.c` evaluation routines.
 
 - Author: Stephen L. Moshier (http://www.moshier.net/).
-- The original plan404 and AA 5.6 files are freely distributed by the author, but they carry **no explicit license**. They are therefore **not** covered by JME's MIT License.
-- Status: written permission to redistribute this material with attribution **has been requested** from the author. Until a reply is received, this notice records the provenance and credit only; it does not claim that permission has been granted.
+- The original plan404 and AA 5.6 files carry no explicit license of their own. On **12 October 2026** Stephen L. Moshier gave permission to distribute "the material posted to the net" under an MIT license. That covers the plan404 tables and GPLAN.C, and the AA 5.6 / cmoon lunar tables and routines used in JME. The request and the verbatim reply are recorded in the C repository: https://github.com/jayeshmepani/jpl-ephemeris/blob/main/docs/permissions/MOSHIER_PERMISSION.md
+- This material is therefore distributed under the MIT License, with the credit: *"Portions derived from the work of Stephen L. Moshier, incorporated herein by permission of the author."*
 - The underlying method (periodic series fitted to a numerical JPL integration) is credited to Moshier.
 
 ## ELP2000-82B lunar theory and implementation
 
 - Theory and data: M. Chapront-Touzé and J. Chapront, "The lunar ephemeris ELP 2000", *Astronomy & Astrophysics* 124, 50 (1983), and "ELP 2000-85: a semi-analytical lunar ephemeris adequate for historical times", *A&A* 190, 342 (1988). Series data: CDS catalogue VI/79 (https://cdsarc.cds.unistra.fr/viz-bin/cat/VI/79).
 - C implementation: the files in the JME `src/elp2000/` directory come from Serhii Tsyba's `elp2000-82b` project (https://github.com/variar/elp2000-82b), "Created by Serhii Tsyba". That project has **no license file**, so this code is **not** covered by JME's MIT License.
-- Status: permission to redistribute this code with attribution **has been requested** from the author. This notice does not claim that permission has been granted.
+- Status: permission to redistribute this code with attribution is **pending**. This notice does not claim that permission has been granted. The code is replaced in the upcoming JME release by JME's own ELP 2000-82B evaluator, generated from the unmodified CDS VI/79 series ([jpl-ephemeris PR #3](https://github.com/jayeshmepani/jpl-ephemeris/pull/3)); the prebuilt runtimes here will be rebuilt from it.
 
 ## VSOP87
 
