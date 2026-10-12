@@ -1,6 +1,10 @@
 import pytest
 from jpl_moshier_ephemeris import JmeEph, signature_names
-from jpl_moshier_ephemeris.bindings import _OPTIONAL_SIGNATURES, _SIGNATURES, optional_signature_names
+from jpl_moshier_ephemeris.bindings import (
+    _OPTIONAL_SIGNATURES,
+    _SIGNATURES,
+    optional_signature_names,
+)
 
 
 @pytest.mark.parametrize("name", sorted(signature_names()))
