@@ -593,6 +593,51 @@ _SIGNATURES = {
     "jme_vsop87_planet_state": (c_int, [c_double, c_int, POINTER(c_double)]),
 }
 
+# Newer core APIs are optional until downstream native runtime bundles are refreshed.
+# This lets the wrapper use old prebuilt libraries while exposing these functions when
+# a library built from the current core branch is supplied.
+_OPTIONAL_SIGNATURES = {
+    "jme_calc_resolve_engine": (
+        c_int,
+        [c_double, c_int, POINTER(c_int), POINTER(c_int), c_char_p],
+    ),
+    "jme_delta_t_iers_table_info": (
+        c_int,
+        [POINTER(c_double), POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_get_ayanamsa_ex2": (
+        c_int,
+        [c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_get_ayanamsa_ex2_ut": (
+        c_int,
+        [c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_get_jpl_center_policy": (c_int, []),
+    "jme_houses_gauquelin": (
+        c_int,
+        [c_double, c_int, c_double, c_double, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_houses_gauquelin_armc": (
+        c_int,
+        [c_double, c_double, c_double, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_leap_second_table_info": (
+        c_int,
+        [POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_set_astro_models_checked": (c_int, [c_char_p, c_char_p]),
+    "jme_set_jpl_center_policy": (c_int, [c_int, c_char_p]),
+    "jme_set_sidereal_mode_checked": (c_int, [c_int, c_double, c_double, c_char_p]),
+    "jme_set_topo_checked": (c_int, [c_double, c_double, c_double, c_char_p]),
+    "jme_sidereal_time_ex": (c_int, [c_double, c_int, POINTER(c_double), c_char_p]),
+    "jme_time_scale_convert": (
+        c_int,
+        [c_double, c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_time_scale_name": (c_char_p, [c_int]),
+}
+
 
 class JmeEph:
     """Direct runtime-FFI loader for the native JME shared library."""
@@ -609,25 +654,37 @@ class JmeEph:
         return self._lib
 
     def _configure_signatures(self) -> None:
-        for name, (restype, argtypes) in _SIGNATURES.items():
-            fn = getattr(self._lib, name)
+        for name, (restype, argtypes) in (*_SIGNATURES.items(), *_OPTIONAL_SIGNATURES.items()):
+            try:
+                fn = getattr(self._lib, name)
+            except AttributeError:
+                if name in _OPTIONAL_SIGNATURES:
+                    continue
+                raise
             fn.restype = restype
             fn.argtypes = argtypes
 
     def __getattr__(self, name: str):
-        if name in _SIGNATURES:
+        if name in _SIGNATURES or name in _OPTIONAL_SIGNATURES:
             return getattr(self._lib, name)
         raise AttributeError(name)
 
 
 def signature_names() -> Iterable[str]:
-    """Return all configured JME C function names."""
+    """Return the required, backward-compatible JME C function names."""
 
     return _SIGNATURES.keys()
 
 
+def optional_signature_names() -> Iterable[str]:
+    """Return newer JME C functions configured when the loaded library exports them."""
+
+    return _OPTIONAL_SIGNATURES.keys()
+
+
 __all__ = [
     "JmeEph",
+    "optional_signature_names",
     "signature_names",
     "byref",
     "create_string_buffer",
