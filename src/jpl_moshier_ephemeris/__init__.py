@@ -17,6 +17,7 @@ from .bindings import (
     c_size_t,
     c_uint,
     create_string_buffer,
+    optional_signature_names,
     signature_names,
 )
 from .constants import *
@@ -36,6 +37,7 @@ __all__ = [
     "find_calceph_library",
     "find_library",
     "load_calceph_runtime",
+    "optional_signature_names",
     "signature_names",
 ]
 __all__ += [name for name in globals() if name.startswith(("JME_",))]
