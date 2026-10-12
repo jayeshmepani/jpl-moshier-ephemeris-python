@@ -140,3 +140,7 @@ POSSIBILITY OF SUCH DAMAGE.
 ## Contact
 
 Questions or corrections about these notices: open an issue at https://github.com/jayeshmepani/jpl-ephemeris/issues.
+
+## Native engine notices
+
+The bundled native runtimes are built from jpl-ephemeris commit f08dac8. Their attribution is in [`NOTICE.md`](NOTICE.md). The vendored ERFA licence (BSD-3-Clause) is in [`LICENSES/LICENSE.ERFA`](LICENSES/LICENSE.ERFA). Each runtime folder carries its own `notices/` copy, including `JME_NATIVE_COMMIT.txt`.
