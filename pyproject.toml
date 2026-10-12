@@ -83,6 +83,8 @@ include = [
     "LICENSE",
     "LICENSES",
     "THIRD_PARTY_NOTICES.md",
+    "NOTICE.md",
+    "CHANGELOG.md",
 ]
 
 [tool.ruff]
