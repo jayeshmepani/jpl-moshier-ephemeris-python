@@ -25,6 +25,7 @@ _SIGNATURES = {
     "jme_body_name": (c_char_p, [c_int]),
     "jme_calc": (c_int, [c_double, c_int, c_int, POINTER(c_double), c_char_p]),
     "jme_calc_pctr": (c_int, [c_double, c_int, c_int, c_int, POINTER(c_double), c_char_p]),
+    "jme_calc_resolve_engine": (c_int, [c_double, c_int, POINTER(c_int), POINTER(c_int), c_char_p]),
     "jme_calc_ut": (c_int, [c_double, c_int, c_int, POINTER(c_double), c_char_p]),
     "jme_calendar_is_leap_year": (c_int, [c_int, c_int]),
     "jme_centiseconds_difference": (c_int, [c_int, c_int]),
@@ -49,6 +50,10 @@ _SIGNATURES = {
     "jme_degrees_to_radians": (c_double, [c_double]),
     "jme_delta_t": (c_double, [c_double]),
     "jme_delta_t_ex": (c_double, [c_double, c_int, c_char_p]),
+    "jme_delta_t_iers_table_info": (
+        c_int,
+        [POINTER(c_double), POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
     "jme_double_to_long": (c_int, [c_double]),
     "jme_ecliptic_to_equatorial": (
         None,
@@ -59,6 +64,13 @@ _SIGNATURES = {
         [POINTER(c_double), c_double, POINTER(c_double)],
     ),
     "jme_elp2000_moon_state": (c_int, [c_double, POINTER(c_double)]),
+    "jme_eop_clear": (None, []),
+    "jme_eop_coverage": (c_int, [POINTER(c_double), POINTER(c_double), c_char_p]),
+    "jme_eop_load_file": (c_int, [c_char_p, c_char_p]),
+    "jme_eop_polar_motion": (
+        c_int,
+        [c_double, POINTER(c_double), POINTER(c_double), POINTER(c_int), c_char_p],
+    ),
     "jme_ephemeris_path": (c_char_p, []),
     "jme_equatorial_to_ecliptic": (
         None,
@@ -73,11 +85,11 @@ _SIGNATURES = {
         [c_double, c_double, c_double, POINTER(c_double), POINTER(c_double)],
     ),
     "jme_fixstar": (c_int, [c_char_p, c_double, c_int, POINTER(c_double), c_char_p]),
-    "jme_fixstar_mag": (c_int, [c_char_p, POINTER(c_double), c_char_p]),
-    "jme_fixstar_ut": (c_int, [c_char_p, c_double, c_int, POINTER(c_double), c_char_p]),
     "jme_fixstar2": (c_int, [c_char_p, c_double, c_int, POINTER(c_double), c_char_p]),
     "jme_fixstar2_mag": (c_int, [c_char_p, POINTER(c_double), c_char_p]),
     "jme_fixstar2_ut": (c_int, [c_char_p, c_double, c_int, POINTER(c_double), c_char_p]),
+    "jme_fixstar_mag": (c_int, [c_char_p, POINTER(c_double), c_char_p]),
+    "jme_fixstar_ut": (c_int, [c_char_p, c_double, c_int, POINTER(c_double), c_char_p]),
     "jme_gauquelin_sector": (
         c_int,
         [
@@ -96,14 +108,24 @@ _SIGNATURES = {
     "jme_get_astro_models": (c_int, [c_char_p, c_int]),
     "jme_get_ayanamsa": (c_double, [c_double]),
     "jme_get_ayanamsa_ex": (c_int, [c_double, c_int, POINTER(c_double), c_char_p]),
+    "jme_get_ayanamsa_ex2": (
+        c_int,
+        [c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_get_ayanamsa_ex2_ut": (
+        c_int,
+        [c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
     "jme_get_ayanamsa_ex_ut": (c_int, [c_double, c_int, POINTER(c_double), c_char_p]),
     "jme_get_ayanamsa_name": (c_char_p, [c_int]),
     "jme_get_ayanamsa_ut": (c_double, [c_double]),
     "jme_get_frame_bias_matrix": (c_int, [c_int, POINTER(c_double)]),
+    "jme_get_jpl_center_policy": (c_int, []),
     "jme_get_nutation": (c_int, [c_double, c_int, POINTER(c_double), POINTER(c_double), c_char_p]),
     "jme_get_nutation_matrix": (None, [c_double, c_double, c_double, POINTER(c_double)]),
     "jme_get_obliquity": (c_int, [c_double, c_int, POINTER(c_double), c_char_p]),
     "jme_get_orbital_elements": (c_int, [c_double, c_int, c_int, POINTER(c_double), c_char_p]),
+    "jme_get_polar_motion": (c_int, []),
     "jme_get_precession_matrix": (c_int, [c_double, c_double, c_int, POINTER(c_double)]),
     "jme_get_sidereal_mode": (None, [POINTER(c_int), POINTER(c_double), POINTER(c_double)]),
     "jme_get_tid_acc": (c_double, []),
@@ -159,6 +181,14 @@ _SIGNATURES = {
             POINTER(c_double),
             POINTER(c_double),
         ],
+    ),
+    "jme_houses_gauquelin": (
+        c_int,
+        [c_double, c_int, c_double, c_double, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_houses_gauquelin_armc": (
+        c_int,
+        [c_double, c_double, c_double, POINTER(c_double), POINTER(c_double), c_char_p],
     ),
     "jme_jd_add_seconds": (c_double, [c_double, c_double]),
     "jme_jd_difference_seconds": (c_double, [c_double, c_double]),
@@ -400,6 +430,7 @@ _SIGNATURES = {
     "jme_jpl_timescale": (c_int, []),
     "jme_julian_day": (c_double, [c_int, c_int, c_int, c_double, c_int]),
     "jme_lat_to_lmt": (c_int, [c_double, c_double, POINTER(c_double), c_char_p]),
+    "jme_leap_second_table_info": (c_int, [POINTER(c_double), POINTER(c_double), c_char_p]),
     "jme_library_path": (c_char_p, []),
     "jme_lmt_to_lat": (c_int, [c_double, c_double, POINTER(c_double), c_char_p]),
     "jme_lun_eclipse_how": (
@@ -510,16 +541,22 @@ _SIGNATURES = {
         ],
     ),
     "jme_set_astro_models": (None, [c_char_p, c_int]),
+    "jme_set_astro_models_checked": (c_int, [c_char_p, c_char_p]),
     "jme_set_delta_t_userdef": (None, [c_double]),
     "jme_set_ephemeris_path": (None, [c_char_p]),
     "jme_set_interpolate_nut": (None, [c_int]),
+    "jme_set_jpl_center_policy": (c_int, [c_int, c_char_p]),
     "jme_set_jpl_file": (None, [c_char_p]),
     "jme_set_lapse_rate": (None, [c_double]),
+    "jme_set_polar_motion": (None, [c_int]),
     "jme_set_sidereal_mode": (None, [c_int, c_double, c_double]),
+    "jme_set_sidereal_mode_checked": (c_int, [c_int, c_double, c_double, c_char_p]),
     "jme_set_tid_acc": (None, [c_double]),
     "jme_set_topo": (None, [c_double, c_double, c_double]),
+    "jme_set_topo_checked": (c_int, [c_double, c_double, c_double, c_char_p]),
     "jme_sidereal_time": (c_double, [c_double]),
     "jme_sidereal_time0": (c_double, [c_double, c_double, c_double]),
+    "jme_sidereal_time_ex": (c_int, [c_double, c_int, POINTER(c_double), c_char_p]),
     "jme_sol_eclipse_how": (
         c_int,
         [c_double, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
@@ -562,6 +599,11 @@ _SIGNATURES = {
     "jme_state_speed": (c_double, [POINTER(c_double)]),
     "jme_state_subtract": (c_int, [POINTER(c_double), POINTER(c_double), POINTER(c_double)]),
     "jme_time_equ": (c_int, [c_double, POINTER(c_double), c_char_p]),
+    "jme_time_scale_convert": (
+        c_int,
+        [c_double, c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
+    ),
+    "jme_time_scale_name": (c_char_p, [c_int]),
     "jme_topo_arcus_visionis": (
         c_double,
         [c_double, POINTER(c_double), POINTER(c_double), c_char_p],
@@ -593,51 +635,6 @@ _SIGNATURES = {
     "jme_vsop87_planet_state": (c_int, [c_double, c_int, POINTER(c_double)]),
 }
 
-# Newer core APIs are optional until downstream native runtime bundles are refreshed.
-# This lets the wrapper use old prebuilt libraries while exposing these functions when
-# a library built from the current core branch is supplied.
-_OPTIONAL_SIGNATURES = {
-    "jme_calc_resolve_engine": (
-        c_int,
-        [c_double, c_int, POINTER(c_int), POINTER(c_int), c_char_p],
-    ),
-    "jme_delta_t_iers_table_info": (
-        c_int,
-        [POINTER(c_double), POINTER(c_double), POINTER(c_double), c_char_p],
-    ),
-    "jme_get_ayanamsa_ex2": (
-        c_int,
-        [c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
-    ),
-    "jme_get_ayanamsa_ex2_ut": (
-        c_int,
-        [c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
-    ),
-    "jme_get_jpl_center_policy": (c_int, []),
-    "jme_houses_gauquelin": (
-        c_int,
-        [c_double, c_int, c_double, c_double, POINTER(c_double), POINTER(c_double), c_char_p],
-    ),
-    "jme_houses_gauquelin_armc": (
-        c_int,
-        [c_double, c_double, c_double, POINTER(c_double), POINTER(c_double), c_char_p],
-    ),
-    "jme_leap_second_table_info": (
-        c_int,
-        [POINTER(c_double), POINTER(c_double), c_char_p],
-    ),
-    "jme_set_astro_models_checked": (c_int, [c_char_p, c_char_p]),
-    "jme_set_jpl_center_policy": (c_int, [c_int, c_char_p]),
-    "jme_set_sidereal_mode_checked": (c_int, [c_int, c_double, c_double, c_char_p]),
-    "jme_set_topo_checked": (c_int, [c_double, c_double, c_double, c_char_p]),
-    "jme_sidereal_time_ex": (c_int, [c_double, c_int, POINTER(c_double), c_char_p]),
-    "jme_time_scale_convert": (
-        c_int,
-        [c_double, c_double, c_int, c_int, POINTER(c_double), POINTER(c_double), c_char_p],
-    ),
-    "jme_time_scale_name": (c_char_p, [c_int]),
-}
-
 
 class JmeEph:
     """Direct runtime-FFI loader for the native JME shared library."""
@@ -654,37 +651,25 @@ class JmeEph:
         return self._lib
 
     def _configure_signatures(self) -> None:
-        for name, (restype, argtypes) in (*_SIGNATURES.items(), *_OPTIONAL_SIGNATURES.items()):
-            try:
-                fn = getattr(self._lib, name)
-            except AttributeError:
-                if name in _OPTIONAL_SIGNATURES:
-                    continue
-                raise
+        for name, (restype, argtypes) in _SIGNATURES.items():
+            fn = getattr(self._lib, name)
             fn.restype = restype
             fn.argtypes = argtypes
 
     def __getattr__(self, name: str):
-        if name in _SIGNATURES or name in _OPTIONAL_SIGNATURES:
+        if name in _SIGNATURES:
             return getattr(self._lib, name)
         raise AttributeError(name)
 
 
 def signature_names() -> Iterable[str]:
-    """Return the required, backward-compatible JME C function names."""
+    """Return all configured JME C function names."""
 
     return _SIGNATURES.keys()
 
 
-def optional_signature_names() -> Iterable[str]:
-    """Return newer JME C functions configured when the loaded library exports them."""
-
-    return _OPTIONAL_SIGNATURES.keys()
-
-
 __all__ = [
     "JmeEph",
-    "optional_signature_names",
     "signature_names",
     "byref",
     "create_string_buffer",
