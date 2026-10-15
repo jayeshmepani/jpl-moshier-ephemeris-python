@@ -1,6 +1,6 @@
 # JPL Moshier Ephemeris Python Version Tracking
 
-**Last verified**: October 15, 2026 (native jpl-ephemeris 1.3.0 version string; bundled runtimes still 1.1.0 / `e371446`)
+**Last verified**: October 15, 2026 (native jpl-ephemeris 1.3.0; release runtimes are rebuilt from that C library, not the 1.1.0 binaries)
 
 ## Current Package State
 
