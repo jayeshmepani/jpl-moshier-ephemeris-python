@@ -64,7 +64,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/jayeshmepani/jpl-moshier-ephemeris-python"
+Homepage = "https://jayeshmepani.github.io/jpl-ephemeris/#lang-py"
+Documentation = "https://jayeshmepani.github.io/jpl-ephemeris/#lang-py"
 Source = "https://github.com/jayeshmepani/jpl-moshier-ephemeris-python"
 Issues = "https://github.com/jayeshmepani/jpl-moshier-ephemeris-python/issues"
 

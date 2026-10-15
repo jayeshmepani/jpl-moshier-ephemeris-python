@@ -4,6 +4,8 @@
 
 Version alignment with jpl-ephemeris 1.3.0. `JME_VERSION` is `1.3.0`. The public surface is unchanged: 225 functions and 478 public constants, plus the two header include guards `JME_JME_H` and `JME_EXTENDED_H`.
 
+The native library is the ISO C17 build. Position-only paths inside the library skip a discarded velocity. Public `jme_calc_ut` still returns six values, including the rates. The published reduction is unchanged.
+
 Runtimes are rebuilt from jpl-ephemeris 1.3.0. The C library changed, so this release ships fresh binaries and does not reuse the 1.1.0 libraries. `jme_version()` returns `1.3.0`.
 
 ## 1.1.0

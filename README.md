@@ -11,6 +11,8 @@ Pure Python `ctypes` runtime FFI binding for the project-owned JPL Moshier Ephem
 
 This package wraps the native `jme_*` API directly. It is intended to be a true raw I/O surface: no recalculation, no normalization, no rounding, no reshaping, no dropped buffers, and no hidden status conversion.
 
+Python setup and the shared function list are in the native library's single reference: <https://jayeshmepani.github.io/jpl-ephemeris/#lang-py>.
+
 ## Contract
 
 - Primary public functions: `jme_*`
