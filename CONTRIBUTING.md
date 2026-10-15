@@ -46,7 +46,7 @@ Do not:
 Do:
 
 - keep the wrapper aligned with `include/jme/jme.h` and `include/jme/jme_extended.h`;
-- keep the generated surface at `225` functions and `480` constants unless the native API changes;
+- keep the generated surface at `225` functions and `478` public constants plus the two header include guards, unless the native API changes;
 - add or update tests when bindings or loader behavior change;
 - use the PHP wrapper as the prebuilt runtime source of truth.
 

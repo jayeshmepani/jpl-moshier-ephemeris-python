@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+Version alignment with jpl-ephemeris 1.3.0. `JME_VERSION` is `1.3.0`. The public surface is unchanged: 225 functions and 478 public constants, plus the two header include guards `JME_JME_H` and `JME_EXTENDED_H`.
+
+The bundled runtimes in this commit are still the jpl-ephemeris 1.1.0 libraries (native `e371446`). Rebuild them from jpl-ephemeris 1.3.0 before publishing this release. Until then, `jme_version()` from the bundled library still returns the string compiled into that library.
+
 ## 1.1.0
 
 Bindings for jpl-ephemeris 1.1.0. Runtimes are rebuilt from 1.1.0, with notices. Desktop CALCEPH is now 5.0.1.

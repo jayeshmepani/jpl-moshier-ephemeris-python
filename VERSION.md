@@ -1,17 +1,17 @@
 # JPL Moshier Ephemeris Python Version Tracking
 
-**Last verified**: October 12, 2026 (native jpl-ephemeris 1.1.0)
+**Last verified**: October 15, 2026 (native jpl-ephemeris 1.3.0 version string; bundled runtimes still 1.1.0 / `e371446`)
 
 ## Current Package State
 
 | Attribute | Value |
 | --- | --- |
 | Python package | `jmeph-ffi` |
-| Package version | `1.1.0` |
+| Package version | `1.3.0` |
 | Python requirement | `>=3.10` |
 | Binding model | Pure Python `ctypes` runtime FFI |
 | Native API target | `225` public `jme_*` functions |
-| Native constant target | `480` public `JME_*` constants |
+| Native constant target | `478` public `JME_*` constants, plus 2 header include guards |
 | Native source tree | `jpl-ephemeris-` |
 | Runtime binary source | `jpl-moshier-ephemeris-php` prebuilt libs |
 | License | `MIT AND CeCILL-B` (project code MIT; bundled CALCEPH CeCILL-B; see `THIRD_PARTY_NOTICES.md`) |
@@ -30,7 +30,7 @@
 ## Verification Targets
 
 - `225/225` ctypes signatures generated from native headers and API inventory
-- `480/480` `JME_*` constants generated from native headers
+- `478` public `JME_*` constants plus the two header include guards, generated from native headers
 - runtime loader covers both JME and CALCEPH
 - wheel/source package includes bundled runtime directories
 

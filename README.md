@@ -16,7 +16,7 @@ This package wraps the native `jme_*` API directly. It is intended to be a true 
 - Primary public functions: `jme_*`
 - Primary public constants: `JME_*`
 - Current wrapper target: all `225` public `jme_*` functions tracked by the native API inventory
-- Current constant target: all `480` public `JME_*` constants from the native headers
+- Current constant target: `478` public `JME_*` constants, plus the two header include guards `JME_JME_H` and `JME_EXTENDED_H`
 - Native runtimes bundled in the wheel: `jme` plus `calceph`
 - No CPython extension module; pure Python loader plus bundled native libraries
 - Argument order, pointer ownership, output buffers, and return values are kept as-is from the native C API
@@ -107,7 +107,7 @@ python -m twine check dist/*
 The test suite verifies:
 
 - `225/225` configured ctypes function signatures
-- `480/480` generated `JME_*` constants
+- `478` public `JME_*` constants plus the two header include guards, generated from the native headers
 - import and runtime loading
 - basic native contract calls such as version, Julian day conversion, calculation, houses, ayanamsa, Delta-T, split-degree, body naming, and refraction
 - optional source-surface audit against the local native `jpl-ephemeris-` tree

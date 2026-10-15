@@ -16,7 +16,7 @@ This Python package is synchronized against two local/project sources:
 | Area | Target |
 | --- | --- |
 | Public functions | `225` `jme_*` entries from `docs/API_REFERENCE.md` |
-| Public constants | `480` `JME_*` constants from `include/jme/jme.h` and `include/jme/jme_extended.h` |
+| Public constants | `478` `JME_*` constants from `include/jme/jme.h` and `include/jme/jme_extended.h`, plus the include guards `JME_JME_H` and `JME_EXTENDED_H` |
 | Bundled runtimes | same platform runtime set as the PHP wrapper |
 | JME runtime names | `libjme.so`, `libjme.dylib`, `jme.dll` |
 | CALCEPH runtime names | `libcalceph.so`, `libcalceph.dylib`, `calceph.dll` |
