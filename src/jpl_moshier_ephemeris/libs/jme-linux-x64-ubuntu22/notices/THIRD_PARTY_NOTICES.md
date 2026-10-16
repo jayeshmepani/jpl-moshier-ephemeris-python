@@ -8,7 +8,7 @@ This file is informational and is not legal advice.
 
 | Component | Terms | Where it is used |
 |---|---|---|
-| CALCEPH 4.0.5 | CeCILL-B (CALCEPH is offered under CeCILL-C, CeCILL-B, or CeCILL v2.1; JME uses it under CeCILL-B) | Optional external library for the JPL engine; linked, not vendored in this repository |
+| CALCEPH 4.0.5 and 5.0.1 | CeCILL-B (CALCEPH is offered under CeCILL-C, CeCILL-B, or CeCILL v2.1; JME uses it under CeCILL-B) | Optional external library for the JPL engine; linked, not vendored in this repository |
 | JPL DE440 / DE440s / DE441 kernels | NAIF rules: redistribution permitted if unmodified | Kernel files published unmodified in the [`jpl-kernels` release](https://github.com/jayeshmepani/jpl-ephemeris/releases/tag/jpl-kernels); not in this repository |
 | Moshier planetary and lunar theories | Copyright Stephen L. Moshier; MIT License by permission of the author (12 October 2026, [record](docs/permissions/MOSHIER_PERMISSION.md)) | Moshier engine (`src/moshier_full.c`, `src/moshier_moon.c`, `src/moshier/`) |
 | ELP 2000-82B lunar theory | Theory and series data: Chapront-Touzé & Chapront, CDS catalogue VI/79 (CDS data, attribution). Evaluator written for JME (MIT) from the published theory | Moon in the VSOP87 + ELP2000 + Meeus engine (`src/elp82b.c`, generated `src/elp82b_data.inc`, generator `tools/gen_elp82b.py`) |
@@ -31,11 +31,12 @@ This file is informational and is not legal advice.
 
 CALCEPH is not vendored in this repository. When JME is built with CALCEPH support it links to an external CALCEPH installation.
 
-- Software: CALCEPH 4.0.5
-- Copyright 2008-2025 CNRS, Observatoire de Paris, Observatoire de la Côte d'Azur. Contributed by M. Gastineau, J. Laskar, H. Manche (ASD/IMCCE, Observatoire de Paris) and A. Fienga (Observatoire de la Côte d'Azur).
+- Software: CALCEPH. JME's CI builds against CALCEPH 5.0.1, the current stable release. The Android/iOS libraries of the Dart package build against CALCEPH 4.0.5; the desktop prebuilt runtimes shipped with the binding packages (built through vcpkg) bundle CALCEPH 5.0.1.
+- CALCEPH 4.0.5: Copyright 2008-2025 CNRS, Observatoire de Paris, Observatoire de la Côte d'Azur. Contributed by M. Gastineau, J. Laskar, H. Manche (ASD/IMCCE, Observatoire de Paris) and A. Fienga (Observatoire de la Côte d'Azur).
+- CALCEPH 5.0.1: Copyright 2008-2026 CNRS. Main authors M. Gastineau, H. Manche, A. Fienga and J. Laskar (LTE, Observatoire de Paris, CNRS, PSL Research University, Sorbonne Université).
 - Licence: CALCEPH is triple-licensed (CeCILL-C, CeCILL-B, or CeCILL v2.1). The JME ecosystem uses and redistributes it under the **CeCILL-B** Free Software License Agreement, version 1.0.
 - Licence text: https://cecill.info/licences/Licence_CeCILL-B_V1-en.html (the binding packages that bundle CALCEPH also include the full text as `LICENSES/CeCILL-B.txt`).
-- Source code: https://calceph.imcce.fr/ ; CALCEPH 4.0.5 source archive: https://www.imcce.fr/content/medias/recherche/equipes/asd/calceph/calceph-4.0.5.tar.gz
+- Source code: https://calceph.imcce.fr/ ; CALCEPH 4.0.5 source archive: https://www.imcce.fr/content/medias/recherche/equipes/asd/calceph/calceph-4.0.5.tar.gz ; CALCEPH 5.0.1 source archive: https://calceph.imcce.fr/releases/calceph-5.0.1.tar.gz (SHA-256 `923d5db2fca10636b64e5529552edf1de8bd3da1da3cc7ac963ae6c3895a31ae`)
 - Project page and documentation: https://calceph.imcce.fr/
 
 **No warranty (CeCILL-B Articles 8 and 9).** CALCEPH is provided by its licensors with only the limited warranty and limited liability described in Articles 8 and 9 of the CeCILL-B agreement. As stated in the CALCEPH copying conditions: "users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the successive licensors have only limited liability." JME and its packages do not add any warranty on behalf of the CALCEPH authors.
@@ -187,6 +188,6 @@ Only the numbers they produce are committed, as `tests/fixtures/*.h`, together w
 
 The following publications were consulted for definitions and are cited in the documentation:
 
-* J. Laskar, "Secular terms of classical planetary theories using the results of general theory", *A&A* 157, 59 (1986), Tables 5 and 8, and its erratum *A&A* 164, 437 (1986) (see `CENGINE_COMPLETION_REPORT.md`);
+* J. Laskar, "Secular terms of classical planetary theories using the results of general theory", *A&A* 157, 59 (1986), Tables 5 and 8, and its erratum *A&A* 164, 437 (1986) (see `docs/ACCURACY.md` §2.1);
 * M. J. Reid and A. Brunthaler, *ApJ* 616, 872 (2004) (Sgr A* position for `GALCENT_0SAG`);
 * R. Holden, *The Elements of House Division* (1977) (Meridian, Morinus and Horizontal house definitions);

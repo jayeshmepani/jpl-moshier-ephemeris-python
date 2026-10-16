@@ -1,12 +1,18 @@
 # Changelog
 
+## 1.3.1
+
+Package 1.3.1 replaces 1.3.0. `JME_VERSION` stays `1.3.0`. The public surface is unchanged: 225 functions and 478 public constants, plus the two header include guards `JME_JME_H` and `JME_EXTENDED_H`.
+
+The 1.3.0 package still contained the previous libraries, native commit `e371446`, whose `jme_version()` returns `0.1.0`. This package ships the rebuilt libraries, native commit `fd0fcf5`. `jme_version()` returns `1.3.0`.
+
 ## 1.3.0
 
 Version alignment with jpl-ephemeris 1.3.0. `JME_VERSION` is `1.3.0`. The public surface is unchanged: 225 functions and 478 public constants, plus the two header include guards `JME_JME_H` and `JME_EXTENDED_H`.
 
 The native library is the ISO C17 build. Position-only paths inside the library skip a discarded velocity. Public `jme_calc_ut` still returns six values, including the rates. The published reduction is unchanged.
 
-Runtimes are rebuilt from jpl-ephemeris 1.3.0. The C library changed, so this release ships fresh binaries and does not reuse the 1.1.0 libraries. `jme_version()` returns `1.3.0`.
+The 1.3.0 package upload did not contain the rebuilt runtimes. 1.3.1 does.
 
 ## 1.1.0
 

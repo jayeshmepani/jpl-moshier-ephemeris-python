@@ -53,7 +53,7 @@ The Moshier engine uses Stephen L. Moshier's analytical planetary theories ("pla
 ## ELP2000-82B lunar theory and implementation
 
 - Theory and data: M. Chapront-Touzé and J. Chapront, "The lunar ephemeris ELP 2000", *Astronomy & Astrophysics* 124, 50 (1983), and "ELP 2000-85: a semi-analytical lunar ephemeris adequate for historical times", *A&A* 190, 342 (1988). Series data: CDS catalogue VI/79 (https://cdsarc.cds.unistra.fr/viz-bin/cat/VI/79).
-- Implementation: JME's own ELP 2000-82B evaluator. Its series tables are generated from the unmodified CDS VI/79 files by the JME tool `tools/gen_elp82b.py`. The earlier third-party implementation is no longer part of JME, and the runtimes bundled here (built from jpl-ephemeris 1.1.0) do not contain it.
+- Implementation: JME's own ELP 2000-82B evaluator. Its series tables are generated from the unmodified CDS VI/79 files by the JME tool `tools/gen_elp82b.py`. The earlier third-party implementation is no longer part of JME, and the runtimes bundled here (built from jpl-ephemeris 1.3.0) do not contain it.
 
 ## VSOP87
 
@@ -142,4 +142,4 @@ Questions or corrections about these notices: open an issue at https://github.co
 
 ## Native engine notices
 
-The bundled native runtimes are built from jpl-ephemeris 1.1.0. Their attribution is in [`NOTICE.md`](NOTICE.md). The vendored ERFA licence (BSD-3-Clause) is in [`LICENSES/LICENSE.ERFA`](LICENSES/LICENSE.ERFA). Each runtime folder carries its own `notices/` copy, including `JME_NATIVE_COMMIT.txt`.
+The bundled native runtimes are built from jpl-ephemeris 1.3.0, native commit `fd0fcf5`. Their attribution is in [`NOTICE.md`](NOTICE.md). The vendored ERFA licence (BSD-3-Clause) is in [`LICENSES/LICENSE.ERFA`](LICENSES/LICENSE.ERFA). Each runtime folder carries its own `notices/` copy, including `JME_NATIVE_COMMIT.txt`.
