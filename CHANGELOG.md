@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0 — unreleased
+
+Align Python constants with JME 2.0.0. Extended-body identifiers now use JME's reserved negative range, so applications that stored their previous numeric values must migrate to the named constants. Function signatures and the 225-function, 478-constant API surface are unchanged. Rebuild and verify the bundled native runtimes against JME 2.0.0 before publishing this package.
+
 ## 1.3.1
 
 Package 1.3.1 replaces 1.3.0. `JME_VERSION` stays `1.3.0`. The public surface is unchanged: 225 functions and 478 public constants, plus the two header include guards `JME_JME_H` and `JME_EXTENDED_H`.

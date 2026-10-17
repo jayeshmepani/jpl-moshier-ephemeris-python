@@ -23,6 +23,10 @@ Python setup and the shared function list are in the native library's single ref
 - No CPython extension module; pure Python loader plus bundled native libraries
 - Argument order, pointer ownership, output buffers, and return values are kept as-is from the native C API
 
+## JME 2.0.0 upgrade note
+
+Extended-body identifiers now use JME's negative identifier range, separate from the core body identifiers. Applications that stored the old numeric values must migrate to the corresponding `JME_BODY_*` constants. Function signatures are unchanged.
+
 ## Installation
 
 ```bash

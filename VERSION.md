@@ -1,13 +1,13 @@
 # JPL Moshier Ephemeris Python Version Tracking
 
-**Last verified**: October 16, 2026 (native jpl-ephemeris 1.3.0, commit `fd0fcf5`; package 1.3.1 ships those runtimes)
+**Source metadata prepared**: October 17, 2026 (JME source and Python package metadata aligned to 2.0.0; bundled native runtime still needs rebuilding)
 
 ## Current Package State
 
 | Attribute | Value |
 | --- | --- |
 | Python package | `jmeph-ffi` |
-| Package version | `1.3.1` |
+| Package version | `2.0.0` |
 | Python requirement | `>=3.10` |
 | Binding model | Pure Python `ctypes` runtime FFI |
 | Native API target | `225` public `jme_*` functions |

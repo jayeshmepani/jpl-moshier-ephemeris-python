@@ -1,6 +1,10 @@
 from jpl_moshier_ephemeris import (
+    JME_BODY_ALTJIRA,
+    JME_BODY_ASTEROID_012,
     JME_BODY_MOON,
     JME_BODY_SUN,
+    JME_BODY_URANUS,
+    JME_BODY_VESTA,
     JME_CALC_SPEED,
     JME_CALENDAR_GREGORIAN,
     JME_HOUSE_PLACIDUS,
@@ -10,6 +14,13 @@ from jpl_moshier_ephemeris import (
     c_int,
     create_string_buffer,
 )
+
+
+def test_extended_body_ids_are_separate_from_core_body_ids() -> None:
+    assert JME_BODY_URANUS == 7
+    assert JME_BODY_ALTJIRA == -1000
+    assert JME_BODY_ASTEROID_012 == -1015
+    assert JME_BODY_VESTA == -1265
 
 
 def test_version() -> None:
