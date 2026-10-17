@@ -27,5 +27,6 @@ and file locations are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
   * Lunar tidal acceleration values from Chapront et al. 2002, Williams et
     al. 2008 and Folkner et al. 2014.
 * **ERFA** (BSD 3-Clause, NumFOCUS Foundation): vendored subset.
-* **CALCEPH** (CeCILL-B): optional, linked externally. JPL DE kernels are
-  distributed unmodified, outside this repository.
+* **CALCEPH** (CeCILL-B): optional, linked externally. CI builds CALCEPH
+  5.0.1; 4.0.5 is also supported (see `THIRD_PARTY_NOTICES.md`). JPL DE
+  kernels are distributed unmodified, outside this repository.

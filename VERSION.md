@@ -1,6 +1,6 @@
 # JPL Moshier Ephemeris Python Version Tracking
 
-**Source metadata prepared**: October 17, 2026 (JME source and Python package metadata aligned to 2.0.0; bundled native runtime still needs rebuilding)
+**Last verified**: October 17, 2026 (package metadata and all bundled native runtimes aligned to JME 2.0.0; native commit `ab153fd7a58705cd1732bb226cb5fb2655f5c290`)
 
 ## Current Package State
 
@@ -12,7 +12,8 @@
 | Binding model | Pure Python `ctypes` runtime FFI |
 | Native API target | `225` public `jme_*` functions |
 | Native constant target | `478` public `JME_*` constants, plus 2 header include guards |
-| Native source tree | `jpl-ephemeris-` |
+| Native source tree | `jpl-ephemeris` |
+| Native source commit | `ab153fd7a58705cd1732bb226cb5fb2655f5c290` |
 | Runtime binary source | `jpl-moshier-ephemeris-php` prebuilt libs |
 | License | `MIT AND CeCILL-B` (project code MIT; bundled CALCEPH CeCILL-B; see `THIRD_PARTY_NOTICES.md`) |
 | Binding contract | Lossless raw I/O; native argument order, types, buffers, and return values preserved |
